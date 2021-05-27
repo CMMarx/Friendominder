@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-
+    // commit comment
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapter adapter;
