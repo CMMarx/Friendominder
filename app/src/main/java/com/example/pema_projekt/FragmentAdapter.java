@@ -20,9 +20,9 @@ public class FragmentAdapter extends FragmentStateAdapter {
 
         switch (position){
             case 1:
-                return new SecondFragment();
+                return new GroupFragment();
         }
-        return new FirstFragment();
+        return new ContactFragment();
     }
 
     @Override
