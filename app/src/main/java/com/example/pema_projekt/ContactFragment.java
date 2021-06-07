@@ -102,7 +102,7 @@ public class ContactFragment extends Fragment {
         fabutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Kontake synchronisieren...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Kontakte synchronisieren...", Toast.LENGTH_SHORT).show();
                 //getContacts();
             }
         });

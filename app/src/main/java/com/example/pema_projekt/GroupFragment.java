@@ -1,12 +1,21 @@
 package com.example.pema_projekt;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +23,22 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class GroupFragment extends Fragment {
+
+    View v;
+    private RecyclerView myRecylerView;
+
+    public List<Group> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    private List<Group> groupList;
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,13 +77,33 @@ public class GroupFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+        groupList = new ArrayList<>();
+        groupList.add(new Group("Test",R.drawable.account_image));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.group_fragment, container, false);
+        v = inflater.inflate(R.layout.group_fragment, container, false);
+
+        myRecylerView = v.findViewById(R.id.groupRecycler);
+        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groupList);
+        myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myRecylerView.setAdapter(recyclerViewAdapter);
+
+        FloatingActionButton addGroup = v.findViewById(R.id.addGroup);
+        addGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Gruppe hinzufügen", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), AddGroup.class);
+                startActivity(intent);
+
+            }
+        });
+        return v;
     }
 }

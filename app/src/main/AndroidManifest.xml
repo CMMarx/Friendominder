@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PEMA_Projekt">
-        <activity android:name=".ContactDetailView"></activity>
+        <activity android:name=".ContactDetailView" />
+        <activity android:name=".AddGroup" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
