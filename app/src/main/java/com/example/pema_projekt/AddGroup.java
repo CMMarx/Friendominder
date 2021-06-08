@@ -32,7 +32,7 @@ public class AddGroup extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Group newGroup = new Group(name.toString(),R.drawable.account_image);
+                Group newGroup = new Group(0,name.toString());
 
             }
         });

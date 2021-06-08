@@ -3,16 +3,26 @@ package com.example.pema_projekt;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +33,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class GroupFragment extends Fragment {
+
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
 
     View v;
     private RecyclerView myRecylerView;
@@ -79,31 +93,65 @@ public class GroupFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
-        groupList = new ArrayList<>();
-        groupList.add(new Group("Test",R.drawable.account_image));
-    }
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
 
-    @Override
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    List<Group> groups = new ArrayList<>();
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        //List<Group> groups = new ArrayList<>();
+                        groups.add(ds.getValue(Group.class));
+
+
+
+                        myRecylerView = v.findViewById(R.id.groupRecycler);
+                        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups);
+                        myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        myRecylerView.setAdapter(recyclerViewAdapter);
+
+
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        }
+
+   @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.group_fragment, container, false);
 
+        /**
         myRecylerView = v.findViewById(R.id.groupRecycler);
         RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groupList);
         myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecylerView.setAdapter(recyclerViewAdapter);
+         **/
+
 
         FloatingActionButton addGroup = v.findViewById(R.id.addGroup);
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Gruppe hinzufügen", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), AddGroup.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), AddGroup.class);
+                    startActivity(intent);
 
             }
         });
         return v;
     }
+
 }
