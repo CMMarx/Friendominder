@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -111,6 +112,27 @@ public class GroupFragment extends Fragment {
                         RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups);
                         myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         myRecylerView.setAdapter(recyclerViewAdapter);
+
+                        /**
+                        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
+
+                            @Override
+                            public boolean onMove(RecyclerView myRecylerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                                Toast.makeText(getContext(), "on Move", Toast.LENGTH_SHORT).show();
+                                return false;
+                            }
+
+                            @Override
+                            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                                Toast.makeText(getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
+                                //Remove swiped item from list and notify the RecyclerView
+                                int position = viewHolder.getAdapterPosition();
+                                groups.remove(position);
+                                recyclerViewAdapter.notifyDataSetChanged();
+
+                            }
+                        };
+                         **/
 
 
 
