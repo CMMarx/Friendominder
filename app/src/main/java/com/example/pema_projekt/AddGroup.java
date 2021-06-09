@@ -68,14 +68,11 @@ public class AddGroup extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReference.child(String.valueOf(count)).setValue(new Group(count, name.getText().toString()));
+                mReference.child(String.valueOf(name.getText().toString())).setValue(new Group(count, name.getText().toString()));
 
                 Intent intent = new Intent(AddGroup.this, GroupFragment.class);
-                try {
                     AddGroup.this.startActivity(intent);
-                } catch (Exception e){
-                    System.out.println("Something went wrong");
-                }
+
             }
         });
 

@@ -21,6 +21,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapter2.MyViewHolder> {
 
+
     Context mContext;
     List<Group> mData;
     private FirebaseDatabase mDatabase;
@@ -84,9 +85,32 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     }
 
     public void deleteItem(int position){
+        /**
+        if (position <= mData.size()){
         String key = String.valueOf(position);
-        mData.remove(position);
+        mData.remove(position-1);
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(key);
         mReference.removeValue();
+
+        for (int i = 0; i > position && i <= mData.size(); i++){
+            mData.size();
+            Group newGroup = mData.get(i);
+            mData.add(i-1, newGroup);
+
+        }
+        }
+         **/
+        if(position <= mData.size()) {
+            mData.remove(position-1);
+            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(mData.get(position-1).getName());
+            mReference.removeValue();
+            notifyItemChanged(position);
+            notifyItemRangeRemoved(position, 1);
+        }
+
+    }
+
+    public Context getmContext() {
+        return mContext;
     }
 }
