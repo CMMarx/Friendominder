@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class GroupFragment extends Fragment {
 
-
+    private ItemTouchHelper itemTouchHelper;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
 
@@ -112,6 +112,9 @@ public class GroupFragment extends Fragment {
                         RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups);
                         myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         myRecylerView.setAdapter(recyclerViewAdapter);
+                        ItemTouchHelper itemTouchHelper = new
+                                ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
+                        itemTouchHelper.attachToRecyclerView(myRecylerView);
 
                         /**
                         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {

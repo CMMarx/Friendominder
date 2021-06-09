@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -20,6 +23,8 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
 
     Context mContext;
     List<Group> mData;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
 
     public RecyclerViewAdapter2(Context mContext, List<Group> mData) {
         this.mContext = mContext;
@@ -76,5 +81,12 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
             img = itemView.findViewById(R.id.img_group);
             mainLayout = itemView.findViewById(R.id.linear_layout2);
         }
+    }
+
+    public void deleteItem(int position){
+        String key = String.valueOf(position);
+        mData.remove(position);
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(key);
+        mReference.removeValue();
     }
 }

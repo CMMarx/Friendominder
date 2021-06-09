@@ -71,7 +71,11 @@ public class AddGroup extends AppCompatActivity {
                 mReference.child(String.valueOf(count)).setValue(new Group(count, name.getText().toString()));
 
                 Intent intent = new Intent(AddGroup.this, GroupFragment.class);
-                AddGroup.this.startActivity(intent);
+                try {
+                    AddGroup.this.startActivity(intent);
+                } catch (Exception e){
+                    System.out.println("Something went wrong");
+                }
             }
         });
 
