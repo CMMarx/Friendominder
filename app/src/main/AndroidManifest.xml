@@ -14,6 +14,7 @@
         android:theme="@style/Theme.PEMA_Projekt">
         <activity android:name=".ContactDetailView" />
         <activity android:name=".AddGroup" />
+        <activity android:name=".GroupDetailView" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

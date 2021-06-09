@@ -42,11 +42,8 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
         vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(mContext, ContactDetailView.class);
-                //intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
-                //intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
-                //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());
-                //mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, GroupDetailView.class);
+                mContext.startActivity(intent);
             }
         });
         return vHolder;
