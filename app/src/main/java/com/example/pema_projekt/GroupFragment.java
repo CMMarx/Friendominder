@@ -14,6 +14,7 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,6 +39,7 @@ public class GroupFragment extends Fragment {
     private ItemTouchHelper itemTouchHelper;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+    public FrameLayout frameLayout;
 
     View v;
     private RecyclerView myRecylerView;
@@ -94,6 +96,7 @@ public class GroupFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
+
         mDatabase = FirebaseDatabase.getInstance();
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
 
@@ -165,7 +168,7 @@ public class GroupFragment extends Fragment {
         myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecylerView.setAdapter(recyclerViewAdapter);
          **/
-
+        frameLayout = v.findViewById(R.id.frame_layout);
 
         FloatingActionButton addGroup = v.findViewById(R.id.addGroup);
         addGroup.setOnClickListener(new View.OnClickListener() {

@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +31,7 @@ public class AddGroup extends AppCompatActivity {
     private Button done;
     private EditText name;
     private int count;
+    private FrameLayout frameLayout;
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
@@ -40,6 +44,7 @@ public class AddGroup extends AppCompatActivity {
         addImg = (ImageView) findViewById(R.id.addImageForGroup);
         done = (Button) findViewById(R.id.gruppeFertig);
         name = (EditText) findViewById(R.id.addNameGroup);
+        frameLayout = findViewById(R.id.frame_layout1);
 
         mDatabase = FirebaseDatabase.getInstance();
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
@@ -70,9 +75,10 @@ public class AddGroup extends AppCompatActivity {
             public void onClick(View v) {
                 mReference.child(String.valueOf(name.getText().toString())).setValue(new Group(count, name.getText().toString()));
 
-                Intent intent = new Intent(AddGroup.this, GroupFragment.class);
-                    AddGroup.this.startActivity(intent);
-
+                //Intent intent = new Intent(AddGroup.this, GroupFragment.class);
+                //AddGroup.this.startActivity(intent);
+                //Toast.makeText(AddGroup.this, "Gruppe '" + name.getText() + "' hinzugefügt", Toast.LENGTH_SHORT).show();
+                Snackbar.make(frameLayout, "Group '" + name.getText() + "' added", Snackbar.LENGTH_SHORT).show();
             }
         });
 

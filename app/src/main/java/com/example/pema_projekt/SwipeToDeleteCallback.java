@@ -1,15 +1,20 @@
 package com.example.pema_projekt;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +31,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
                 R.drawable.ic_delete);
         background = new ColorDrawable(Color.RED);
 
+
     }
 
     @Override
@@ -36,7 +42,16 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        mAdapter.deleteItem(position);
+
+
+        try{
+            mAdapter.deleteItem(position);
+        } catch(Exception e){
+            Toast.makeText(mAdapter.getmContext(), "Error on deleting the group", Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     @Override
@@ -71,4 +86,6 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         background.draw(c);
         icon.draw(c);
     }
+
+
 }

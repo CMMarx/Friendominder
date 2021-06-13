@@ -43,6 +43,7 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, GroupDetailView.class);
+                intent.putExtra("group_name", mData.get(vHolder.getAdapterPosition()).getName());
                 mContext.startActivity(intent);
             }
         });

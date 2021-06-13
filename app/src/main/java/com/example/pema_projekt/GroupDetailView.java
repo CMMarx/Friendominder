@@ -1,6 +1,8 @@
 package com.example.pema_projekt;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,16 +16,23 @@ public class GroupDetailView extends AppCompatActivity {
     private ImageView groupPicture;
     private TextView groupName;
     private TextView members;
-    private FloatingActionButton addMember;
+    private Button addMember;
+    String group_name;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_detail_view);
-        groupPicture = findViewById(R.id.image_group_detail);
+        setContentView(R.layout.group_detail);
+        groupPicture = findViewById(R.id.imageView2);
         groupName = findViewById(R.id.group_name_id);
         members = findViewById(R.id.group_detail_members);
-        addMember = (FloatingActionButton) findViewById(R.id.add_member_button);
+        addMember = findViewById(R.id.add_member_button);
+
+        group_name = getIntent().getStringExtra("group_name");
+        groupName.setText(group_name);
+        members.setText("Members:");
+        groupPicture.setImageResource(R.drawable.account_image);
 
     }
 

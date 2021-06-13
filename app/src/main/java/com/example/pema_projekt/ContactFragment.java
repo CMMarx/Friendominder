@@ -98,6 +98,7 @@ public class ContactFragment extends Fragment {
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter);
 
+        /*
         fabutton = v.findViewById(R.id.fab_btn);
         fabutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,8 @@ public class ContactFragment extends Fragment {
                 //getContacts();
             }
         });
+
+         */
 
         return v;
     }
