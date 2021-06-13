@@ -2,14 +2,20 @@ package com.example.pema_projekt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.security.auth.callback.PasswordCallback;
+
 public class ContactDetailView extends AppCompatActivity {
 
-    ImageView mImageView;
+    ImageView mImageView, msgButton;
     TextView number, name;
 
     String data1, data2;
@@ -20,10 +26,26 @@ public class ContactDetailView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_detail_view);
         mImageView = findViewById(R.id.detail_img);
+        msgButton = findViewById(R.id.msg_Button);
         number = findViewById(R.id.detail_number);
         name = findViewById(R.id.detail_name);
         getData();
         setData();
+
+        msgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean installed = isAppInstalled("com.whatsapp");
+                if (installed){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+data1));
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(ContactDetailView.this, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void getData() {
@@ -43,6 +65,20 @@ public class ContactDetailView extends AppCompatActivity {
         name.setText(data1);
         number.setText(data2);
         mImageView.setImageResource(mImage);
+    }
+
+    private boolean isAppInstalled(String s){
+        PackageManager packageManager = getPackageManager();
+        boolean is_installed;
+
+        try{
+            packageManager.getPackageInfo(s, PackageManager.GET_ACTIVITIES);
+            is_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            is_installed = false;
+            e.printStackTrace();
+        }
+        return is_installed;
     }
     
 

@@ -3,6 +3,7 @@ package com.example.pema_projekt;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +38,7 @@ public class ContactFragment extends Fragment {
     private List<Contact> lstContact;
     ArrayList<Contact> contacts;
     private FloatingActionButton fabutton;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,12 +79,7 @@ public class ContactFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
         lstContact = new ArrayList<>();
-        //lstContact.add(new Contact("Max Mustermann", "+4915123456789", R.drawable.account_image));
-        //lstContact.add(new Contact("Max Mustermann", "+4915123456789", R.drawable.account_image));
-        //lstContact.add(new Contact("Max Mustermann", "+4915123456789",R.drawable.account_image));
-        //lstContact.add(new Contact("Max Mustermann", "+4915123456789", R.drawable.account_image));
         getContacts();
 
 
@@ -109,6 +107,7 @@ public class ContactFragment extends Fragment {
         });
 
          */
+
 
         return v;
     }
