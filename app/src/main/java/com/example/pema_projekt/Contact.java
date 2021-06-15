@@ -4,15 +4,15 @@ public class Contact {
 
     private String Name;
     private String Phone;
-    private int Photo;
+    //private int Photo;
 
     public Contact() {
     }
 
-    public Contact(String name, String phone, int photo) {
+    public Contact(String name, String phone) {
         Name = name;
         Phone = phone;
-        Photo = photo;
+        //Photo = photo;
     }
 
     public String getName() {
@@ -31,6 +31,7 @@ public class Contact {
         Phone = phone;
     }
 
+    /*
     public int getPhoto() {
         return Photo;
     }
@@ -38,4 +39,6 @@ public class Contact {
     public void setPhoto(int photo) {
         Photo = photo;
     }
+
+     */
 }

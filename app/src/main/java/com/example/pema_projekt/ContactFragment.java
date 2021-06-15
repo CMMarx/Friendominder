@@ -1,12 +1,16 @@
 package com.example.pema_projekt;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +25,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +46,11 @@ public class ContactFragment extends Fragment {
 
     View v;
     private RecyclerView myrecyclerview;
-    private List<Contact> lstContact;
-    ArrayList<Contact> contacts;
+    private ArrayList<Contact> lstContact;
+
     private FloatingActionButton fabutton;
+    private DatabaseReference mReference;
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -80,7 +93,10 @@ public class ContactFragment extends Fragment {
         }
 
         lstContact = new ArrayList<>();
-        getContacts();
+
+
+
+        //getContacts();
 
 
     }
@@ -88,38 +104,57 @@ public class ContactFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.contact_fragment, container, false);
+
+
 
         myrecyclerview = v.findViewById(R.id.contact_recycler);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), lstContact);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myrecyclerview.setAdapter(recyclerViewAdapter);
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("contacts");
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                lstContact.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()){
+                    Contact contact = postSnapshot.getValue(Contact.class);
+                    lstContact.add(contact);
+                }
+                myrecyclerview.setAdapter(recyclerViewAdapter);
 
-        /*
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
         fabutton = v.findViewById(R.id.fab_btn);
         fabutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Kontakte synchronisieren...", Toast.LENGTH_SHORT).show();
-                //getContacts();
+                getContacts();
+                Toast.makeText(getActivity(), "Contacts updated", Toast.LENGTH_SHORT).show();
             }
         });
 
-         */
 
 
         return v;
     }
 
+
+
     public void getContacts() {
-        Cursor cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        @SuppressLint("Recycle") Cursor cursor = requireActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
         while (cursor.moveToNext())
         {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String mobile = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            lstContact.add(new Contact(name, mobile, R.drawable.account_image));
+            mReference.child(name).setValue(new Contact(name,mobile));
 
         }
 

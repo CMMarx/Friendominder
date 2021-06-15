@@ -7,10 +7,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,4 +62,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*
+    @Override
+    public void onListSent(ArrayList<Contact> contacts) {
+        Intent intent = new Intent(MainActivity.this, AddMembers.class);
+        intent.putExtra("contacts", contacts);
+        startActivity(intent);
+    }
+
+     */
 }

@@ -73,14 +73,23 @@ public class AddGroup extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReference.child(String.valueOf(name.getText().toString())).setValue(new Group(count, name.getText().toString()));
-
-                //Intent intent = new Intent(AddGroup.this, GroupFragment.class);
-                //AddGroup.this.startActivity(intent);
-                //Toast.makeText(AddGroup.this, "Gruppe '" + name.getText() + "' hinzugefügt", Toast.LENGTH_SHORT).show();
-                Snackbar.make(frameLayout, "Group '" + name.getText() + "' added", Snackbar.LENGTH_SHORT).show();
+                if (name.getText().toString().equals("")){
+                    Toast.makeText(AddGroup.this, "No group name", Toast.LENGTH_SHORT).show();
+                } else{
+                    mReference.child(name.getText().toString()).setValue(new Group(count, name.getText().toString()));
+                    addMembers();
+                }
             }
         });
+
+    }
+
+    private void addMembers() {
+        Intent intent = new Intent(AddGroup.this, AddMembers.class);
+        intent.putExtra("group_name", name.getText().toString());
+        AddGroup.this.startActivity(intent);
+
+
 
     }
 

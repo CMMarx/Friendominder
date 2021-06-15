@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PEMA_Projekt">
+        <activity android:name=".AddMembers"></activity>
         <activity android:name=".ContactDetailView" />
         <activity android:name=".AddGroup" />
         <activity android:name=".GroupDetailView" />

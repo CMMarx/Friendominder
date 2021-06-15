@@ -49,11 +49,11 @@ public class ContactDetailView extends AppCompatActivity {
     }
 
     private void getData() {
-        if(getIntent().hasExtra("name") && getIntent().hasExtra("number") && getIntent().hasExtra("img")){
+        if(getIntent().hasExtra("name") && getIntent().hasExtra("number")){
 
             data1 = getIntent().getStringExtra("name");
             data2 = getIntent().getStringExtra("number");
-            mImage = getIntent().getIntExtra("img", 1);
+            //mImage = getIntent().getIntExtra("img", 1);
 
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
@@ -64,7 +64,7 @@ public class ContactDetailView extends AppCompatActivity {
     private void setData() {
         name.setText(data1);
         number.setText(data2);
-        mImageView.setImageResource(mImage);
+        mImageView.setImageResource(R.drawable.account_image);
     }
 
     private boolean isAppInstalled(String s){

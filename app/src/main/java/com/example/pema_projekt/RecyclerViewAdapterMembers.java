@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,16 +15,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerViewAdapterMembers.MyViewHolder> {
 
     Context mContext;
-    List<Contact> mData;
+    ArrayList<Contact> mData;
+    ArrayList<Contact> groupMember;
+    private DatabaseReference mReference;
 
-    public RecyclerViewAdapter(Context mContext, List<Contact> mData) {
+    public RecyclerViewAdapterMembers(Context mContext, ArrayList<Contact> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -32,28 +40,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.member, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
-
-        vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ContactDetailView.class);
-                intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
-                intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
-                //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());
-                mContext.startActivity(intent);
-            }
-        });
         return vHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapterMembers.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
         holder.tv_phone.setText(mData.get(position).getPhone());
         holder.img.setImageResource(R.drawable.account_image);
-        }
+        groupMember = new ArrayList<>();
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.checkBox.isChecked()){
+                    groupMember.add(mData.get(position));
+                } else {
+                    groupMember.remove(mData.get(position));
+
+                }
+
+            }
+        });
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -65,7 +77,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private final TextView tv_name;
         private final TextView tv_phone;
         private final ImageView img;
-        private final LinearLayout mainLayout;
+        //private final LinearLayout mainLayout;
+        CheckBox checkBox;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -73,10 +86,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             tv_name = itemView.findViewById(R.id.name_contact);
             tv_phone = itemView.findViewById(R.id.phone_contact);
             img = itemView.findViewById(R.id.img_contact);
-            mainLayout = itemView.findViewById(R.id.linear_layout);
+            checkBox = itemView.findViewById(R.id.check_box);
+            //mainLayout = itemView.findViewById(R.id.linear_layout);
 
         }
+    }
 
-
+    public ArrayList<Contact> listOfSelectedItems(){
+        return groupMember;
     }
 }
