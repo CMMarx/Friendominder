@@ -13,10 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PEMA_Projekt">
         <activity android:name=".AddMembers"></activity>
-        <activity android:name=".ContactDetailView" />
+        <activity android:name=".ContactDetailView"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".AddGroup" />
-        <activity android:name=".GroupDetailView" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".GroupDetailView"
+            android:parentActivityName=".MainActivity"
+
+            />
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

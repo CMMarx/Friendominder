@@ -1,5 +1,6 @@
 package com.example.pema_projekt;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,6 +19,8 @@ public class ContactDetailView extends AppCompatActivity {
     ImageView mImageView, msgButton;
     TextView number, name;
 
+    private ActionBar actionBar;
+
     String data1, data2;
     int mImage;
 
@@ -31,6 +34,10 @@ public class ContactDetailView extends AppCompatActivity {
         name = findViewById(R.id.detail_name);
         getData();
         setData();
+
+        actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         msgButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FragmentAdapter(fm, getLifecycle());
         pager2.setAdapter(adapter);
 
+
         tabLayout.addTab(tabLayout.newTab().setText("Contacts"));
         tabLayout.addTab(tabLayout.newTab().setText("Groups"));
 
@@ -61,15 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
-    }
 
-    /*
-    @Override
-    public void onListSent(ArrayList<Contact> contacts) {
-        Intent intent = new Intent(MainActivity.this, AddMembers.class);
-        intent.putExtra("contacts", contacts);
-        startActivity(intent);
+        int page = getIntent().getIntExtra("group_tab", 0);
+        pager2.setCurrentItem(page);
     }
-
-     */
 }

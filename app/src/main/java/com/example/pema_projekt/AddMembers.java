@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,10 @@ public class AddMembers extends AppCompatActivity {
         lstMember = new ArrayList<>();
         rv_members = new RecyclerViewAdapterMembers(AddMembers.this, lstMember);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
+
+        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
+
+
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("contacts");
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -57,12 +62,13 @@ public class AddMembers extends AppCompatActivity {
 
             }
         });
-
-        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
         uploadMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getMembers(v);
+                Intent intent = new Intent(AddMembers.this, GroupDetailView.class);
+                intent.putExtra("group_name", group_name);
+                startActivity(intent);
             }
         });
 

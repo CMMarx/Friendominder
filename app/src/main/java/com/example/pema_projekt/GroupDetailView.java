@@ -1,13 +1,17 @@
 package com.example.pema_projekt;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,8 +32,9 @@ public class GroupDetailView extends AppCompatActivity {
     private ImageView groupPicture;
     private TextView groupName;
     private TextView members;
-    private Button addMember;
+    private Button addMember, back_to_groups;
     private DatabaseReference mReference;
+    private ActionBar actionBar;
     ArrayList<Contact> contacts;
     RecyclerView recyclerView;
     String group_name;
@@ -43,8 +48,14 @@ public class GroupDetailView extends AppCompatActivity {
         groupName = findViewById(R.id.group_name_id);
         members = findViewById(R.id.group_detail_members);
         addMember = findViewById(R.id.add_member_button);
+        //back_to_groups = findViewById(R.id.back_to_groups);
         recyclerView = findViewById(R.id.group_detail_recycler);
         contacts = new ArrayList<>();
+
+        actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         RecyclerViewAdapterGroups recyclerViewAdapterGroups = new RecyclerViewAdapterGroups(GroupDetailView.this, contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
@@ -73,15 +84,34 @@ public class GroupDetailView extends AppCompatActivity {
             }
         });
 
+        // this button takes the user back to the group tab, but its cleaner with a back button
+        /*
+        back_to_groups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int page = 2;
+                Intent intent = new Intent(GroupDetailView.this, MainActivity.class);
+                intent.putExtra("group_tab", page);
+                startActivity(intent);
+            }
+        });
+        */
+
+        addMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupDetailView.this, AddMembers.class);
+                intent.putExtra("group_name", group_name);
+                startActivity(intent);
+            }
+        });
+
+
+        
+
         groupName.setText(group_name);
         members.setText("Members:");
         groupPicture.setImageResource(R.drawable.account_image);
 
     }
-
-
-
-
-
-
 }
