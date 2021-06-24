@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PEMA_Projekt">
-        <activity android:name=".AddMembers"></activity>
+        <activity android:name=".AddMembers" />
+        <activity android:name=".GeofenceFragment" />
         <activity android:name=".ContactDetailView"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".AddGroup" />

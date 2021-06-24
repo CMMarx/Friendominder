@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#00954A4A">
+
+    <TextView
+        android:id="@+id/citynameGeo"
+        android:layout_width="411dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:background="#5FDBFF"
+        android:gravity="center"
+        android:text="NameOfCity"
+        android:textSize="18sp" />
+</LinearLayout>

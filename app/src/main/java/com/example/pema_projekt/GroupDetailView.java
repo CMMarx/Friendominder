@@ -32,7 +32,7 @@ public class GroupDetailView extends AppCompatActivity {
     private ImageView groupPicture;
     private TextView groupName;
     private TextView members;
-    private Button addMember, back_to_groups;
+    private Button addMember, back_to_groups, addGeofence;
     private DatabaseReference mReference;
     private ActionBar actionBar;
     ArrayList<Contact> contacts;
@@ -48,6 +48,7 @@ public class GroupDetailView extends AppCompatActivity {
         groupName = findViewById(R.id.group_name_id);
         members = findViewById(R.id.group_detail_members);
         addMember = findViewById(R.id.add_member_button);
+        addGeofence = findViewById(R.id.addGeofence);
         //back_to_groups = findViewById(R.id.back_to_groups);
         recyclerView = findViewById(R.id.group_detail_recycler);
         contacts = new ArrayList<>();
@@ -103,6 +104,16 @@ public class GroupDetailView extends AppCompatActivity {
                 Intent intent = new Intent(GroupDetailView.this, AddMembers.class);
                 intent.putExtra("group_name", group_name);
                 startActivity(intent);
+            }
+
+        });
+
+        addGeofence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupDetailView.this, GeofenceFragment.class);
+                startActivity(intent);
+
             }
         });
 

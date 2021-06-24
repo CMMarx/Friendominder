@@ -36,22 +36,12 @@ import java.util.List;
  */
 public class GroupFragment extends Fragment {
 
-    private ItemTouchHelper itemTouchHelper;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
-    public FrameLayout frameLayout;
 
-    View v;
+    private FrameLayout frameLayout;
+    private View v;
     private RecyclerView myRecylerView;
-
-    public List<Group> getGroupList() {
-        return groupList;
-    }
-
-    public void setGroupList(List<Group> groupList) {
-        this.groupList = groupList;
-    }
-
     private List<Group> groupList;
 
 
@@ -66,8 +56,10 @@ public class GroupFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Required empty public constructor
+     */
     public GroupFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -182,4 +174,11 @@ public class GroupFragment extends Fragment {
         return v;
     }
 
+    public List<Group> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
 }
