@@ -17,6 +17,8 @@
         <activity android:name=".ContactDetailView"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".AddGroup" />
+        <activity android:name=".AddGeofence"
+            android:parentActivityName=".GeofenceFragment"/>
         <activity android:name=".GroupDetailView"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity"

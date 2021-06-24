@@ -1,0 +1,120 @@
+package com.example.pema_projekt;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
+
+public class AddGeofence extends AppCompatActivity {
+
+    EditText name, longitude, latitude, radius;
+    TextView nameTv, longitudeTv, latitudeTv, radiusTv;
+    Button done;
+
+    CharSequence text1 = "Please enter latitude!";
+    CharSequence text2 = "Please enter longitude!";
+    CharSequence text3 = "Please enter coordinates!";
+    CharSequence text4 = "Please enter a valid latitude!";
+    CharSequence text5 = "Please enter a valid longitude!";
+    int duration = Toast.LENGTH_SHORT;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.add_new_geofence);
+
+        name = (EditText) findViewById(R.id.editTextCityName);
+        longitude = (EditText) findViewById(R.id.editTextCityLongitude);
+        latitude = (EditText) findViewById(R.id.editTextCityLatitude);
+        radius = (EditText) findViewById(R.id.editTextCityRadius);
+        done = (Button) findViewById(R.id.doneGeofence);
+        nameTv = (TextView) findViewById(R.id.tvName);
+        longitudeTv = (TextView) findViewById(R.id.tvLongitude);
+        latitudeTv = (TextView) findViewById(R.id.tvLatitude);
+        radiusTv = (TextView) findViewById(R.id.tvRadius);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (longitude.length() == 0 && latitude.length() == 0 ) {
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text3, duration);
+                    toast.show();
+                }else if (latitude.length() == 0){
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text1, duration);
+                    toast.show();
+                } else if (longitude.length() == 0){
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text2, duration);
+                    toast.show();
+                } else if(checkLatitude(latitude.getText().toString())){
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text4, duration);
+                    toast.show();
+                } else if(checkLongitude(longitude.getText().toString())){
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text5, duration);
+                    toast.show();
+                } else {
+
+                    //TODO: Create new geofence
+
+                }
+
+            }
+        });
+
+    }
+
+    /**
+     * Method to check if the coordinates are valid. I could not find any in the internet and created
+     * them here
+     * @param latitude input from editText
+     * @return true if value is not valid
+     */
+    public boolean checkLatitude(String latitude){
+        int coordinate;
+
+        if(latitude.contains(".")) {
+            String[] coos = latitude.split("\\.", 2);
+
+            coordinate = Integer.parseInt(coos[0]);
+            return coordinate < -90 || coordinate > 90;
+        } else {
+            coordinate = Integer.parseInt(latitude);
+        }
+        return coordinate < -90 || coordinate > 90;
+    }
+
+    /**
+     * Method to check if the coordinates are valid. I could not find any in the internet and created
+     * them here
+     * @param longitude input from editText
+     * @return true if value is not valid
+     */
+    public boolean checkLongitude(String longitude){
+        int coordinate;
+
+        if(longitude.contains(".")) {
+            String[] coos = longitude.split("\\.", 2);
+
+            coordinate = Integer.parseInt(coos[0]);
+            return coordinate < -180 || coordinate > 180;
+        } else {
+            coordinate = Integer.parseInt(longitude);
+        }
+        return coordinate < -180 || coordinate > 180;
+    }
+
+
+
+}

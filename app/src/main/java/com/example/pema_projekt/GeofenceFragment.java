@@ -1,9 +1,11 @@
 package com.example.pema_projekt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -31,14 +33,8 @@ public class GeofenceFragment extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FloatingActionButton addGeo;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public GeofenceFragment(){
@@ -49,6 +45,8 @@ public class GeofenceFragment extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.geofence_fragment);
+
+        addGeo = (FloatingActionButton) findViewById(R.id.floatingAddGeofenceButton);
 
         //Todo: Change to geobase firebase
         mDatabase = FirebaseDatabase.getInstance();
@@ -74,6 +72,14 @@ public class GeofenceFragment extends AppCompatActivity {
 
                     }
                 }
+
+                addGeo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(GeofenceFragment.this, AddGeofence.class);
+                        startActivity(intent);
+                    }
+                });
 
             }
 
