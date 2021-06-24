@@ -19,7 +19,7 @@ import org.w3c.dom.Text;
 public class AddGeofence extends AppCompatActivity {
 
     EditText name, longitude, latitude, radius;
-    TextView nameTv, longitudeTv, latitudeTv, radiusTv;
+    TextView nameTv, longitudeTv, latitudeTv, radiusTv, groupName;
     Button done;
 
     CharSequence text1 = "Please enter latitude!";
@@ -49,6 +49,7 @@ public class AddGeofence extends AppCompatActivity {
         longitudeTv = (TextView) findViewById(R.id.tvLongitude);
         latitudeTv = (TextView) findViewById(R.id.tvLatitude);
         radiusTv = (TextView) findViewById(R.id.tvRadius);
+        radiusTv = (TextView) findViewById(R.id.GroupNameTv);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
