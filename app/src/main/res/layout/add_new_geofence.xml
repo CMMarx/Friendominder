@@ -27,7 +27,6 @@
             android:layout_marginRight="40dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityName"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityName" />
 
@@ -47,7 +45,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityLatitude"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityLatitude" />
 
@@ -57,7 +54,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintBottom_toBottomOf="@+id/tvRadius"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityLongitude"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityLongitude" />
@@ -92,6 +88,7 @@
             android:id="@+id/tvLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Longitude:"
             app:layout_constraintBottom_toBottomOf="@+id/editTextCityLongitude"
             app:layout_constraintEnd_toStartOf="@+id/editTextCityLongitude" />
@@ -100,11 +97,12 @@
             android:id="@+id/tvRadius"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="Radius:"
             app:layout_constraintEnd_toStartOf="@+id/editTextCityRadius"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tvLongitude"
             app:layout_constraintTop_toBottomOf="@+id/tvLongitude" />
 

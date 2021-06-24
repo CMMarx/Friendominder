@@ -1,6 +1,7 @@
 package com.example.pema_projekt;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -23,7 +27,12 @@ public class AddGeofence extends AppCompatActivity {
     CharSequence text3 = "Please enter coordinates!";
     CharSequence text4 = "Please enter a valid latitude!";
     CharSequence text5 = "Please enter a valid longitude!";
+    CharSequence text6 = "Please enter a valid radius!";
+
     int duration = Toast.LENGTH_SHORT;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,29 +53,31 @@ public class AddGeofence extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Context context = AddGeofence.this;
                 if (longitude.length() == 0 && latitude.length() == 0 ) {
-                    Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, text3, duration);
                     toast.show();
                 }else if (latitude.length() == 0){
-                    Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, text1, duration);
                     toast.show();
                 } else if (longitude.length() == 0){
-                    Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, text2, duration);
                     toast.show();
                 } else if(checkLatitude(latitude.getText().toString())){
-                    Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, text4, duration);
                     toast.show();
                 } else if(checkLongitude(longitude.getText().toString())){
-                    Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, text5, duration);
                     toast.show();
-                } else {
-
-                    //TODO: Create new geofence
+                } else if(Integer.parseInt(radius.getText().toString()) <= 0){
+                Toast toast = Toast.makeText(context, text6, duration);
+                toast.show();
+                }
+                else {
+                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("geofences");
+                    mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
+                    Intent intent = new Intent(AddGeofence.this, GeofenceFragment.class);
+                    AddGeofence.this.startActivity(intent);
 
                 }
 
@@ -114,7 +125,5 @@ public class AddGeofence extends AppCompatActivity {
         }
         return coordinate < -180 || coordinate > 180;
     }
-
-
 
 }
