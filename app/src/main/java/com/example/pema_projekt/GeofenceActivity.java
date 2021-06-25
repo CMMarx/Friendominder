@@ -2,11 +2,9 @@ package com.example.pema_projekt;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class GeofenceFragment extends AppCompatActivity {
+public class GeofenceActivity extends AppCompatActivity {
 
     private FrameLayout frameLayout;
     private RecyclerView myRecylerView;
@@ -34,10 +33,12 @@ public class GeofenceFragment extends AppCompatActivity {
     private DatabaseReference mReference;
 
     FloatingActionButton addGeo;
+    TextView addTv;
+    String cityNameTv;
 
 
 
-    public GeofenceFragment(){
+    public GeofenceActivity(){
 
     }
 
@@ -47,6 +48,11 @@ public class GeofenceFragment extends AppCompatActivity {
         setContentView(R.layout.geofence_fragment);
 
         addGeo = (FloatingActionButton) findViewById(R.id.floatingAddGeofenceButton);
+        myRecylerView = (RecyclerView) findViewById(R.id.geofenceRecyler1);
+        addTv = (TextView) findViewById(R.id.addGeofenceText_recyclerPaige);
+        cityNameTv = getIntent().getStringExtra("group_name");
+
+
 
         //Todo: Change to geobase firebase
         mDatabase = FirebaseDatabase.getInstance();
@@ -64,10 +70,10 @@ public class GeofenceFragment extends AppCompatActivity {
 
 
 
-                        myRecylerView = (RecyclerView) findViewById(R.id.geofenceRecyler1);
-                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceFragment.this, geofences);
 
-                        myRecylerView.setLayoutManager(new LinearLayoutManager(GeofenceFragment.this));
+                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, cityNameTv);
+
+                        myRecylerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
                         myRecylerView.setAdapter(recyclerViewAdapter);
 
                     }
@@ -76,7 +82,8 @@ public class GeofenceFragment extends AppCompatActivity {
                 addGeo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(GeofenceFragment.this, AddGeofence.class);
+                        Intent intent = new Intent(GeofenceActivity.this, AddGeofence.class);
+                        intent.putExtra("group_name", cityNameTv);
                         startActivity(intent);
                     }
                 });

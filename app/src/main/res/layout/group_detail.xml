@@ -33,7 +33,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/group_detail_recycler"
             android:layout_width="409dp"
-            android:layout_height="432dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="48dp"
@@ -84,6 +84,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.039"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewGeofenceGDV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Geofence:"
+            app:layout_constraintStart_toStartOf="@+id/group_detail_recycler"
+            app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler" />
+
+        <TextView
+            android:id="@+id/GeofenceNameGDV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="no geofence set for this group"
+            tools:layout_editor_absoluteX="88dp"
+            tools:layout_editor_absoluteY="560dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

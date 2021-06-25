@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PEMA_Projekt">
         <activity android:name=".AddMembers" />
-        <activity android:name=".GeofenceFragment" />
+        <activity android:name=".GeofenceActivity" />
         <activity android:name=".ContactDetailView"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".AddGroup" />
         <activity android:name=".AddGeofence"
-            android:parentActivityName=".GeofenceFragment"/>
+            android:parentActivityName=".GeofenceActivity"/>
         <activity android:name=".GroupDetailView"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity"

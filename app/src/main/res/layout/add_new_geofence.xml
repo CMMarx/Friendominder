@@ -6,23 +6,12 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/GroupNameTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:text="GroupName"
-        android:textSize="18sp" />
-
-    <TextView
         android:id="@+id/addGeofenceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
         android:layout_marginTop="30dp"
-        android:text="Add Geofence to"
+        android:text="Add Geofence"
         android:textSize="18dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
