@@ -3,12 +3,10 @@ package com.example.pema_projekt;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,14 +27,14 @@ import java.util.ArrayList;
 public class GroupDetailView extends AppCompatActivity {
 
     private ImageView groupPicture;
-    private TextView groupName;
-    private TextView members;
+    private TextView groupName, members, geofenceText, geofenceName;
     private Button addMember, back_to_groups, addGeofence;
-    private DatabaseReference mReference;
+    private DatabaseReference mReference, mReference2;
     private ActionBar actionBar;
     ArrayList<Contact> contacts;
     RecyclerView recyclerView;
-    String group_name;
+    String group_name, geofenceNameString;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,6 +50,14 @@ public class GroupDetailView extends AppCompatActivity {
         recyclerView = findViewById(R.id.group_detail_recycler);
         contacts = new ArrayList<>();
 
+        group_name = getIntent().getStringExtra("group_name");
+        geofenceName = findViewById(R.id.GeofenceNameGDV);
+        geofenceText = findViewById(R.id.textViewGeofenceGDV);
+        geofenceName.setText(geofenceNameString);
+
+
+
+
         actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -61,11 +66,12 @@ public class GroupDetailView extends AppCompatActivity {
         RecyclerViewAdapterGroups recyclerViewAdapterGroups = new RecyclerViewAdapterGroups(GroupDetailView.this, contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
 
-        group_name = getIntent().getStringExtra("group_name");
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("groups")
-                .child(group_name)
-                .child("members");
+        if (group_name != null) {
+            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference("groups")
+                    .child(group_name)
+                    .child("members");
+        }
 
 
         mReference.addValueEventListener(new ValueEventListener() {
@@ -111,7 +117,8 @@ public class GroupDetailView extends AppCompatActivity {
         addGeofence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupDetailView.this, GeofenceFragment.class);
+                Intent intent = new Intent(GroupDetailView.this, GeofenceActivity.class);
+                intent.putExtra("group_name", group_name);
                 startActivity(intent);
 
             }

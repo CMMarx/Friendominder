@@ -14,12 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
 public class AddGeofence extends AppCompatActivity {
 
     EditText name, longitude, latitude, radius;
-    TextView nameTv, longitudeTv, latitudeTv, radiusTv, groupName;
+    TextView nameTv, longitudeTv, latitudeTv, radiusTv;
+    String groupName;
     Button done;
 
     CharSequence text1 = "Please enter latitude!";
@@ -49,7 +48,7 @@ public class AddGeofence extends AppCompatActivity {
         longitudeTv = (TextView) findViewById(R.id.tvLongitude);
         latitudeTv = (TextView) findViewById(R.id.tvLatitude);
         radiusTv = (TextView) findViewById(R.id.tvRadius);
-        radiusTv = (TextView) findViewById(R.id.GroupNameTv);
+        groupName = getIntent().getStringExtra("group_name");
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +76,8 @@ public class AddGeofence extends AppCompatActivity {
                 else {
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("geofences");
                     mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
-                    Intent intent = new Intent(AddGeofence.this, GeofenceFragment.class);
+                    Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
+                    intent.putExtra("group_name", groupName);
                     AddGeofence.this.startActivity(intent);
 
                 }
