@@ -17,13 +17,15 @@ public class NotificationReceiver extends BroadcastReceiver {
         Intent repeating_intent = new Intent(context, GroupFragment.class);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, repeating_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"channelID").setContentIntent(pendingIntent)
                 .setSmallIcon(android.R.drawable.arrow_up_float)
                 .setContentTitle("Notification Title")
                 .setContentText("Text")
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
 
         notificationManager.notify(100, builder.build());
     }
