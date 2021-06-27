@@ -43,8 +43,9 @@ public class SetAlarmPage extends AppCompatActivity {
                 //calendar.set(Calendar.HOUR_OF_DAY, getHour(editTime.getText().toString()));
                 //calendar.set(Calendar.MINUTE, getMinutes(editTime.getText().toString()));
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, 17);
-                calendar.set(Calendar.MINUTE, 49);
+                calendar.set(Calendar.HOUR_OF_DAY, 20);
+                calendar.set(Calendar.MINUTE, 9);
+                calendar.set(Calendar.SECOND, 2);
 
 
                 Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
