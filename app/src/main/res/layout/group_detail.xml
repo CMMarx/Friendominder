@@ -3,7 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp">
+
+    <Button
+        android:id="@+id/add_member_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="10dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:clickable="true"
+        android:focusable="true"
+        android:foregroundGravity="right"
+        android:text="@string/add_member" />
+
+    <Button
+        android:id="@+id/addGeofence"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="10dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:clickable="true"
+        android:focusable="true"
+        android:foregroundGravity="right"
+        android:text="@string/add_geofence" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAlarmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,7 +49,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/group_name_id"
@@ -32,13 +69,12 @@
                 android:id="@+id/textViewGeofenceGDV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginBottom="45dp"
                 android:text="@string/geofence"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/GeofenceNameGDV"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintBottom_toTopOf="@+id/reminderRecycler"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler"
                 app:layout_constraintVertical_bias="0.0" />
@@ -79,14 +115,16 @@
                 android:id="@+id/GeofenceNameGDV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="132dp"
-                android:layout_marginRight="132dp"
                 android:text="@string/no_geofence_set_for_this_group"
+                app:layout_constraintBottom_toTopOf="@+id/reminderRecycler"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/group_detail_recycler"
-                app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewGeofenceGDV"
+                app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reminderRecycler"
@@ -113,29 +151,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/addGeofence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
-        android:layout_margin="20dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:clickable="true"
-        android:foregroundGravity="right"
-        android:text="@string/add_geofence"
-        android:focusable="true" />
-
-    <Button
-        android:id="@+id/add_member_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="20dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:clickable="true"
-        android:foregroundGravity="right"
-        android:text="@string/add_member"
-        android:focusable="true" />
 
 </FrameLayout>
