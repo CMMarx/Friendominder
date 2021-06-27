@@ -27,12 +27,12 @@ import java.util.ArrayList;
 public class GroupDetailView extends AppCompatActivity {
 
     private ImageView groupPicture;
-    private TextView groupName, members, geofenceText, geofenceName;
+    private TextView groupName, members, geofenceText, geofenceName, reminderTv;
     private Button addMember, back_to_groups, addGeofence;
     private DatabaseReference mReference, mReference2;
     private ActionBar actionBar;
     ArrayList<Contact> contacts;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView, recyclerViewAlarms;
     String group_name, geofenceNameString;
 
 
@@ -54,7 +54,9 @@ public class GroupDetailView extends AppCompatActivity {
         geofenceName = findViewById(R.id.GeofenceNameGDV);
         geofenceText = findViewById(R.id.textViewGeofenceGDV);
         geofenceName.setText(geofenceNameString);
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("members");
 
+        reminderTv = findViewById(R.id.AlarmTv);
 
 
 
@@ -65,14 +67,6 @@ public class GroupDetailView extends AppCompatActivity {
 
         RecyclerViewAdapterGroups recyclerViewAdapterGroups = new RecyclerViewAdapterGroups(GroupDetailView.this, contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
-
-        if (group_name != null) {
-            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/")
-                    .getReference("groups")
-                    .child(group_name)
-                    .child("members");
-        }
-
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
