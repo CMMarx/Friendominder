@@ -4,4 +4,10 @@
     <string name="phone_number">Phone number:</string>
     <string name="contact_name">TextView</string>
     <string name="contact_number">TextView</string>
+    <string name="no_geofence_set_for_this_group">no geofence set for this group</string>
+    <string name="geofence">Geofence:</string>
+    <string name="members">Members</string>
+    <string name="groupname">GroupName</string>
+    <string name="add_geofence">ADD GEOFENCE</string>
+    <string name="add_member">ADD MEMBER</string>
 </resources>

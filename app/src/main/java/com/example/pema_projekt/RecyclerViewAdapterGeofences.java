@@ -52,6 +52,7 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
 
                 Intent intent = new Intent(mContext, GroupDetailView.class);
                 intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());
+                intent.putExtra("group_name", groupName);
                 //intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
                 //intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
                 //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());

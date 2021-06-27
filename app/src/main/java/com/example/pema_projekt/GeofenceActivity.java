@@ -34,7 +34,7 @@ public class GeofenceActivity extends AppCompatActivity {
 
     FloatingActionButton addGeo;
     TextView addTv;
-    String cityNameTv;
+    String group_name;
 
 
 
@@ -50,7 +50,7 @@ public class GeofenceActivity extends AppCompatActivity {
         addGeo = (FloatingActionButton) findViewById(R.id.floatingAddGeofenceButton);
         myRecylerView = (RecyclerView) findViewById(R.id.geofenceRecyler1);
         addTv = (TextView) findViewById(R.id.addGeofenceText_recyclerPaige);
-        cityNameTv = getIntent().getStringExtra("group_name");
+        group_name = getIntent().getStringExtra("group_name");
 
 
 
@@ -71,7 +71,7 @@ public class GeofenceActivity extends AppCompatActivity {
 
 
 
-                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, cityNameTv);
+                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name);
 
                         myRecylerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
                         myRecylerView.setAdapter(recyclerViewAdapter);
@@ -83,7 +83,7 @@ public class GeofenceActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(GeofenceActivity.this, AddGeofence.class);
-                        intent.putExtra("group_name", cityNameTv);
+                        intent.putExtra("group_name", group_name);
                         startActivity(intent);
                     }
                 });
