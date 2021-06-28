@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 
 public class SetAlarmPage extends AppCompatActivity {
@@ -20,6 +23,8 @@ public class SetAlarmPage extends AppCompatActivity {
     private TextView setAlarmTv, setTime, setIntervall;
     private EditText editTime, editIntervall;
     private String group_name;
+    private DatabaseReference mReference;
+
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -39,21 +44,27 @@ public class SetAlarmPage extends AppCompatActivity {
             public void onClick(View v) {
 
                 Calendar calendar = Calendar.getInstance();
-
-                //calendar.set(Calendar.HOUR_OF_DAY, getHour(editTime.getText().toString()));
-                //calendar.set(Calendar.MINUTE, getMinutes(editTime.getText().toString()));
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, 20);
-                calendar.set(Calendar.MINUTE, 9);
-                calendar.set(Calendar.SECOND, 2);
+                calendar.set(Calendar.HOUR_OF_DAY, getHour(editTime.getText().toString()));
+                calendar.set(Calendar.MINUTE, getMinutes(editTime.getText().toString()));
+                //calendar.setTimeInMillis(System.currentTimeMillis());
+                //calendar.set(Calendar.HOUR_OF_DAY, 7);
+                //calendar.set(Calendar.MINUTE, 5);
+                //calendar.set(Calendar.SECOND, 10);
 
 
                 Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+                intent.putExtra("group_name", group_name);
+                intent.setAction("MY_NOTIFICATION_MESSAGE");
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                long thirtySecs = System.currentTimeMillis() + 30 * 1000;
 
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*checkIntervall(editIntervall.getText().toString()), pendingIntent);
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * checkIntervall(editIntervall.getText().toString()), pendingIntent);
+                //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
+
+                mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
+                mReference.child(group_name + getMinutes(editTime.getText().toString())).setValue(new Alarm(editTime.getText().toString(),editIntervall.getText().toString() ));
 
                 Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
                 intent1.putExtra("group_name", group_name);
