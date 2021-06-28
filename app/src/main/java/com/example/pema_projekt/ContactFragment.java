@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -48,7 +49,7 @@ public class ContactFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private ArrayList<Contact> lstContact;
 
-    private FloatingActionButton fabutton;
+    private Button fabutton;
     private DatabaseReference mReference;
 
 

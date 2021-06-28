@@ -64,7 +64,7 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
         private final TextView tv_name;
         private final TextView tv_phone;
         private final ImageView img;
-        //private final LinearLayout mainLayout;
+
         CheckBox checkBox;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
@@ -74,7 +74,6 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
             tv_phone = itemView.findViewById(R.id.phone_contact);
             img = itemView.findViewById(R.id.img_contact);
             checkBox = itemView.findViewById(R.id.check_box);
-            //mainLayout = itemView.findViewById(R.id.linear_layout);
 
         }
     }

@@ -18,9 +18,7 @@
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".AddGroup" />
         <activity android:name=".GroupDetailView"
-            android:parentActivityName=".MainActivity"
-
-            />
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
