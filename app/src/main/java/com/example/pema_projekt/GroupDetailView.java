@@ -120,7 +120,6 @@ public class GroupDetailView extends AppCompatActivity {
 
 
 
-
         // this button takes the user back to the group tab, but its cleaner with a back button
         /*
         back_to_groups.setOnClickListener(new View.OnClickListener() {
