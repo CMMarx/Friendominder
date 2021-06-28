@@ -55,6 +55,7 @@ public class GroupDetailView extends AppCompatActivity {
         addAlarm = (FloatingActionButton) findViewById(R.id.addAlarmButton);
         //back_to_groups = findViewById(R.id.back_to_groups);
         recyclerView = findViewById(R.id.group_detail_recycler);
+        recyclerViewAlarms = findViewById(R.id.reminderRecycler);
         contacts = new ArrayList<>();
 
         group_name = getIntent().getStringExtra("group_name");
@@ -91,6 +92,34 @@ public class GroupDetailView extends AppCompatActivity {
 
             }
         });
+
+        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
+        recyclerViewAlarms.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
+
+        mReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<Alarm> alarms = new ArrayList<>();
+
+                for (DataSnapshot alarmSnapshot : snapshot.getChildren()){
+                    Alarm alarm = alarmSnapshot.getValue(Alarm.class);
+                    alarms.add(alarm);
+
+                    RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms);
+                    recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
 
         // this button takes the user back to the group tab, but its cleaner with a back button
         /*

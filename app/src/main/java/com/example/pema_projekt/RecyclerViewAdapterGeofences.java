@@ -1,17 +1,12 @@
 package com.example.pema_projekt;
 
-import android.accessibilityservice.GestureDescription;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerViewAdapterGeofences.MyViewHolder> {
 
@@ -83,7 +76,7 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            citynameGeo = itemView.findViewById(R.id.citynameGeo);
+            citynameGeo = itemView.findViewById(R.id.itemAlarmTv1);
             mainLayout = itemView.findViewById(R.id.linear_layout3);
 
 
