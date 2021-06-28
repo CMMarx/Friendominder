@@ -1,7 +1,6 @@
 package com.example.pema_projekt;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
         @Override
         public void onBindViewHolder(@NonNull @NotNull com.example.pema_projekt.RecyclerViewAdapterAlarms.MyViewHolder holder, int position) {
             holder.tv2.setText(mData.get(position).getTimer());
-            holder.tv4.setText(mData.get(position).getIntervall());
+            holder.tv4.setText(mData.get(position).getInterval());
         }
 
 
