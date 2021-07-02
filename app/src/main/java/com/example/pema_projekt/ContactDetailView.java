@@ -42,13 +42,12 @@ public class ContactDetailView extends AppCompatActivity {
         msgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean installed = isAppInstalled("com.whatsapp");
-                if (installed){
+                try{
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+data1));
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+data2));
                     startActivity(intent);
                 }
-                else{
+                catch(Exception e){
                     Toast.makeText(ContactDetailView.this, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
                 }
             }

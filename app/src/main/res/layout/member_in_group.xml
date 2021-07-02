@@ -39,5 +39,17 @@
         app:layout_constraintStart_toEndOf="@+id/img_contact"
         app:layout_constraintTop_toBottomOf="@+id/name_contact" />
 
+    <ImageView
+        android:id="@+id/msg_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_message_24"
+        tools:ignore="VectorDrawableCompat" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
