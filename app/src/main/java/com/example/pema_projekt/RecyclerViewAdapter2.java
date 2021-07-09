@@ -99,8 +99,8 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
         }
          **/
         if(position <= mData.size()) {
-            mData.remove(position-1);
-            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(mData.get(position-1).getName());
+            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(mData.get(position).getName());
+            mData.remove(position);
             mReference.removeValue();
             notifyItemChanged(position);
             notifyItemRangeRemoved(position, 1);
