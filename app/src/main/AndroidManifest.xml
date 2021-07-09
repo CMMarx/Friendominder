@@ -23,6 +23,7 @@
         <receiver android:name=".GeofenceBroadcastReceiver"/>
         <activity android:name=".AddMembers" />
         <activity android:name=".SetAlarmPage" />
+        <activity android:name=".SetAlarmPageNew" />
         <activity android:name=".GeofenceActivity" />
         <activity android:name=".ContactDetailView"
             android:parentActivityName=".MainActivity"/>

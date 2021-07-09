@@ -10,4 +10,6 @@
     <string name="groupname">GroupName</string>
     <string name="add_geofence">ADD GEOFENCE</string>
     <string name="add_member">ADD MEMBER</string>
+    <string name="done">DONE</string>
+    <string name="how_many_days_for_your_intervall">How many days for your intervall</string>
 </resources>

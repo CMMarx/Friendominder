@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.pema_projekt.SetAlarmPageNew">
+
+    <Button
+        android:id="@+id/addIntervallButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/eTinteravall"
+        android:layout_gravity="bottom|center"
+        android:layout_marginTop="97dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:text="@string/done" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/IntervallTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"
+        android:text="@string/how_many_days_for_your_intervall"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/eTinteravall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/IntervallTv"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="94dp"
+        android:layout_marginLeft="94dp"
+        android:layout_marginTop="17dp"
+        android:autofillHints="add interval"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:ignore="LabelFor" />
+</RelativeLayout>

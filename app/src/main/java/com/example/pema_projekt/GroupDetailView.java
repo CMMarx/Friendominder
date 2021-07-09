@@ -158,7 +158,7 @@ public class GroupDetailView extends AppCompatActivity {
         addAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SetAlarmPage.class);
+                Intent intent = new Intent(getApplicationContext(), SetAlarmPageNew.class);
                 intent.putExtra("group_name", group_name);
                 startActivity(intent);
 
