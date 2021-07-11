@@ -1,6 +1,6 @@
 package com.example.pema_projekt;
 
-public class Contact {
+public class Contact{
 
     private String Name;
     private String Phone;
@@ -41,4 +41,18 @@ public class Contact {
     }
 
      */
+
+    @Override
+    public boolean equals(Object object){
+
+        if (object == null){
+            return false;
+        }
+        return Name != null && this.Phone.equals(((Contact) object).getPhone());
+    }
+
+    @Override
+    public int hashCode(){
+        return 0;
+    }
 }
