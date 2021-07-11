@@ -35,10 +35,10 @@ public class GroupDetailView extends AppCompatActivity {
     private TextView groupName, members, geofenceText, geofenceName, reminderTv;
     private Button addMember, back_to_groups, addGeofence;
     private FloatingActionButton addAlarm;
-    private DatabaseReference mReference, mReference2;
+    private DatabaseReference mReference, mReference2, mReference3;
     private ActionBar actionBar;
     ArrayList<Contact> contacts;
-    RecyclerView recyclerView, recyclerViewAlarms;
+    RecyclerView recyclerView, recyclerViewAlarms, recyclerViewGeofences;
     String group_name, geofenceNameString;
 
 
@@ -57,10 +57,10 @@ public class GroupDetailView extends AppCompatActivity {
         //back_to_groups = findViewById(R.id.back_to_groups);
         recyclerView = findViewById(R.id.group_detail_recycler);
         recyclerViewAlarms = findViewById(R.id.reminderRecycler);
+        recyclerViewGeofences = findViewById(R.id.geoRec);
         contacts = new ArrayList<>();
 
         group_name = getIntent().getStringExtra("group_name");
-        geofenceName = (TextView) findViewById(R.id.GeofenceNameGDV);
         geofenceText = (TextView) findViewById(R.id.textViewGeofenceGDV);
 
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("members");
@@ -112,6 +112,34 @@ public class GroupDetailView extends AppCompatActivity {
                     ItemTouchHelper itemTouchHelper = new
                             ItemTouchHelper(new SwipeToDeleteCallback2(recyclerViewAdapterAlarms));
                     itemTouchHelper.attachToRecyclerView(recyclerViewAlarms);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        mReference3 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("geofence");
+        recyclerViewGeofences.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
+
+        mReference3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<String> geofences = new ArrayList<>();
+
+                for (DataSnapshot geofenceSnapshot : snapshot.getChildren()){
+                    String geofenceSnapshotValue = geofenceSnapshot.getValue(String.class);
+                    geofences.add(geofenceSnapshotValue);
+
+                    RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name);
+                    recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
+
+                    ItemTouchHelper itemTouchHelper = new
+                            ItemTouchHelper(new SwipeToDeleteCallback3(recyclerViewAdapterGeofencesGroups));
+                    itemTouchHelper.attachToRecyclerView(recyclerViewGeofences);
                 }
 
             }
