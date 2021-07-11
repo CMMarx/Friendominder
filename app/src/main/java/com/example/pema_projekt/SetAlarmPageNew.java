@@ -30,7 +30,8 @@ public class SetAlarmPageNew extends AppCompatActivity {
 
     private String group_name;
     private DatabaseReference mReference;
-    private int duration = Toast.LENGTH_SHORT;
+    private final int duration = Toast.LENGTH_SHORT;
+    int interval1;
 
     /**
      * onCreate method for this class
@@ -65,7 +66,14 @@ public class SetAlarmPageNew extends AppCompatActivity {
 
                 //Todo: Catch invalid values for intervall
 
-                int interval1 = Integer.parseInt(interval);
+                try {
+                     interval1 = Integer.parseInt(interval);
+                }catch (NumberFormatException e){
+                    CharSequence text4 = "Please enter a value for the interval!";
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text4, duration);
+                    toast.show();
+                }
                 if (interval1 < 1) {
                     CharSequence text3 = "Please enter a value for the interval!";
                     Context context = getApplicationContext();
@@ -121,22 +129,6 @@ public class SetAlarmPageNew extends AppCompatActivity {
         });
     }
 
-    /**
-     * Checks the Input for intervalls
-     * WIP: if not valid returns 7
-     *
-     * @param input editText View Intervall
-     * @return int Intervall
-     */
-    private int  checkIntervall(String input) {
-        int output = Integer.parseInt(input);
-
-        if (output > 0) {
-            return output;
-        }
-
-        return output;
-    }
 
 
 }

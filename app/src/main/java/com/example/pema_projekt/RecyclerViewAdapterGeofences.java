@@ -42,7 +42,12 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
             @Override
             public void onClick(View v) {
                 int positionGeo = vHolder.getAdapterPosition();
-                mReference.child(groupName).child("geofence").child(mData.get(positionGeo).getName()).setValue(new CityGeofence(mData.get(positionGeo).getLongitude(),mData.get(positionGeo).getLatitude(),mData.get(positionGeo).getRad(), mData.get(positionGeo).getName()));
+                try {
+                    mReference.child(groupName).child("geofence").child(mData.get(positionGeo).getName()).setValue(new CityGeofence(mData.get(positionGeo).getLongitude(), mData.get(positionGeo).getLatitude(), mData.get(positionGeo).getRad(), mData.get(positionGeo).getName()));
+
+                } catch (NullPointerException e){
+
+                }
 
                 Intent intent = new Intent(mContext, GroupDetailView.class);
                 intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());

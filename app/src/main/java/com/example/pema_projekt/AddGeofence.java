@@ -39,6 +39,7 @@ public class AddGeofence extends AppCompatActivity {
         if(geofencePendingIntent != null){
             return getGeofencePendingIntent();
         }
+        groupName = getIntent().getStringExtra("group_name");
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         intent.putExtra("groupName", groupName);
         geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
