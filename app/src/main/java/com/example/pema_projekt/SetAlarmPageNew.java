@@ -48,9 +48,6 @@ public class SetAlarmPageNew extends AppCompatActivity {
         EditText editName = (EditText) findViewById(R.id.eTreminderName);
         TimePicker alarm_timepicker = (TimePicker) findViewById(R.id.timePicker);
 
-
-
-
         addTimer.setOnClickListener(new View.OnClickListener() {
             /**
              * onClick method for the addTimer button.
@@ -67,55 +64,59 @@ public class SetAlarmPageNew extends AppCompatActivity {
                 String name = editName.getText().toString();
 
                 //Todo: Catch invalid values for intervall
-                /**
-                try {
-                    Integer.parseInt(interval);
-                } catch ()
-                 **/
 
-                if (interval.isEmpty()){
-                    CharSequence text1 = "Please enter a value for the interval!";
+                int interval1 = Integer.parseInt(interval);
+                if (interval1 < 1) {
+                    CharSequence text3 = "Please enter a value for the interval!";
                     Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, text1, duration);
-                    toast.show();
-                } else if (name.isEmpty()) {
-                    CharSequence text2 = "Please enter a value for the name!";
-                    Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, text2, duration);
+                    Toast toast = Toast.makeText(context, text3, duration);
                     toast.show();
                 } else {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(System.currentTimeMillis());
-                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
-                    calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                    if (interval.isEmpty()) {
+                        CharSequence text1 = "Please enter a value for the interval!";
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context, text1, duration);
+                        toast.show();
+                    } else if (name.isEmpty()) {
+                        CharSequence text2 = "Please enter a value for the name!";
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context, text2, duration);
+                        toast.show();
+                    } else {
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(System.currentTimeMillis());
+                        calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+                        calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
 
 
-                    //Testing if notifications work
-                    //calendar.setTimeInMillis(System.currentTimeMillis());
-                    //calendar.set(Calendar.HOUR_OF_DAY, 7);
-                    //calendar.set(Calendar.MINUTE, 5);
-                    //calendar.set(Calendar.SECOND, 10);
+                        //Testing if notifications work
+                        //calendar.setTimeInMillis(System.currentTimeMillis());
+                        //calendar.set(Calendar.HOUR_OF_DAY, 7);
+                        //calendar.set(Calendar.MINUTE, 5);
+                        //calendar.set(Calendar.SECOND, 10);
 
-                    Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-                    intent.putExtra("group_name", group_name);
-                    intent.setAction("MY_NOTIFICATION_MESSAGE");
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+                        intent.putExtra("group_name", group_name);
+                        intent.setAction("MY_NOTIFICATION_MESSAGE");
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 4, pendingIntent);
-                    //Testing if notifications work
-                    //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
-                    //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * interval1, pendingIntent);
+                        //Testing if notifications work
+                        //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
+                        //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
-                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
-                    mReference.child(name).setValue(new Alarm("test", editInterval.getText().toString()));
+                        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
+                        mReference.child(name).setValue(new Alarm(alarm_timepicker.getHour() + ":" + alarm_timepicker.getMinute(), editInterval.getText().toString(), name));
 
-                    Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
-                    intent1.putExtra("group_name", group_name);
-                    startActivity(intent1);
+                        Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
+                        intent1.putExtra("group_name", group_name);
+                        startActivity(intent1);
+                    }
+
                 }
-
             }
         });
     }
