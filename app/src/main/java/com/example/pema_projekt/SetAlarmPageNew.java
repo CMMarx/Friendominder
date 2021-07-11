@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,9 +30,7 @@ public class SetAlarmPageNew extends AppCompatActivity {
 
     private String group_name;
     private DatabaseReference mReference;
-    private int hour = 999;
-    private int minute = 999;
-    private int interval = -1;
+    private int duration = Toast.LENGTH_SHORT;
 
     /**
      * onCreate method for this class
@@ -48,8 +43,9 @@ public class SetAlarmPageNew extends AppCompatActivity {
         group_name = getIntent().getStringExtra("group_name");
 
         Button addTimer = (Button) findViewById(R.id.addIntervallButton);
-        TextView setInterval = (TextView) findViewById(R.id.IntervallTv);
+        TextView reminderTitle = (TextView) findViewById(R.id.TVsetAlarmTitle);
         EditText editInterval = (EditText) findViewById(R.id.eTinteravall);
+        EditText editName = (EditText) findViewById(R.id.eTreminderName);
         TimePicker alarm_timepicker = (TimePicker) findViewById(R.id.timePicker);
 
 
@@ -66,7 +62,28 @@ public class SetAlarmPageNew extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                checkIntervall(editInterval.getText().toString());
+
+                String interval = editInterval.getText().toString();
+                String name = editName.getText().toString();
+
+                //Todo: Catch invalid values for intervall
+                /**
+                try {
+                    Integer.parseInt(interval);
+                } catch ()
+                 **/
+
+                if (interval.isEmpty()){
+                    CharSequence text1 = "Please enter a value for the interval!";
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text1, duration);
+                    toast.show();
+                } else if (name.isEmpty()) {
+                    CharSequence text2 = "Please enter a value for the name!";
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, text2, duration);
+                    toast.show();
+                } else {
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());
@@ -86,59 +103,21 @@ public class SetAlarmPageNew extends AppCompatActivity {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * interval, pendingIntent);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 4, pendingIntent);
                     //Testing if notifications work
                     //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
                     //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
-                    mReference.child(group_name + minute).setValue(new Alarm("test", editInterval.getText().toString()));
+                    mReference.child(name).setValue(new Alarm("test", editInterval.getText().toString()));
 
                     Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
                     intent1.putExtra("group_name", group_name);
                     startActivity(intent1);
+                }
 
             }
         });
-    }
-
-    /**
-     * Checks the Input for hours.
-     * If it is a valid value it sets the hour variable to the value
-     *
-     * @param input editText View Time
-     */
-    private void getHour(String input) {
-        if (input.contains(":")) {
-            String[] hours = input.split(":", 2);
-            int check1 = Integer.parseInt(hours[0]);
-
-            if (check1 < 24 && check1 >= 0) {
-                this.hour = check1;
-            }
-        } else {
-            int check2 = Integer.parseInt(input);
-            if (check2 < 24 && check2 >= 0) {
-                this.hour = check2;
-            }
-        }
-    }
-
-    /**
-     * Checks the Input for Minutes
-     * If it is a valid value it sets the minute variable to the value
-     *
-     * @param input editText View Time
-     */
-    private void getMinutes(String input) {
-        if (input.contains(":")) {
-            String[] minutes = input.split(":", 2);
-            int check1 = Integer.parseInt(minutes[1]);
-
-            if (check1 < 61 && check1 >= 0) {
-                this.minute = check1;
-            }
-        }
     }
 
     /**
@@ -148,11 +127,15 @@ public class SetAlarmPageNew extends AppCompatActivity {
      * @param input editText View Intervall
      * @return int Intervall
      */
-    private void checkIntervall(String input) {
+    private int  checkIntervall(String input) {
         int output = Integer.parseInt(input);
 
         if (output > 0) {
-            this.interval = output;
+            return output;
         }
+
+        return output;
     }
+
+
 }
