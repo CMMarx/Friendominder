@@ -41,7 +41,8 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
         vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReference.child(groupName).child("geofence").child(mData.get(vHolder.getAdapterPosition()).getName()).setValue(mData.get(vHolder.getAdapterPosition()).getName());
+                int positionGeo = vHolder.getAdapterPosition();
+                mReference.child(groupName).child("geofence").child(mData.get(positionGeo).getName()).setValue(new CityGeofence(mData.get(positionGeo).getLongitude(),mData.get(positionGeo).getLatitude(),mData.get(positionGeo).getRad(), mData.get(positionGeo).getName()));
 
                 Intent intent = new Intent(mContext, GroupDetailView.class);
                 intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());

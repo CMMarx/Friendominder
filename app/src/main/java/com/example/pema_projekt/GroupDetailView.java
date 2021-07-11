@@ -128,11 +128,11 @@ public class GroupDetailView extends AppCompatActivity {
         mReference3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<String> geofences = new ArrayList<>();
+                ArrayList<CityGeofence> geofences = new ArrayList<>();
 
                 for (DataSnapshot geofenceSnapshot : snapshot.getChildren()){
-                    String geofenceSnapshotValue = geofenceSnapshot.getValue(String.class);
-                    geofences.add(geofenceSnapshotValue);
+                    CityGeofence geo = geofenceSnapshot.getValue(CityGeofence.class);
+                    geofences.add(geo);
 
                     RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name);
                     recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
