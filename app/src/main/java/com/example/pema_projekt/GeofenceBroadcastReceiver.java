@@ -22,8 +22,10 @@ import java.util.List;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     // ...
+    String groupName;
     private static final String TAG = "Geofence receiver";
     public void onReceive(Context context, Intent intent) {
+        groupName = intent.getStringExtra("groupName");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             String errorMessage = GeofenceStatusCodes
@@ -83,7 +85,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(android.R.drawable.arrow_up_float)
                 .setContentTitle("Don't forget your friends")
-                .setContentText("Have you texted your friends from " + geofenceTransitionDetails)
+                .setContentText("Have you texted your friends from " + groupName)
                 .setAutoCancel(true);
 
         notificationManager.notify(100, builder.build());

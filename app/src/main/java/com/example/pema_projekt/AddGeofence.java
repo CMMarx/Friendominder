@@ -1,5 +1,6 @@
 package com.example.pema_projekt;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,17 @@ public class AddGeofence extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+    private PendingIntent geofencePendingIntent;
+
+    private PendingIntent getGeofencePendingIntent() {
+        if(geofencePendingIntent != null){
+            return getGeofencePendingIntent();
+        }
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        intent.putExtra("groupName", groupName);
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +89,7 @@ public class AddGeofence extends AppCompatActivity {
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("geofences");
                     mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
-                    intent.putExtra("group_name", groupName);
+                    intent.putExtra("groupName", groupName);
                     AddGeofence.this.startActivity(intent);
 
                 }
