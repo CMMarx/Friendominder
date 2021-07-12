@@ -5,10 +5,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +19,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.util.CollectionUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 public class GroupDetailView extends AppCompatActivity {
 
@@ -39,6 +45,8 @@ public class GroupDetailView extends AppCompatActivity {
     private ActionBar actionBar;
     ArrayList<Contact> contacts;
     RecyclerView recyclerView, recyclerViewAlarms, recyclerViewGeofences;
+    private ArrayList<Alarm> alarms;
+    private ArrayList<Contact> contacts;
     String group_name, geofenceNameString;
 
 
@@ -46,6 +54,7 @@ public class GroupDetailView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.group_detail);
         groupPicture = (ImageView) findViewById(R.id.imageView2);
@@ -58,24 +67,33 @@ public class GroupDetailView extends AppCompatActivity {
         recyclerView = findViewById(R.id.group_detail_recycler);
         recyclerViewAlarms = findViewById(R.id.reminderRecycler);
         recyclerViewGeofences = findViewById(R.id.geoRec);
+
+
         contacts = new ArrayList<>();
+        alarms = new ArrayList<>();
 
         group_name = getIntent().getStringExtra("group_name");
         geofenceText = (TextView) findViewById(R.id.textViewGeofenceGDV);
 
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("members");
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        String user_id = signInAccount.getId();
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("members");
+        mReference3 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
+
 
         reminderTv = findViewById(R.id.AlarmTv);
 
 
-
+        // Back button in the top left corner
         actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
+
         RecyclerViewAdapterGroups recyclerViewAdapterGroups = new RecyclerViewAdapterGroups(GroupDetailView.this, contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
+        recyclerView.setAdapter(recyclerViewAdapterGroups);
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -94,13 +112,17 @@ public class GroupDetailView extends AppCompatActivity {
             }
         });
 
+
         mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
         recyclerViewAlarms.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
+        RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms);
+        recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
+
 
         mReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<Alarm> alarms = new ArrayList<>();
+                alarms.clear();
 
                 for (DataSnapshot alarmSnapshot : snapshot.getChildren()){
                     Alarm alarm = alarmSnapshot.getValue(Alarm.class);

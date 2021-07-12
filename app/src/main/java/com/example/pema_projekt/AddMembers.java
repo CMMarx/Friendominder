@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,11 +42,12 @@ public class AddMembers extends AppCompatActivity {
         lstMember = new ArrayList<>();
         rv_members = new RecyclerViewAdapterMembers(AddMembers.this, lstMember);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
+        recyclerView.setAdapter(rv_members);
 
-        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
-
-
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("contacts");
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        String user_id = signInAccount.getId();
+        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -78,6 +81,7 @@ public class AddMembers extends AppCompatActivity {
         membersFinal = rv_members.listOfSelectedItems();
         for (Contact contact : membersFinal){
             mReference2.child(group_name).child("members").child(contact.getName()).setValue(contact);
+            mReference2.child(group_name).child("name").setValue(group_name);
         }
     }
 
