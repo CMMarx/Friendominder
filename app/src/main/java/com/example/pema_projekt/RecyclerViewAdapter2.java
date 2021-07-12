@@ -53,12 +53,18 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapter2.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
+        //TODO: Change image
         holder.img.setImageResource(R.drawable.account_image);
         }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        try {
+            return mData.size();
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{

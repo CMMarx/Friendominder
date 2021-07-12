@@ -7,24 +7,16 @@
     tools:context=".MainActivity"
     android:id="@+id/fragment_container">
 
-    <include
-        layout="@layout/costum_toolbar"
-        android:id="@+id/toolbar1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"/>
+        android:id="@+id/tab_layout"/>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tab_layout"
-        android:layout_marginTop="0dp" />
+        android:id="@+id/view_pager2"/>
 
 
 </RelativeLayout>

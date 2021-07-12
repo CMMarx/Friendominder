@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,15 +36,13 @@ import java.util.List;
  */
 public class GroupFragment extends Fragment {
 
+    private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
 
     private FrameLayout frameLayout;
     private View v;
     private RecyclerView myRecylerView;
     private List<Group> groupList;
-
-    private ArrayList<Group> groups;
-    private String user_id;
 
 
 
@@ -93,86 +88,89 @@ public class GroupFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
-        groups = new ArrayList<>();
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        user_id = signInAccount.getId();
-
-        }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        v = inflater.inflate(R.layout.group_fragment, container, false);
-
-        frameLayout = v.findViewById(R.id.frame_layout);
-
-
-        myRecylerView = v.findViewById(R.id.groupRecycler);
-        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups);
-        myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecylerView.setAdapter(recyclerViewAdapter);
-
-        mReference = FirebaseDatabase
-                .getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference(user_id)
-                .child("groups");
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                groups.clear();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Group group = ds.getValue(Group.class);
-                    groups.add(group);
+                if (snapshot.exists()){
+                    List<Group> groups = new ArrayList<>();
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        //List<Group> groups = new ArrayList<>();
+                        groups.add(ds.getValue(Group.class));
+
+
+
+                        myRecylerView = v.findViewById(R.id.groupRecycler);
+                        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups);
+                        myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        myRecylerView.setAdapter(recyclerViewAdapter);
+                        ItemTouchHelper itemTouchHelper = new
+                                ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
+                        itemTouchHelper.attachToRecyclerView(myRecylerView);
+
+                        /**
+                        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
+
+                            @Override
+                            public boolean onMove(RecyclerView myRecylerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                                Toast.makeText(getContext(), "on Move", Toast.LENGTH_SHORT).show();
+                                return false;
+                            }
+
+                            @Override
+                            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                                Toast.makeText(getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
+                                //Remove swiped item from list and notify the RecyclerView
+                                int position = viewHolder.getAdapterPosition();
+                                groups.remove(position);
+                                recyclerViewAdapter.notifyDataSetChanged();
+
+                            }
+                        };
+                         **/
+
+
+
+                    }
                 }
-                myRecylerView.setAdapter(recyclerViewAdapter);
-
-                
-                //ItemTouchHelper itemTouchHelper = new
-                //ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
-                //itemTouchHelper.attachToRecyclerView(myRecylerView);
-
-                /**
-                 ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
-
-                @Override
-                public boolean onMove(RecyclerView myRecylerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                Toast.makeText(getContext(), "on Move", Toast.LENGTH_SHORT).show();
-                return false;
-                }
-
-                @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                Toast.makeText(getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
-                //Remove swiped item from list and notify the RecyclerView
-                int position = viewHolder.getAdapterPosition();
-                groups.remove(position);
-                recyclerViewAdapter.notifyDataSetChanged();
-
-                }
-                };
-                 **/
 
             }
-
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
+
+        }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        v = inflater.inflate(R.layout.group_fragment, container, false);
+
+        /**
+        myRecylerView = v.findViewById(R.id.groupRecycler);
+        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groupList);
+        myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myRecylerView.setAdapter(recyclerViewAdapter);
+         **/
+        frameLayout = v.findViewById(R.id.frame_layout);
+
         FloatingActionButton addGroup = v.findViewById(R.id.addGroup);
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddGroup.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), AddGroup.class);
+                    startActivity(intent);
 
             }
         });
-
         return v;
     }
 

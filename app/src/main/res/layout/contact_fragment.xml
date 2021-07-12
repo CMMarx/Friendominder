@@ -20,8 +20,8 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:text="update"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/blue"
+        app:tint="@color/white"
+        android:backgroundTint="@android:color/holo_blue_dark"
         android:src="@drawable/ic_baseline_add_24"
         android:focusable="true" />
 
