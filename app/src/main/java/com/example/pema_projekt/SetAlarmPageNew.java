@@ -117,7 +117,7 @@ public class SetAlarmPageNew extends AppCompatActivity {
                         //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
                         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(group_name).child("alarms");
-                        mReference.child(name).setValue(new Alarm(alarm_timepicker.getHour() + ":" + alarm_timepicker.getMinute(), editInterval.getText().toString(), name));
+                        mReference.child(name).setValue(new Alarm(checkIfBelow10(alarm_timepicker.getHour()) + ":" + checkIfBelow10(alarm_timepicker.getMinute()), editInterval.getText().toString(), name));
 
                         Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
                         intent1.putExtra("group_name", group_name);
@@ -127,6 +127,21 @@ public class SetAlarmPageNew extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    /**
+     * Method that checks if input from timepicker is below 10 and adds 0 if. In this way we can show it correct on the recyclerView
+     * @param input timePicker time
+     * @return String with correct time
+     */
+    private String checkIfBelow10(int input) {
+        String output;
+
+        if (input < 10) {
+            output = "0"+input;
+            return output;
+        } else return Integer.toString(input);
     }
 
 
