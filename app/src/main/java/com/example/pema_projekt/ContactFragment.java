@@ -161,15 +161,15 @@ public class ContactFragment extends Fragment {
     public void getContacts() {
         @SuppressLint("Recycle") Cursor cursor = requireActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
-        ArrayList<Contact> comparelist = new ArrayList<>();
+
         while (cursor.moveToNext())
         {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String mobile = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             mReference.child(name).setValue(new Contact(name,mobile));
-            comparelist.add(new Contact(name, mobile));
+
         }
-        mReference2.child("user").setValue(user_name);
+        mReference2.child("username").setValue(user_name);
 
 
 

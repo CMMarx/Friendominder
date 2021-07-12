@@ -67,7 +67,6 @@ public class LogInScreen extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 resultLauncher.launch(intent);
                 overridePendingTransition(0,0);
-
             }
         });
     }

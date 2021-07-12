@@ -42,6 +42,7 @@ public class AddMembers extends AppCompatActivity {
         lstMember = new ArrayList<>();
         rv_members = new RecyclerViewAdapterMembers(AddMembers.this, lstMember);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
+        recyclerView.setAdapter(rv_members);
 
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
         String user_id = signInAccount.getId();
@@ -79,7 +80,8 @@ public class AddMembers extends AppCompatActivity {
     public void getMembers(View v){
         membersFinal = rv_members.listOfSelectedItems();
         for (Contact contact : membersFinal){
-            mReference2.child(group_name).child(contact.getName()).setValue(contact);
+            mReference2.child(group_name).child("members").child(contact.getName()).setValue(contact);
+            mReference2.child(group_name).child("name").setValue(group_name);
         }
     }
 

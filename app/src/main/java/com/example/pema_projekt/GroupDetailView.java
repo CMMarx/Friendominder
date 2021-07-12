@@ -76,27 +76,10 @@ public class GroupDetailView extends AppCompatActivity {
 
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
         String user_id = signInAccount.getId();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name);
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("members");
         mReference3 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
 
 
-        mReference3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                compare.clear();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()){
-                    Contact contact = postSnapshot.getValue(Contact.class);
-                    compare.add(contact);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
         reminderTv = findViewById(R.id.AlarmTv);
 
 
@@ -105,12 +88,7 @@ public class GroupDetailView extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        /*
-        boolean comp = contacts.retainAll(compare);
-        Log.d("Wert ", String.valueOf(comp));
-        Log.d("Contacts ", String.valueOf(contacts));
-        Log.d("Compare ", String.valueOf(compare));
-        */
+
 
         RecyclerViewAdapterGroups recyclerViewAdapterGroups = new RecyclerViewAdapterGroups(GroupDetailView.this, contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
