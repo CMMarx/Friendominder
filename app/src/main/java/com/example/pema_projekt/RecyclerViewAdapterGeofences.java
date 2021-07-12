@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.location.Geofence;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,7 +26,7 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
     Context mContext;
     ArrayList<CityGeofence> mData;
     String groupName;
-    private DatabaseReference mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
+    private DatabaseReference mReference;
 
     public RecyclerViewAdapterGeofences(Context mContext, ArrayList<CityGeofence> mData, String groupName) {
         this.mContext = mContext;
@@ -38,10 +41,35 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_geofence, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
 
+
         vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReference.child(groupName).child("geofence").child(mData.get(vHolder.getAdapterPosition()).getName()).setValue(mData.get(vHolder.getAdapterPosition()).getName());
+                GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(v.getContext());
+                String user_id = signInAccount.getId();
+                int positionGeo = vHolder.getAdapterPosition();
+                try {
+                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
+
+                    mReference.child(groupName).child("geofence").child(mData.get(positionGeo).getName()).setValue(new CityGeofence(mData.get(positionGeo).getLongitude(), mData.get(positionGeo).getLatitude(), mData.get(positionGeo).getRad(), mData.get(positionGeo).getName()));
+
+                    new Geofence.Builder()
+                            // Set the request ID of the geofence. This is a string to identify this
+                            // geofence.
+                            .setRequestId(mData.get(positionGeo).getName())
+
+                            .setCircularRegion(
+                                    mData.get(positionGeo).getLatitude(),
+                                    mData.get(positionGeo).getLongitude(),
+                                    mData.get(positionGeo).getRad()
+                            )
+                            .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                            .build();
+                    
+                } catch (NullPointerException e){
+
+                }
 
                 Intent intent = new Intent(mContext, GroupDetailView.class);
                 intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());

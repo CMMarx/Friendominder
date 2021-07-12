@@ -55,11 +55,12 @@ public class GeofenceActivity extends AppCompatActivity {
         group_name = getIntent().getStringExtra("group_name");
 
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_name = signInAccount.getDisplayName();
+
         //Todo: Change to geobase firebase
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        String user_id = signInAccount.getId();
         mDatabase = FirebaseDatabase.getInstance();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_name).child("geofences");
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override

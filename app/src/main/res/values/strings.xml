@@ -10,4 +10,5 @@
     <string name="groupname">GroupName</string>
     <string name="add_geofence">ADD GEOFENCE</string>
     <string name="add_member">ADD MEMBER</string>
+    <string name="done">DONE</string>
 </resources>

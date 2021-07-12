@@ -1,5 +1,6 @@
 package com.example.pema_projekt;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +35,18 @@ public class AddGeofence extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+    private PendingIntent geofencePendingIntent;
+
+    private PendingIntent getGeofencePendingIntent() {
+        if(geofencePendingIntent != null){
+            return getGeofencePendingIntent();
+        }
+        groupName = getIntent().getStringExtra("group_name");
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        intent.putExtra("groupName", groupName);
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +85,13 @@ public class AddGeofence extends AppCompatActivity {
                     Toast toast = Toast.makeText(context, text5, duration);
                     toast.show();
                 } else if(Integer.parseInt(radius.getText().toString()) <= 0){
-                Toast toast = Toast.makeText(context, text6, duration);
-                toast.show();
+                    Toast toast = Toast.makeText(context, text6, duration);
+                    toast.show();
                 }
                 else {
-                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("geofences");
+                    GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+                    String user_id = signInAccount.getId();
+                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
                     mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
                     intent.putExtra("group_name", groupName);

@@ -44,7 +44,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="88dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,15 +70,13 @@
                 android:id="@+id/textViewGeofenceGDV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="45dp"
-                android:text="@string/geofence"
-                app:layout_constraintBottom_toTopOf="@+id/reminderRecycler"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:text="Geofences:"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -105,50 +103,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/members"
+                android:text="Members:"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/group_detail_recycler"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.055"
+                app:layout_constraintHorizontal_bias="0.034"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/GeofenceNameGDV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/no_geofence_set_for_this_group"
-                app:layout_constraintBottom_toTopOf="@+id/reminderRecycler"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textViewGeofenceGDV"
-                app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler"
-                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reminderRecycler"
                 android:layout_width="389dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="88dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler" />
+                app:layout_constraintTop_toBottomOf="@+id/AlarmTv" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/geoRec"
+                android:layout_width="389dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.545"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewGeofenceGDV">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/AlarmTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
                 android:text="Reminders:"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/reminderRecycler"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.064"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewGeofenceGDV" />
+                app:layout_constraintTop_toBottomOf="@+id/geoRec" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
