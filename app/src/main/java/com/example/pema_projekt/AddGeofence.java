@@ -90,7 +90,7 @@ public class AddGeofence extends AppCompatActivity {
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("geofences");
                     mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
-                    intent.putExtra("groupName", groupName);
+                    intent.putExtra("group_name", groupName);
                     AddGeofence.this.startActivity(intent);
 
                 }
