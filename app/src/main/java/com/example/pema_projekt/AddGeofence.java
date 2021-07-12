@@ -1,5 +1,6 @@
 package com.example.pema_projekt;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,18 @@ public class AddGeofence extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+    private PendingIntent geofencePendingIntent;
+
+    private PendingIntent getGeofencePendingIntent() {
+        if(geofencePendingIntent != null){
+            return getGeofencePendingIntent();
+        }
+        groupName = getIntent().getStringExtra("group_name");
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        intent.putExtra("groupName", groupName);
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
