@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,7 +52,10 @@ public class ContactFragment extends Fragment {
     private ArrayList<Contact> lstContact;
 
     private Button fabutton;
-    private DatabaseReference mReference;
+    private DatabaseReference mReference, mReference2, mReference3;
+    GoogleSignInAccount signInAccount;
+    String user_id;
+    String user_name;
 
 
 
@@ -94,6 +99,9 @@ public class ContactFragment extends Fragment {
         }
 
         lstContact = new ArrayList<>();
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
+        user_id = signInAccount.getId();
+        user_name = signInAccount.getDisplayName();
 
 
 
@@ -109,10 +117,14 @@ public class ContactFragment extends Fragment {
 
 
 
+
         myrecyclerview = v.findViewById(R.id.contact_recycler);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), lstContact);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("contacts");
+        myrecyclerview.setAdapter(recyclerViewAdapter);
+
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
+        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id);
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -140,17 +152,16 @@ public class ContactFragment extends Fragment {
                 Toast.makeText(getActivity(), "Contacts updated", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
         return v;
     }
+
 
 
 
     public void getContacts() {
         @SuppressLint("Recycle") Cursor cursor = requireActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
+
         while (cursor.moveToNext())
         {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -158,6 +169,10 @@ public class ContactFragment extends Fragment {
             mReference.child(name).setValue(new Contact(name,mobile));
 
         }
+        mReference2.child("username").setValue(user_name);
+
+
+
 
 
     }

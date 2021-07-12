@@ -53,18 +53,12 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapter2.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
-        //TODO: Change image
         holder.img.setImageResource(R.drawable.account_image);
         }
 
     @Override
     public int getItemCount() {
-        try {
-            return mData.size();
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            return 0;
-        }
+        return mData.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
@@ -83,10 +77,24 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     }
 
     public void deleteItem(int position){
+        /**
+        if (position <= mData.size()){
+        String key = String.valueOf(position);
+        mData.remove(position-1);
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(key);
+        mReference.removeValue();
 
+        for (int i = 0; i > position && i <= mData.size(); i++){
+            mData.size();
+            Group newGroup = mData.get(i);
+            mData.add(i-1, newGroup);
+
+        }
+        }
+         **/
         if(position <= mData.size()) {
-            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(mData.get(position).getName());
-            mData.remove(position);
+            mData.remove(position-1);
+            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(mData.get(position-1).getName());
             mReference.removeValue();
             notifyItemChanged(position);
             notifyItemRangeRemoved(position, 1);

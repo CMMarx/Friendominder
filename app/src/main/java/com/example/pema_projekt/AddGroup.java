@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,8 +48,12 @@ public class AddGroup extends AppCompatActivity {
         name = (EditText) findViewById(R.id.addNameGroup);
         frameLayout = findViewById(R.id.frame_layout1);
 
+
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        String user_id = signInAccount.getId();
+
         mDatabase = FirebaseDatabase.getInstance();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
+        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,7 +82,7 @@ public class AddGroup extends AppCompatActivity {
                 if (name.getText().toString().equals("")){
                     Toast.makeText(AddGroup.this, "No group name", Toast.LENGTH_SHORT).show();
                 } else{
-                    mReference.child(name.getText().toString()).setValue(new Group(count, name.getText().toString()));
+                    //mReference.child(name.getText().toString()).setValue(new Group(count, name.getText().toString()));
                     addMembers();
                 }
             }
