@@ -5,10 +5,8 @@ package com.example.pema_projekt;
  */
 public class Alarm {
 
-
     private String timer;
     private String interval;
-    private String name;
 
     /**
      * Empty constructor for alarm. Needed for firebase to work.
@@ -16,10 +14,9 @@ public class Alarm {
     public Alarm(){
     }
 
-    public Alarm(String time, String interval, String name){
+    public Alarm(String time, String interval){
         this.timer = time;
         this.interval = interval;
-        this.name = name;
     }
 
 
@@ -37,22 +34,6 @@ public class Alarm {
      */
     public String getInterval() {
         return interval;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setTimer(String timer) {
-        this.timer = timer;
-    }
-
-    public void setInterval(String interval) {
-        this.interval = interval;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

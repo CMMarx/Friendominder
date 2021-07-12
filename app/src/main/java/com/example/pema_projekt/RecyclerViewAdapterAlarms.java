@@ -25,10 +25,9 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
         String groupName;
         private DatabaseReference mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups");
 
-        public RecyclerViewAdapterAlarms(Context mContext, ArrayList<Alarm> mData, String groupName) {
+        public RecyclerViewAdapterAlarms(Context mContext, ArrayList<Alarm> mData) {
             this.mContext = mContext;
             this.mData = mData;
-            this.groupName = groupName;
 
         }
 
@@ -82,20 +81,5 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
             }
         }
 
-    public void deleteItem(int position){
-
-        if(position <= mData.size()) {
-            mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference("groups").child(groupName).child("alarms").child(mData.get(position).getName());
-            mData.remove(position);
-            mReference.removeValue();
-            notifyItemChanged(position);
-            notifyItemRangeRemoved(position, 1);
-        }
-
-    }
-
-    public Context getmContext() {
-        return mContext;
-    }
 
 }

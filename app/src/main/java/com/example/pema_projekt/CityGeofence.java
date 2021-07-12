@@ -1,9 +1,5 @@
 package com.example.pema_projekt;
 
-import com.google.android.gms.common.internal.Constants;
-import com.google.android.gms.location.Geofence;
-
-
 public class CityGeofence {
 
     /**
@@ -13,7 +9,6 @@ public class CityGeofence {
     private float longitude;
     private float latitude;
     private int rad;
-    private Geofence geofence;
 
     private String name;
 
@@ -33,20 +28,6 @@ public class CityGeofence {
         this.longitude = longitudeInput;
         this.rad = radius;
         this.name = cityName;
-        new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId(name)
-
-                .setCircularRegion(
-                        latitude,
-                        longitude,
-                        rad
-                )
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                .build();
-
     }
 
     public float getLongitude() {
