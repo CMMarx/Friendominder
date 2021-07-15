@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         userName = findViewById(R.id.toolbar_username);
         userName.setText(user_name);
 
-        // GoogleSignInOptions for Logout
+        // GoogleSignInOptions for Logout from Google
         GoogleSignInOptions gso = new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
                 build();
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Sign user out of Firebase AND Google, so that a different account can be chosen/created
+                // Sign user out of Firebase AND Google, so that a different Google account can be chosen/created
                 FirebaseAuth.getInstance().signOut();
                 googleSignInClient.signOut();
                 Intent intent = new Intent(MainActivity.this, LogInScreen.class);

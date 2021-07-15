@@ -33,8 +33,9 @@ public class AddGeofence extends AppCompatActivity {
 
     int duration = Toast.LENGTH_SHORT;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+
+    private DatabaseReference geofenceReference;
+    private FirebaseReference firebaseReference;
     private PendingIntent geofencePendingIntent;
 
     private PendingIntent getGeofencePendingIntent() {
@@ -51,8 +52,12 @@ public class AddGeofence extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.add_new_geofence);
+
+        GoogleParameters googleParameters = new GoogleParameters(this);
+        String user_id = googleParameters.getUserId();
+
+        firebaseReference = new FirebaseReference();
 
         name = (EditText) findViewById(R.id.editTextCityName);
         longitude = (EditText) findViewById(R.id.editTextCityLongitude);
@@ -89,10 +94,8 @@ public class AddGeofence extends AppCompatActivity {
                     toast.show();
                 }
                 else {
-                    GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-                    String user_id = signInAccount.getId();
-                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
-                    mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
+                    geofenceReference = firebaseReference.getGeofenceReference(user_id);
+                    geofenceReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
                     intent.putExtra("group_name", groupName);
                     AddGeofence.this.startActivity(intent);

@@ -35,8 +35,8 @@ public class AddGroup extends AppCompatActivity {
     private int count;
     private FrameLayout frameLayout;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference groupReference;
+    private FirebaseReference firebaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +48,14 @@ public class AddGroup extends AppCompatActivity {
         name = (EditText) findViewById(R.id.addNameGroup);
         frameLayout = findViewById(R.id.frame_layout1);
 
+        GoogleParameters googleParameters = new GoogleParameters(this);
+        String user_id = googleParameters.getUserId();
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
+        firebaseReference = new FirebaseReference();
 
-        mDatabase = FirebaseDatabase.getInstance();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        groupReference = firebaseReference.getGroupReference(user_id);
+        groupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

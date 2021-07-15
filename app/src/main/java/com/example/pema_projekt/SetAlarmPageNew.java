@@ -31,7 +31,7 @@ import java.util.Calendar;
 public class SetAlarmPageNew extends AppCompatActivity {
 
     private String group_name;
-    private DatabaseReference mReference;
+    private DatabaseReference alarmReference;
     private final int duration = Toast.LENGTH_SHORT;
     int interval1;
 
@@ -42,6 +42,11 @@ public class SetAlarmPageNew extends AppCompatActivity {
      */
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GoogleParameters googleParameters = new GoogleParameters(this);
+        String user_id = googleParameters.getUserId();
+
+        FirebaseReference firebaseReference = new FirebaseReference();
+
         setContentView(R.layout.set_alarm_page_2);
         group_name = getIntent().getStringExtra("group_name");
 
@@ -118,10 +123,9 @@ public class SetAlarmPageNew extends AppCompatActivity {
                         //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
                         //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
-                        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(v.getContext());
-                        String user_id = signInAccount.getId();
-                        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("alarms");
-                        mReference.child(name).setValue(new Alarm(checkIfBelow10(alarm_timepicker.getHour()) + ":" + checkIfBelow10(alarm_timepicker.getMinute()), editInterval.getText().toString(), name));
+
+                        alarmReference = firebaseReference.getAlarmReference(user_id, group_name);
+                        alarmReference.child(name).setValue(new Alarm(checkIfBelow10(alarm_timepicker.getHour()) + ":" + checkIfBelow10(alarm_timepicker.getMinute()), editInterval.getText().toString(), name));
 
                         Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
                         intent1.putExtra("group_name", group_name);

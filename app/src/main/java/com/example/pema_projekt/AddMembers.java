@@ -26,7 +26,7 @@ import java.util.List;
 
 public class AddMembers extends AppCompatActivity {
     RecyclerView recyclerView;
-    private DatabaseReference mReference, mReference2;
+    private DatabaseReference contactReference, groupReference;
     ArrayList<Contact> lstMember, membersFinal;
     String group_name;
     Button uploadMembers;
@@ -44,11 +44,14 @@ public class AddMembers extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
         recyclerView.setAdapter(rv_members);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
-        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
-        mReference.addValueEventListener(new ValueEventListener() {
+        GoogleParameters googleParameters = new GoogleParameters(this);
+        String user_id = googleParameters.getUserId();
+
+        FirebaseReference firebaseReference = new FirebaseReference();
+
+        groupReference = firebaseReference.getGroupReference(user_id);
+        contactReference = firebaseReference.getContactReference(user_id);
+        contactReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 lstMember.clear();
@@ -80,8 +83,8 @@ public class AddMembers extends AppCompatActivity {
     public void getMembers(View v){
         membersFinal = rv_members.listOfSelectedItems();
         for (Contact contact : membersFinal){
-            mReference2.child(group_name).child("members").child(contact.getName()).setValue(contact);
-            mReference2.child(group_name).child("name").setValue(group_name);
+            groupReference.child(group_name).child("members").child(contact.getName()).setValue(contact);
+            groupReference.child(group_name).child("name").setValue(group_name);
         }
     }
 

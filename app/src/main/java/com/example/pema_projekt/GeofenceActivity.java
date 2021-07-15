@@ -31,8 +31,7 @@ public class GeofenceActivity extends AppCompatActivity {
     private RecyclerView myRecylerView;
     public View v;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference geofenceReference;
 
     FloatingActionButton addGeo;
     TextView addTv;
@@ -57,12 +56,13 @@ public class GeofenceActivity extends AppCompatActivity {
 
 
         //Todo: Change to geobase firebase
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
-        mDatabase = FirebaseDatabase.getInstance();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
+        GoogleParameters googleParameters = new GoogleParameters(this);
+        String user_id = googleParameters.getUserId();
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        FirebaseReference firebaseReference = new FirebaseReference();
+
+        geofenceReference = firebaseReference.getGeofenceReference(user_id);
+        geofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){

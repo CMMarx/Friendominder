@@ -34,11 +34,14 @@ public class GroupDetailView extends AppCompatActivity {
     private TextView groupName, members, geofenceText, geofenceName, reminderTv;
     private Button addMember, back_to_groups, addGeofence;
     private FloatingActionButton addAlarm;
-    private DatabaseReference mReference, mReference2, mReference3;
+    private DatabaseReference groupMembersReference, alarmReference, groupGeofenceReference;
+    private FirebaseReference firebaseReference;
+    private GoogleParameters googleParameters;
     private ActionBar actionBar;
     private ArrayList<Alarm> alarms;
     private ArrayList<Contact> contacts;
     private ArrayList<Contact> compare;
+    private String user_id;
     RecyclerView recyclerView, recyclerViewAlarms, recyclerViewGeofences;
     String group_name, geofenceNameString;
 
@@ -48,6 +51,8 @@ public class GroupDetailView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        firebaseReference = new FirebaseReference();
+        googleParameters = new GoogleParameters(this);
 
         setContentView(R.layout.group_detail);
         groupPicture = (ImageView) findViewById(R.id.imageView2);
@@ -56,7 +61,6 @@ public class GroupDetailView extends AppCompatActivity {
         addMember = (Button) findViewById(R.id.add_member_button);
         addGeofence = (Button) findViewById(R.id.addGeofence);
         addAlarm = (FloatingActionButton) findViewById(R.id.addAlarmButton);
-        //back_to_groups = findViewById(R.id.back_to_groups);
         recyclerView = findViewById(R.id.group_detail_recycler);
         recyclerViewAlarms = findViewById(R.id.reminderRecycler);
         recyclerViewGeofences = findViewById(R.id.geoRec);
@@ -68,10 +72,8 @@ public class GroupDetailView extends AppCompatActivity {
         group_name = getIntent().getStringExtra("group_name");
         geofenceText = (TextView) findViewById(R.id.textViewGeofenceGDV);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("members");
-
+        user_id = googleParameters.getUserId();
+        groupMembersReference = firebaseReference.getMembersInGroups(user_id, group_name);
 
         reminderTv = findViewById(R.id.AlarmTv);
 
@@ -87,7 +89,7 @@ public class GroupDetailView extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
         recyclerView.setAdapter(recyclerViewAdapterGroups);
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        groupMembersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 contacts.clear();
@@ -105,13 +107,13 @@ public class GroupDetailView extends AppCompatActivity {
         });
 
 
-        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("alarms");
+        alarmReference = firebaseReference.getAlarmReference(user_id, group_name);
         recyclerViewAlarms.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
         RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name);
         recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
 
 
-        mReference2.addValueEventListener(new ValueEventListener() {
+        alarmReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 ArrayList<Alarm> alarms = new ArrayList<>();
@@ -136,10 +138,10 @@ public class GroupDetailView extends AppCompatActivity {
             }
         });
 
-        mReference3 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("geofence");
+        groupGeofenceReference = firebaseReference.getGeofencesInGroups(user_id, group_name);
         recyclerViewGeofences.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
 
-        mReference3.addValueEventListener(new ValueEventListener() {
+        groupGeofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 ArrayList<CityGeofence> geofences = new ArrayList<>();

@@ -51,9 +51,12 @@ public class ContactFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private ArrayList<Contact> lstContact;
 
+    private DatabaseReference contactReference, rootReference;
+    private FirebaseReference firebaseReference;
+
     private Button fabutton;
-    private DatabaseReference mReference, mReference2, mReference3;
-    GoogleSignInAccount signInAccount;
+    //private DatabaseReference rootReference, contactReference;
+    //private FirebaseReference rootReference, contactReference;
     String user_id;
     String user_name;
 
@@ -97,17 +100,11 @@ public class ContactFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        GoogleParameters googleParameters = new GoogleParameters(getContext());
+        user_id = googleParameters.getUserId();
+        user_name = googleParameters.getUserName();
 
         lstContact = new ArrayList<>();
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        user_id = signInAccount.getId();
-        user_name = signInAccount.getDisplayName();
-
-
-
-        //getContacts();
-
-
     }
 
     @Override
@@ -123,9 +120,11 @@ public class ContactFragment extends Fragment {
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter);
 
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
-        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id);
-        mReference.addValueEventListener(new ValueEventListener() {
+        firebaseReference = new FirebaseReference();
+        contactReference = firebaseReference.getContactReference(user_id);
+        rootReference = firebaseReference.getRootReference(user_id);
+
+        contactReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 lstContact.clear();
@@ -166,10 +165,10 @@ public class ContactFragment extends Fragment {
         {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String mobile = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            mReference.child(name).setValue(new Contact(name,mobile));
+            contactReference.child(name).setValue(new Contact(name,mobile));
 
         }
-        mReference2.child("username").setValue(user_name);
+        rootReference.child("username").setValue(user_name);
 
 
 
