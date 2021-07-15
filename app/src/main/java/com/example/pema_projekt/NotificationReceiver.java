@@ -32,8 +32,9 @@ public class NotificationReceiver extends BroadcastReceiver {
         notificationManager.createNotificationChannel(notificationChannel);
 
 
-
-        Intent repeating_intent = new Intent(context, MainActivity.class);
+        // Intent to GroupDetailView to open the group referenced in the notification
+        Intent repeating_intent = new Intent(context, GroupDetailView.class);
+        repeating_intent.putExtra("group_name", group_name);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
