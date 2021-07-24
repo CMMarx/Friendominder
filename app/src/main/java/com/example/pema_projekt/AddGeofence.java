@@ -10,10 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,7 +45,7 @@ public class AddGeofence extends AppCompatActivity {
 
     private PendingIntent getGeofencePendingIntent() {
         if(geofencePendingIntent != null){
-            return getGeofencePendingIntent();
+            return geofencePendingIntent;
         }
         groupName = getIntent().getStringExtra("group_name");
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
@@ -47,6 +53,13 @@ public class AddGeofence extends AppCompatActivity {
         geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
     }
+    private GeofencingRequest getGeofencingRequest(CityGeofence cityGeofence) {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofence(cityGeofence.getGeofence());
+        return builder.build();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +80,7 @@ public class AddGeofence extends AppCompatActivity {
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
+            @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
             public void onClick(View v) {
                 Context context = AddGeofence.this;
                 if (longitude.length() == 0 && latitude.length() == 0 ) {
@@ -92,15 +106,35 @@ public class AddGeofence extends AppCompatActivity {
                     GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
                     String user_id = signInAccount.getId();
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
-                    mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
+                    CityGeofence cityGeofence = new CityGeofence(Float.parseFloat(longitude.getText().toString()), Float.parseFloat(latitude.getText().toString()), Integer.parseInt(radius.getText().toString()), name.getText().toString());
+                    mReference.child(name.getText().toString()).setValue(cityGeofence);
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
                     intent.putExtra("group_name", groupName);
                     AddGeofence.this.startActivity(intent);
-
+                    registerGeofence(cityGeofence);
                 }
 
             }
         });
+
+    }
+    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
+    private void registerGeofence(CityGeofence cityGeofence) {
+        LocationServices.getGeofencingClient(this).addGeofences(getGeofencingRequest(cityGeofence), getGeofencePendingIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Geofences added
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add geofences
+                        // ...
+                    }
+                });
 
     }
 

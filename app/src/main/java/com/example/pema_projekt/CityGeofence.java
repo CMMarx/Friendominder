@@ -33,7 +33,7 @@ public class CityGeofence {
         this.longitude = longitudeInput;
         this.rad = radius;
         this.name = cityName;
-        new Geofence.Builder()
+        this.geofence = new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
                 // geofence.
                 .setRequestId(name)
@@ -47,6 +47,10 @@ public class CityGeofence {
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                 .build();
 
+    }
+
+    public Geofence getGeofence() {
+        return geofence;
     }
 
     public float getLongitude() {
