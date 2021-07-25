@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -31,10 +32,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LogInScreen extends AppCompatActivity {
 
+    private Button loginWithoutGoogle;
     private LinearLayout loginButton;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private LoadingDialog loadingDialog;
+    private boolean isGoogle;
 
     @Override
     protected void onStart() {
@@ -59,16 +62,28 @@ public class LogInScreen extends AppCompatActivity {
 
         createRequest();
 
+        loginWithoutGoogle = (Button) findViewById(R.id.btnAnonymously);
+        loginWithoutGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isGoogle = false;
+                    signInAnonymously();
+
+            }
+        });
+
         loginButton = findViewById(R.id.signInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isGoogle = true;
                 Intent intent = new Intent(mGoogleSignInClient.getSignInIntent());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 resultLauncher.launch(intent);
                 overridePendingTransition(0,0);
             }
         });
+
     }
 
     private void createRequest() {
@@ -112,6 +127,7 @@ public class LogInScreen extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("isGoogle", isGoogle);
                             startActivity(intent);
 
                         } else {
@@ -120,5 +136,33 @@ public class LogInScreen extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    /**
+     * Method for the anonymous login
+     */
+    private void signInAnonymously() {
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LogInScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+    }
+
+    private void updateUI(FirebaseUser user) {
+        Intent intent = new Intent(LogInScreen.this, MainActivity.class);
+        intent.putExtra("isGoogle", isGoogle);
+        startActivity(intent);
+
     }
 }

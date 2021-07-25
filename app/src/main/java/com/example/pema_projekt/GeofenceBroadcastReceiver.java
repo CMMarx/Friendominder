@@ -21,12 +21,16 @@ import java.util.List;
 
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
-    // ...
-    String groupName;
+
+    private String groupName;
+    private boolean isGoogle;
+
     private static final String TAG = "Geofence receiver";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         groupName = intent.getStringExtra("groupName");
+        isGoogle = intent.getBooleanExtra("isGoogle", false);
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             String errorMessage = GeofenceStatusCodes
@@ -77,6 +81,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(notificationChannel);
         }
         Intent repeating_intent = new Intent(context, MainActivity.class);
+        repeating_intent.putExtra("isGoogle", isGoogle);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +57,8 @@ public class ContactFragment extends Fragment {
     GoogleSignInAccount signInAccount;
     String user_id;
     String user_name;
+    private boolean isGoogle;
+    private FirebaseAuth mAuth;
 
 
 
@@ -68,8 +71,10 @@ public class ContactFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public ContactFragment(boolean isGoogle) {
+        this.isGoogle = isGoogle;
+    }
     public ContactFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -99,9 +104,16 @@ public class ContactFragment extends Fragment {
         }
 
         lstContact = new ArrayList<>();
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        user_id = signInAccount.getId();
-        user_name = signInAccount.getDisplayName();
+
+        if(isGoogle) {
+            GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
+            user_id = signInAccount.getId();
+            user_name = signInAccount.getDisplayName();
+        } else {
+            mAuth = FirebaseAuth.getInstance();
+            user_id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+            user_name = "Anonymous";
+        }
 
 
 

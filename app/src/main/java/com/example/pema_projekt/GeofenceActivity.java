@@ -34,9 +34,10 @@ public class GeofenceActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
 
-    FloatingActionButton addGeo;
-    TextView addTv;
-    String group_name;
+    private FloatingActionButton addGeo;
+    private TextView addTv;
+    private String group_name, user_id;
+    private boolean isGoogle;
 
 
 
@@ -57,8 +58,8 @@ public class GeofenceActivity extends AppCompatActivity {
 
 
         //Todo: Change to geobase firebase
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, this );
+        user_id = signInDecision.getUser_id();
         mDatabase = FirebaseDatabase.getInstance();
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
 
@@ -75,7 +76,7 @@ public class GeofenceActivity extends AppCompatActivity {
 
 
 
-                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name);
+                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
 
                         myRecylerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
                         myRecylerView.setAdapter(recyclerViewAdapter);
@@ -88,6 +89,7 @@ public class GeofenceActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(GeofenceActivity.this, AddGeofence.class);
                         intent.putExtra("group_name", group_name);
+                        intent.putExtra("isGoogle", isGoogle);
                         startActivity(intent);
                     }
                 });

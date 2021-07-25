@@ -13,10 +13,16 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 public class NotificationReceiver extends BroadcastReceiver {
+
+    private String group_name;
+    private boolean isGoogle;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
-        String group_name = intent.getStringExtra("group_name");
+        group_name = intent.getStringExtra("group_name");
+        isGoogle = intent.getBooleanExtra("isGoogle", false);
+
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -34,6 +40,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 
         Intent repeating_intent = new Intent(context, MainActivity.class);
+        repeating_intent.putExtra("isGoogle", isGoogle);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 

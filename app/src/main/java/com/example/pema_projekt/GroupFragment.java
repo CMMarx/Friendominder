@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +50,8 @@ public class GroupFragment extends Fragment {
 
     private ArrayList<Group> groups;
     private String user_id;
+    private boolean isGoogle;
+    private FirebaseAuth mAuth;
 
 
 
@@ -65,6 +69,10 @@ public class GroupFragment extends Fragment {
      * Required empty public constructor
      */
     public GroupFragment() {
+    }
+
+    public GroupFragment(boolean isGoogle) {
+        this.isGoogle = isGoogle;
     }
 
     /**
@@ -95,8 +103,8 @@ public class GroupFragment extends Fragment {
         }
         groups = new ArrayList<>();
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, getActivity());
+        user_id = signInDecision.getUser_id();
 
         }
 
@@ -110,7 +118,7 @@ public class GroupFragment extends Fragment {
 
 
         myRecylerView = v.findViewById(R.id.groupRecycler);
-        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups);
+        RecyclerViewAdapter2 recyclerViewAdapter = new RecyclerViewAdapter2(getContext(), groups, isGoogle);
         myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecylerView.setAdapter(recyclerViewAdapter);
 
@@ -128,32 +136,6 @@ public class GroupFragment extends Fragment {
                     groups.add(group);
                 }
                 myRecylerView.setAdapter(recyclerViewAdapter);
-
-                
-                //ItemTouchHelper itemTouchHelper = new
-                //ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
-                //itemTouchHelper.attachToRecyclerView(myRecylerView);
-
-                /**
-                 ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
-
-                @Override
-                public boolean onMove(RecyclerView myRecylerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                Toast.makeText(getContext(), "on Move", Toast.LENGTH_SHORT).show();
-                return false;
-                }
-
-                @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                Toast.makeText(getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
-                //Remove swiped item from list and notify the RecyclerView
-                int position = viewHolder.getAdapterPosition();
-                groups.remove(position);
-                recyclerViewAdapter.notifyDataSetChanged();
-
-                }
-                };
-                 **/
 
             }
 

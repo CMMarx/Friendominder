@@ -19,17 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddGeofence extends AppCompatActivity {
 
-    EditText name, longitude, latitude, radius;
-    TextView nameTv, longitudeTv, latitudeTv, radiusTv;
-    String groupName;
-    Button done;
-
-    CharSequence text1 = "Please enter latitude!";
-    CharSequence text2 = "Please enter longitude!";
-    CharSequence text3 = "Please enter coordinates!";
-    CharSequence text4 = "Please enter a valid latitude!";
-    CharSequence text5 = "Please enter a valid longitude!";
-    CharSequence text6 = "Please enter a valid radius!";
+    private EditText name, longitude, latitude, radius;
+    private TextView nameTv, longitudeTv, latitudeTv, radiusTv;
+    private String groupName, user_id;
+    private boolean isGoogle;
+    private Button done;
 
     int duration = Toast.LENGTH_SHORT;
 
@@ -43,6 +37,7 @@ public class AddGeofence extends AppCompatActivity {
         }
         groupName = getIntent().getStringExtra("group_name");
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        intent.putExtra("isGoogle", isGoogle);
         intent.putExtra("groupName", groupName);
         geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
@@ -64,10 +59,17 @@ public class AddGeofence extends AppCompatActivity {
         latitudeTv = (TextView) findViewById(R.id.tvLatitude);
         radiusTv = (TextView) findViewById(R.id.tvRadius);
         groupName = getIntent().getStringExtra("group_name");
+        isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CharSequence text1 = "Please enter latitude!";
+                CharSequence text2 = "Please enter longitude!";
+                CharSequence text3 = "Please enter coordinates!";
+                CharSequence text4 = "Please enter a valid latitude!";
+                CharSequence text5 = "Please enter a valid longitude!";
+                CharSequence text6 = "Please enter a valid radius!";
                 Context context = AddGeofence.this;
                 if (longitude.length() == 0 && latitude.length() == 0 ) {
                     Toast toast = Toast.makeText(context, text3, duration);
@@ -89,12 +91,14 @@ public class AddGeofence extends AppCompatActivity {
                     toast.show();
                 }
                 else {
-                    GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-                    String user_id = signInAccount.getId();
+                    SignInDecision signInDecision = new SignInDecision(isGoogle, getApplicationContext() );
+                    user_id = signInDecision.getUser_id();
+
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
                     mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
                     intent.putExtra("group_name", groupName);
+                    intent.putExtra("isGoogle", isGoogle);
                     AddGeofence.this.startActivity(intent);
 
                 }

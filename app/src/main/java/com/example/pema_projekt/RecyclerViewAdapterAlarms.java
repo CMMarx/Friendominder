@@ -22,15 +22,17 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerViewAdapterAlarms.MyViewHolder>{
 
-    Context mContext;
-    ArrayList<Alarm> mData;
-    String groupName;
+    private Context mContext;
+    private ArrayList<Alarm> mData;
+    private String groupName, user_id;
     private DatabaseReference mReference;
+    private boolean isGoogle;
 
-    public RecyclerViewAdapterAlarms(Context mContext, ArrayList<Alarm> mData, String groupName) {
+    public RecyclerViewAdapterAlarms(Context mContext, ArrayList<Alarm> mData, String groupName,boolean isGoogle) {
         this.mContext = mContext;
         this.mData = mData;
         this.groupName = groupName;
+        this.isGoogle = isGoogle;
 
     }
 
@@ -85,8 +87,8 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
     }
 
     public void deleteItem(int position){
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getmContext());
-        String user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, getmContext() );
+        user_id = signInDecision.getUser_id();
 
         if(position <= mData.size()) {
             mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(groupName).child("alarms").child(mData.get(position).getName());

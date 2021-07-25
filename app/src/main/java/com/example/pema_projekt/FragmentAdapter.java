@@ -9,8 +9,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class FragmentAdapter extends FragmentStateAdapter {
-    public FragmentAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {
+
+    private boolean isGoogle;
+    public FragmentAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle, boolean isGoogle) {
         super(fragmentManager, lifecycle);
+        this.isGoogle = isGoogle;
     }
 
     @NonNull
@@ -20,9 +23,9 @@ public class FragmentAdapter extends FragmentStateAdapter {
 
         switch (position){
             case 1:
-                return new GroupFragment();
+                return new GroupFragment(isGoogle);
         }
-        return new ContactFragment();
+        return new ContactFragment(isGoogle);
     }
 
     @Override

@@ -23,12 +23,13 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerViewAdapterGeofences.MyViewHolder> {
 
-    Context mContext;
-    ArrayList<CityGeofence> mData;
-    String groupName;
+    private Context mContext;
+    private ArrayList<CityGeofence> mData;
+    private String groupName, user_id;
     private DatabaseReference mReference;
+    private boolean isGoogle;
 
-    public RecyclerViewAdapterGeofences(Context mContext, ArrayList<CityGeofence> mData, String groupName) {
+    public RecyclerViewAdapterGeofences(Context mContext, ArrayList<CityGeofence> mData, String groupName, boolean isGoogle) {
         this.mContext = mContext;
         this.mData = mData;
         this.groupName = groupName;
@@ -45,8 +46,8 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
         vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(v.getContext());
-                String user_id = signInAccount.getId();
+                SignInDecision signInDecision = new SignInDecision(isGoogle, v.getContext() );
+                user_id = signInDecision.getUser_id();
                 int positionGeo = vHolder.getAdapterPosition();
                 try {
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
@@ -74,6 +75,7 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
                 Intent intent = new Intent(mContext, GroupDetailView.class);
                 intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());
                 intent.putExtra("group_name", groupName);
+                intent.putExtra("isGoogle", isGoogle);
                 //intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
                 //intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
                 //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());

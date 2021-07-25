@@ -30,10 +30,11 @@ import java.util.Calendar;
  */
 public class SetAlarmPageNew extends AppCompatActivity {
 
-    private String group_name;
+    private String group_name, user_id;
     private DatabaseReference mReference;
     private final int duration = Toast.LENGTH_SHORT;
-    int interval1;
+    private int interval1;
+    private boolean isGoogle;
 
     /**
      * onCreate method for this class
@@ -44,6 +45,7 @@ public class SetAlarmPageNew extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_alarm_page_2);
         group_name = getIntent().getStringExtra("group_name");
+        isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
         Button addTimer = (Button) findViewById(R.id.addIntervallButton);
         TextView reminderTitle = (TextView) findViewById(R.id.TVsetAlarmTitle);
@@ -109,6 +111,7 @@ public class SetAlarmPageNew extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
                         intent.putExtra("group_name", group_name);
+                        intent.putExtra("isGoogle", isGoogle);
                         intent.setAction("MY_NOTIFICATION_MESSAGE");
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -118,13 +121,15 @@ public class SetAlarmPageNew extends AppCompatActivity {
                         //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
                         //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
-                        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(v.getContext());
-                        String user_id = signInAccount.getId();
+                        SignInDecision signInDecision = new SignInDecision(isGoogle, v.getContext() );
+                        user_id = signInDecision.getUser_id();
+
                         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("alarms");
                         mReference.child(name).setValue(new Alarm(checkIfBelow10(alarm_timepicker.getHour()) + ":" + checkIfBelow10(alarm_timepicker.getMinute()), editInterval.getText().toString(), name));
 
                         Intent intent1 = new Intent(getApplicationContext(), GroupDetailView.class);
                         intent1.putExtra("group_name", group_name);
+                        intent1.putExtra("isGoogle", isGoogle);
                         startActivity(intent1);
                     }
 

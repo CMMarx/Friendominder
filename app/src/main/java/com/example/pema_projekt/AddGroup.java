@@ -37,6 +37,8 @@ public class AddGroup extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+    private boolean isGoogle;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,10 @@ public class AddGroup extends AppCompatActivity {
         name = (EditText) findViewById(R.id.addNameGroup);
         frameLayout = findViewById(R.id.frame_layout1);
 
+        isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, AddGroup.this );
+        user_id = signInDecision.getUser_id();
 
         mDatabase = FirebaseDatabase.getInstance();
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
@@ -92,6 +95,7 @@ public class AddGroup extends AppCompatActivity {
 
     private void addMembers() {
         Intent intent = new Intent(AddGroup.this, AddMembers.class);
+        intent.putExtra("isGoogle", isGoogle);
         intent.putExtra("group_name", name.getText().toString());
         AddGroup.this.startActivity(intent);
 

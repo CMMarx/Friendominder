@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "590964143243",
+    "firebase_url": "https://randominder2-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "randominder2",
     "storage_bucket": "randominder2.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "590964143243-4s9mp7hpfm1ufqja9f1qp2seqgkevavg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pema_projekt",
+            "certificate_hash": "cfe3e26fcad909949cfbef3c7a9acd249b4c7b2d"
+          }
+        },
         {
           "client_id": "590964143243-ft1460lv3pumtibnus55d38mmevonboi.apps.googleusercontent.com",
           "client_type": 3

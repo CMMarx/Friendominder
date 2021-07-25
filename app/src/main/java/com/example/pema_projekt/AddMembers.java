@@ -25,12 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddMembers extends AppCompatActivity {
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private DatabaseReference mReference, mReference2;
-    ArrayList<Contact> lstMember, membersFinal;
-    String group_name;
-    Button uploadMembers;
-    RecyclerViewAdapterMembers rv_members;
+    private ArrayList<Contact> lstMember, membersFinal;
+    private String group_name, user_id;
+    private Button uploadMembers;
+    private RecyclerViewAdapterMembers rv_members;
+    private boolean isGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +40,15 @@ public class AddMembers extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_members);
         uploadMembers = findViewById(R.id.button);
         group_name = getIntent().getStringExtra("group_name");
+        isGoogle = getIntent().getBooleanExtra("isGoogle", false);
         lstMember = new ArrayList<>();
         rv_members = new RecyclerViewAdapterMembers(AddMembers.this, lstMember);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
         recyclerView.setAdapter(rv_members);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, this );
+        user_id = signInDecision.getUser_id();
+
         mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
         mReference.addValueEventListener(new ValueEventListener() {
@@ -71,6 +74,7 @@ public class AddMembers extends AppCompatActivity {
                 getMembers(v);
                 Intent intent = new Intent(AddMembers.this, GroupDetailView.class);
                 intent.putExtra("group_name", group_name);
+                intent.putExtra("isGoogle", isGoogle);
                 startActivity(intent);
             }
         });

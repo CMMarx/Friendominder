@@ -31,11 +31,15 @@ public class MainActivity extends AppCompatActivity {
     TextView userName;
     TextView logoutButton;
     Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private boolean isGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        isGoogle = getIntent().getBooleanExtra("isGoogle", false);
+        mAuth = FirebaseAuth.getInstance();
 
         toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
@@ -47,34 +51,53 @@ public class MainActivity extends AppCompatActivity {
         pager2 = findViewById(R.id.view_pager2);
 
         FragmentManager fm = getSupportFragmentManager();
-        adapter = new FragmentAdapter(fm, getLifecycle());
+        adapter = new FragmentAdapter(fm, getLifecycle(), isGoogle);
         pager2.setAdapter(adapter);
 
-        // Account name gets displayed in toolbar
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_name = signInAccount.getDisplayName();
-        userName = findViewById(R.id.toolbar_username);
-        userName.setText(user_name);
+        if(isGoogle) {
+            // Account name gets displayed in toolbar
+            GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+            String user_name = signInAccount.getDisplayName();
+            userName = findViewById(R.id.toolbar_username);
+            userName.setText(user_name);
 
-        // GoogleSignInOptions for Logout
-        GoogleSignInOptions gso = new GoogleSignInOptions.
-                Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
-                build();
+            // GoogleSignInOptions for Logout
+            GoogleSignInOptions gso = new GoogleSignInOptions.
+                    Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                    build();
 
-        GoogleSignInClient googleSignInClient=GoogleSignIn.getClient(this ,gso);
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
-        logoutButton = findViewById(R.id.toolbar_logout);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Sign user out of Firebase AND Google, so that a different account can be chosen/created
-                FirebaseAuth.getInstance().signOut();
-                googleSignInClient.signOut();
-                Intent intent = new Intent(MainActivity.this, LogInScreen.class);
-                startActivity(intent);
-            }
-        });
+            logoutButton = findViewById(R.id.toolbar_logout);
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Sign user out of Firebase AND Google, so that a different account can be chosen/created
+                    FirebaseAuth.getInstance().signOut();
+
+                    googleSignInClient.signOut();
+                    Intent intent = new Intent(MainActivity.this, LogInScreen.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            userName = findViewById(R.id.toolbar_username);
+            userName.setText(R.string.Anonymous);
+
+            logoutButton = findViewById(R.id.toolbar_logout);
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Sign user out of Firebase AND Google, so that a different account can be chosen/created
+                    FirebaseAuth.getInstance().signOut();
+
+                    Intent intent = new Intent(MainActivity.this, LogInScreen.class);
+                    startActivity(intent);
+                }
+            });
+
+        }
 
 
 

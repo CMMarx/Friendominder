@@ -22,15 +22,17 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterGeofencesGroups extends RecyclerView.Adapter<RecyclerViewAdapterGeofencesGroups.MyViewHolder>{
 
-    Context mContext;
-    ArrayList<CityGeofence> mData;
-    String groupName;
+    private Context mContext;
+    private ArrayList<CityGeofence> mData;
+    private String groupName, user_id;
     private DatabaseReference mReference;
+    private boolean isGoogle;
 
-    public RecyclerViewAdapterGeofencesGroups(Context mContext, ArrayList<CityGeofence> mData, String groupName) {
+    public RecyclerViewAdapterGeofencesGroups(Context mContext, ArrayList<CityGeofence> mData, String groupName, boolean isGoogle) {
         this.mContext = mContext;
         this.mData = mData;
         this.groupName = groupName;
+        this.isGoogle = isGoogle;
 
     }
 
@@ -78,8 +80,8 @@ public class RecyclerViewAdapterGeofencesGroups extends RecyclerView.Adapter<Rec
     }
 
     public void deleteItem(int position){
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getmContext());
-        String user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, getmContext() );
+        user_id = signInDecision.getUser_id();
 
 
         if(position <= mData.size()) {

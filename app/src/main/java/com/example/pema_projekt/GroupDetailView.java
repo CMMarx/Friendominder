@@ -40,7 +40,8 @@ public class GroupDetailView extends AppCompatActivity {
     private ArrayList<Contact> contacts;
     private ArrayList<Contact> compare;
     RecyclerView recyclerView, recyclerViewAlarms, recyclerViewGeofences;
-    String group_name, geofenceNameString;
+    private String group_name, user_id;
+    private boolean isGoogle;
 
 
     @SuppressLint("SetTextI18n")
@@ -66,10 +67,11 @@ public class GroupDetailView extends AppCompatActivity {
         compare = new ArrayList<>();
 
         group_name = getIntent().getStringExtra("group_name");
+        isGoogle = getIntent().getBooleanExtra("isGoogle", false);
         geofenceText = (TextView) findViewById(R.id.textViewGeofenceGDV);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        String user_id = signInAccount.getId();
+        SignInDecision signInDecision = new SignInDecision(isGoogle, GroupDetailView.this );
+        user_id = signInDecision.getUser_id();
         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("members");
 
 
@@ -107,7 +109,7 @@ public class GroupDetailView extends AppCompatActivity {
 
         mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("alarms");
         recyclerViewAlarms.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
-        RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name);
+        RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
         recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
 
 
@@ -120,7 +122,7 @@ public class GroupDetailView extends AppCompatActivity {
                     Alarm alarm = alarmSnapshot.getValue(Alarm.class);
                     alarms.add(alarm);
 
-                    RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name);
+                    RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
                     recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
 
                     ItemTouchHelper itemTouchHelper = new
@@ -148,7 +150,7 @@ public class GroupDetailView extends AppCompatActivity {
                     CityGeofence geo = geofenceSnapshot.getValue(CityGeofence.class);
                     geofences.add(geo);
 
-                    RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name);
+                    RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name, isGoogle);
                     recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
 
                     ItemTouchHelper itemTouchHelper = new
@@ -165,28 +167,12 @@ public class GroupDetailView extends AppCompatActivity {
         });
 
 
-
-
-
-
-        // this button takes the user back to the group tab, but its cleaner with a back button
-        /*
-        back_to_groups.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int page = 2;
-                Intent intent = new Intent(GroupDetailView.this, MainActivity.class);
-                intent.putExtra("group_tab", page);
-                startActivity(intent);
-            }
-        });
-        */
-
         addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GroupDetailView.this, AddMembers.class);
                 intent.putExtra("group_name", group_name);
+                intent.putExtra("isGoogle", isGoogle);
                 startActivity(intent);
             }
 
@@ -197,6 +183,7 @@ public class GroupDetailView extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GroupDetailView.this, GeofenceActivity.class);
                 intent.putExtra("group_name", group_name);
+                intent.putExtra("isGoogle", isGoogle);
                 startActivity(intent);
 
             }
@@ -209,6 +196,7 @@ public class GroupDetailView extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SetAlarmPageNew.class);
                 intent.putExtra("group_name", group_name);
+                intent.putExtra("isGoogle", isGoogle);
                 startActivity(intent);
 
             }
