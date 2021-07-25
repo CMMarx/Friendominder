@@ -17,16 +17,12 @@ import com.google.firebase.database.DatabaseReference;
 public class AddGeofence extends AppCompatActivity {
 
     private EditText name, longitude, latitude, radius;
-    private TextView nameTv, longitudeTv, latitudeTv, radiusTv;
     private String groupName, user_id;
     private boolean isGoogle;
-    private Button done;
-
-    int duration = Toast.LENGTH_SHORT;
+    private int duration = Toast.LENGTH_SHORT;
 
     private DatabaseReference geofenceReference;
     private FirebaseReference firebaseReference;
-
 
     private PendingIntent geofencePendingIntent;
 
@@ -34,6 +30,7 @@ public class AddGeofence extends AppCompatActivity {
         if(geofencePendingIntent != null){
             return getGeofencePendingIntent();
         }
+
         groupName = getIntent().getStringExtra("group_name");
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         intent.putExtra("isGoogle", isGoogle);
@@ -47,15 +44,15 @@ public class AddGeofence extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_geofence);
 
-        name = (EditText) findViewById(R.id.editTextCityName);
-        longitude = (EditText) findViewById(R.id.editTextCityLongitude);
-        latitude = (EditText) findViewById(R.id.editTextCityLatitude);
-        radius = (EditText) findViewById(R.id.editTextCityRadius);
-        done = (Button) findViewById(R.id.doneGeofence);
-        nameTv = (TextView) findViewById(R.id.tvName);
-        longitudeTv = (TextView) findViewById(R.id.tvLongitude);
-        latitudeTv = (TextView) findViewById(R.id.tvLatitude);
-        radiusTv = (TextView) findViewById(R.id.tvRadius);
+        name = findViewById(R.id.editTextCityName);
+        longitude = findViewById(R.id.editTextCityLongitude);
+        latitude = findViewById(R.id.editTextCityLatitude);
+        radius = findViewById(R.id.editTextCityRadius);
+        Button done = findViewById(R.id.doneGeofence);
+        TextView nameTv = findViewById(R.id.tvName);
+        TextView longitudeTv = findViewById(R.id.tvLongitude);
+        TextView latitudeTv = findViewById(R.id.tvLatitude);
+        TextView radiusTv = findViewById(R.id.tvRadius);
         groupName = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
@@ -66,30 +63,24 @@ public class AddGeofence extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence text1 = "Please enter latitude!";
-                CharSequence text2 = "Please enter longitude!";
-                CharSequence text3 = "Please enter coordinates!";
-                CharSequence text4 = "Please enter a valid latitude!";
-                CharSequence text5 = "Please enter a valid longitude!";
-                CharSequence text6 = "Please enter a valid radius!";
                 Context context = AddGeofence.this;
                 if (longitude.length() == 0 && latitude.length() == 0 ) {
-                    Toast toast = Toast.makeText(context, text3, duration);
+                    Toast toast = Toast.makeText(context, getToastText(3), duration);
                     toast.show();
                 }else if (latitude.length() == 0){
-                    Toast toast = Toast.makeText(context, text1, duration);
+                    Toast toast = Toast.makeText(context, getToastText(1), duration);
                     toast.show();
                 } else if (longitude.length() == 0){
-                    Toast toast = Toast.makeText(context, text2, duration);
+                    Toast toast = Toast.makeText(context, getToastText(2), duration);
                     toast.show();
                 } else if(checkLatitude(latitude.getText().toString())){
-                    Toast toast = Toast.makeText(context, text4, duration);
+                    Toast toast = Toast.makeText(context, getToastText(4), duration);
                     toast.show();
                 } else if(checkLongitude(longitude.getText().toString())){
-                    Toast toast = Toast.makeText(context, text5, duration);
+                    Toast toast = Toast.makeText(context, getToastText(5), duration);
                     toast.show();
                 } else if(Integer.parseInt(radius.getText().toString()) <= 0){
-                    Toast toast = Toast.makeText(context, text6, duration);
+                    Toast toast = Toast.makeText(context, getToastText(6), duration);
                     toast.show();
                 }
                 else {
@@ -146,6 +137,39 @@ public class AddGeofence extends AppCompatActivity {
             coordinate = Integer.parseInt(longitude);
         }
         return coordinate < -180 || coordinate > 180;
+    }
+
+    /**
+     * Method to choose the toast text because it throws an exception if i just put them into the toast
+     * @param i index
+     * @return the right char sequence
+     */
+    private CharSequence getToastText(int i){
+        CharSequence returnChar;
+
+        switch (i){
+            case 1:
+                returnChar = "Please enter latitude!";
+                break;
+            case 2:
+                returnChar = "Please enter longitude!";
+                break;
+            case 3:
+                returnChar = "Please enter coordinates!";
+                break;
+            case 4:
+                returnChar = "Please enter a valid latitude!";
+                break;
+            case 5:
+                returnChar = "Please enter a valid longitude!";
+                break;
+            case 6:
+                returnChar = "Please enter a valid radius!";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + i);
+        }
+        return returnChar;
     }
 
 }

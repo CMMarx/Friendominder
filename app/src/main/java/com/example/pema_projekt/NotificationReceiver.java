@@ -23,7 +23,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         group_name = intent.getStringExtra("group_name");
         isGoogle = intent.getBooleanExtra("isGoogle", false);
 
-
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // creating channel id for our notification
@@ -36,8 +35,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         notificationChannel.enableVibration(true);
         notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         notificationManager.createNotificationChannel(notificationChannel);
-
-
 
         Intent repeating_intent = new Intent(context, MainActivity.class);
         repeating_intent.putExtra("isGoogle", isGoogle);

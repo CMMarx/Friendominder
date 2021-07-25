@@ -1,8 +1,6 @@
 package com.example.pema_projekt;
 
-import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.location.Geofence;
-
 
 public class CityGeofence {
 
@@ -49,34 +47,42 @@ public class CityGeofence {
 
     }
 
+    /**
+     * Getter method for the longitude
+     * @return longitude
+     */
     public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
+    /**
+     * Getter method for the latitude
+     * @return latitude
+     */
     public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
+    /**
+     * Getter method for the radius
+     * @return radius
+     */
     public int getRad() {
         return rad;
     }
 
-    public void setRad(int rad) {
-        this.rad = rad;
-    }
-
+    /**
+     * Getter method for the name
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter method for the name
+     * @param name the name you want to set it to
+     */
     public void setName(String name) {
         this.name = name;
     }

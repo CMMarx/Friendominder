@@ -5,7 +5,6 @@ package com.example.pema_projekt;
  */
 public class Alarm {
 
-
     private String timer;
     private String interval;
     private String name;
@@ -16,12 +15,17 @@ public class Alarm {
     public Alarm(){
     }
 
+    /**
+     * Constructor for the Alarm object
+     * @param time the time of the alarm
+     * @param interval the interval in days
+     * @param name the name for the alarm
+     */
     public Alarm(String time, String interval, String name){
         this.timer = time;
         this.interval = interval;
         this.name = name;
     }
-
 
     /**
      *Getter method for the timer variable
@@ -33,24 +37,24 @@ public class Alarm {
 
     /**
      *Getter method for the interval variable
-     * @return the amount of days in the intervall
+     * @return the amount of days in the interval
      */
     public String getInterval() {
         return interval;
     }
 
+    /**
+     * Getter method for the name variable
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
-    public void setTimer(String timer) {
-        this.timer = timer;
-    }
-
-    public void setInterval(String interval) {
-        this.interval = interval;
-    }
-
+    /**
+     * Setter method for the name variable
+     * @param name the name you want to set it to
+     */
     public void setName(String name) {
         this.name = name;
     }

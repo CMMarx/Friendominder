@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-
         tabLayout.addTab(tabLayout.newTab().setText("Contacts"));
         tabLayout.addTab(tabLayout.newTab().setText("Groups"));
 

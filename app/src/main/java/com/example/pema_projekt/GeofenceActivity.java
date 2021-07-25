@@ -23,21 +23,16 @@ import java.util.ArrayList;
 
 public class GeofenceActivity extends AppCompatActivity {
 
-    private FrameLayout frameLayout;
     private RecyclerView myRecyclerView;
     public View v;
+    private FloatingActionButton addGeo;
 
     private DatabaseReference geofenceReference;
 
-    private FloatingActionButton addGeo;
-    private TextView addTv;
     private String group_name, user_id;
     private boolean isGoogle;
 
-
-
     public GeofenceActivity(){
-
     }
 
     @Override
@@ -45,14 +40,11 @@ public class GeofenceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.geofence_fragment);
 
-        addGeo = (FloatingActionButton) findViewById(R.id.floatingAddGeofenceButton);
-        myRecyclerView = (RecyclerView) findViewById(R.id.geofenceRecyler1);
-        addTv = (TextView) findViewById(R.id.addGeofenceText_recyclerPaige);
+        addGeo = findViewById(R.id.floatingAddGeofenceButton);
+        myRecyclerView = findViewById(R.id.geofenceRecyler1);
+        TextView addTv = findViewById(R.id.addGeofenceText_recyclerPaige);
         group_name = getIntent().getStringExtra("group_name");
 
-
-
-        //Todo: Change to geobase firebase
         SignInParameters signInParameters = new SignInParameters(isGoogle, this );
         user_id = signInParameters.getUser_id();
 
@@ -65,12 +57,8 @@ public class GeofenceActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     ArrayList<CityGeofence> geofences = new ArrayList<>();
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        //List<Group> groups = new ArrayList<>();
+
                         geofences.add(ds.getValue(CityGeofence.class));
-
-
-
-
 
                         RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
 

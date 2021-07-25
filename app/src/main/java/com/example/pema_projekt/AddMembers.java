@@ -20,11 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class AddMembers extends AppCompatActivity {
+
     private RecyclerView recyclerView;
     private DatabaseReference contactReference, groupReference;
     private ArrayList<Contact> lstMember, membersFinal;
     private String group_name, user_id;
-    private Button uploadMembers;
     private RecyclerViewAdapterMembers rv_members;
     private boolean isGoogle;
 
@@ -33,7 +33,7 @@ public class AddMembers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_members);
         recyclerView = findViewById(R.id.rv_members);
-        uploadMembers = findViewById(R.id.button);
+        Button uploadMembers = findViewById(R.id.button);
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
         lstMember = new ArrayList<>();
@@ -66,6 +66,7 @@ public class AddMembers extends AppCompatActivity {
 
             }
         });
+
         uploadMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +77,6 @@ public class AddMembers extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     public void getMembers(View v){

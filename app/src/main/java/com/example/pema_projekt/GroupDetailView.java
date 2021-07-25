@@ -41,7 +41,6 @@ public class GroupDetailView extends AppCompatActivity {
     private String group_name, user_id;
     private boolean isGoogle;
 
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +148,6 @@ public class GroupDetailView extends AppCompatActivity {
                             ItemTouchHelper(new SwipeToDeleteCallback3(recyclerViewAdapterGeofencesGroups));
                     itemTouchHelper.attachToRecyclerView(recyclerViewGeofences);
                 }
-
             }
 
             @Override
@@ -157,7 +155,6 @@ public class GroupDetailView extends AppCompatActivity {
 
             }
         });
-
 
         addMember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +164,6 @@ public class GroupDetailView extends AppCompatActivity {
                 intent.putExtra("isGoogle", isGoogle);
                 startActivity(intent);
             }
-
         });
 
         addGeofence.setOnClickListener(new View.OnClickListener() {
@@ -179,8 +175,6 @@ public class GroupDetailView extends AppCompatActivity {
                 startActivity(intent);
 
             }
-
-
         });
 
         addAlarm.setOnClickListener(new View.OnClickListener() {
@@ -193,9 +187,6 @@ public class GroupDetailView extends AppCompatActivity {
 
             }
         });
-
-
-        
 
         groupName.setText(group_name);
         members.setText("Members:");

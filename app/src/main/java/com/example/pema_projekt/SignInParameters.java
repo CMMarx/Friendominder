@@ -1,9 +1,6 @@
 package com.example.pema_projekt;
 
 import android.content.Context;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInParameters {

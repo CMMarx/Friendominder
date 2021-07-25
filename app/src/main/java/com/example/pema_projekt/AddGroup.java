@@ -24,26 +24,22 @@ import java.util.List;
 
 public class AddGroup extends AppCompatActivity {
 
-    private ImageView addImg;
-    private Button done;
     private EditText name;
-    private int count;
-    private FrameLayout frameLayout;
-
     private FirebaseReference firebaseReference;
     private DatabaseReference groupReference;
     private boolean isGoogle;
     private String user_id;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_group);
 
-        addImg = (ImageView) findViewById(R.id.addImageForGroup);
-        done = (Button) findViewById(R.id.gruppeFertig);
-        name = (EditText) findViewById(R.id.addNameGroup);
-        frameLayout = findViewById(R.id.frame_layout1);
+        ImageView addImg = findViewById(R.id.addImageForGroup);
+        Button done = findViewById(R.id.gruppeFertig);
+        name = findViewById(R.id.addNameGroup);
+        FrameLayout frameLayout = findViewById(R.id.frame_layout1);
 
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
@@ -80,7 +76,6 @@ public class AddGroup extends AppCompatActivity {
                 if (name.getText().toString().equals("")){
                     Toast.makeText(AddGroup.this, "No group name", Toast.LENGTH_SHORT).show();
                 } else{
-                    //mReference.child(name.getText().toString()).setValue(new Group(count, name.getText().toString()));
                     addMembers();
                 }
             }
@@ -94,9 +89,6 @@ public class AddGroup extends AppCompatActivity {
         intent.putExtra("group_name", name.getText().toString());
         AddGroup.this.startActivity(intent);
 
-
-
     }
-
 
 }
