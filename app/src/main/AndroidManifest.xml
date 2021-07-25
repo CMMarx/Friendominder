@@ -21,30 +21,30 @@
 
 
         <receiver
-            android:name=".NotificationReceiver"
+            android:name="com.example.pema_projekt.Alarm.NotificationReceiver"
             android:enabled="true"
             android:exported="false" />
-        <receiver android:name=".GeofenceBroadcastReceiver"/>
+        <receiver android:name="com.example.pema_projekt.Geofence.GeofenceBroadcastReceiver"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.example.pema_projekt.MainActivity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTop"/>
 
-        <activity android:name=".AddMembers" />
-        <activity android:name=".SetAlarmPageNew" />
-        <activity android:name=".GeofenceActivity" />
+        <activity android:name="com.example.pema_projekt.Groups.AddMembers" />
+        <activity android:name="com.example.pema_projekt.Alarm.SetAlarmPageNew" />
+        <activity android:name="com.example.pema_projekt.Geofence.GeofenceActivity" />
         <activity
-            android:name=".ContactDetailView"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AddGroup" />
+            android:name="com.example.pema_projekt.Contacts.ContactDetailView"
+            android:parentActivityName="com.example.pema_projekt.MainActivity.MainActivity"/>
+        <activity android:name="com.example.pema_projekt.Groups.AddGroup" />
         <activity
-            android:name=".AddGeofence"
-            android:parentActivityName=".GeofenceActivity" />
+            android:name="com.example.pema_projekt.Geofence.AddGeofence"
+            android:parentActivityName="com.example.pema_projekt.Geofence.GeofenceActivity" />
         <activity
-            android:name=".GroupDetailView"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.example.pema_projekt.Groups.GroupDetailView"
+            android:parentActivityName="com.example.pema_projekt.MainActivity.MainActivity" />
         <activity
-            android:name=".LogInScreen"
+            android:name="com.example.pema_projekt.Login.LogInScreen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
