@@ -21,30 +21,30 @@
 
 
         <receiver
-            android:name=".NotificationReceiver"
+            android:name=".Alarm.NotificationReceiver"
             android:enabled="true"
             android:exported="false" />
-        <receiver android:name=".GeofenceBroadcastReceiver"/>
+        <receiver android:name=".Geofence.GeofenceBroadcastReceiver"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".MainActivity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTop"/>
 
-        <activity android:name=".AddMembers" />
-        <activity android:name=".SetAlarmPageNew" />
-        <activity android:name=".GeofenceActivity" />
+        <activity android:name=".Groups.AddMembers" />
+        <activity android:name=".Alarm.SetAlarmPageNew" />
+        <activity android:name=".Geofence.GeofenceActivity" />
         <activity
-            android:name=".ContactDetailView"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AddGroup" />
+            android:name=".Contacts.ContactDetailView"
+            android:parentActivityName=".MainActivity.MainActivity"/>
+        <activity android:name=".Groups.AddGroup" />
         <activity
-            android:name=".AddGeofence"
-            android:parentActivityName=".GeofenceActivity" />
+            android:name=".Geofence.AddGeofence"
+            android:parentActivityName=".Geofence.GeofenceActivity" />
         <activity
-            android:name=".GroupDetailView"
-            android:parentActivityName=".MainActivity" />
+            android:name=".Groups.GroupDetailView"
+            android:parentActivityName=".MainActivity.MainActivity" />
         <activity
-            android:name=".LogInScreen"
+            android:name=".Login.LogInScreen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
