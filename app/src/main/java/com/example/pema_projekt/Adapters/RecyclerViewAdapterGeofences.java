@@ -45,44 +45,38 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
         MyViewHolder vHolder = new MyViewHolder(v);
 
 
-        vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SignInParameters signInParameters = new SignInParameters(isGoogle, v.getContext() );
-                user_id = signInParameters.getUser_id();
-                int positionGeo = vHolder.getAdapterPosition();
-                try {
-                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
+        vHolder.mainLayout.setOnClickListener(v1 -> {
+            SignInParameters signInParameters = new SignInParameters(isGoogle, v1.getContext() );
+            user_id = signInParameters.getUser_id();
+            int positionGeo = vHolder.getAdapterPosition();
+            try {
+                mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
 
-                    mReference.child(groupName).child("geofence").child(mData.get(positionGeo).getName()).setValue(new CityGeofence(mData.get(positionGeo).getLongitude(), mData.get(positionGeo).getLatitude(), mData.get(positionGeo).getRad(), mData.get(positionGeo).getName()));
+                mReference.child(groupName).child("geofence").child(mData.get(positionGeo).getName()).setValue(new CityGeofence(mData.get(positionGeo).getLongitude(), mData.get(positionGeo).getLatitude(), mData.get(positionGeo).getRad(), mData.get(positionGeo).getName()));
 
-                    new Geofence.Builder()
-                            // Set the request ID of the geofence. This is a string to identify this
-                            // geofence.
-                            .setRequestId(mData.get(positionGeo).getName())
+                new Geofence.Builder()
+                        // Set the request ID of the geofence. This is a string to identify this
+                        // geofence.
+                        .setRequestId(mData.get(positionGeo).getName())
 
-                            .setCircularRegion(
-                                    mData.get(positionGeo).getLatitude(),
-                                    mData.get(positionGeo).getLongitude(),
-                                    mData.get(positionGeo).getRad()
-                            )
-                            .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                            .build();
-                    
-                } catch (NullPointerException e){
+                        .setCircularRegion(
+                                mData.get(positionGeo).getLatitude(),
+                                mData.get(positionGeo).getLongitude(),
+                                mData.get(positionGeo).getRad()
+                        )
+                        .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                        .build();
 
-                }
+            } catch (NullPointerException ignored){
 
-                Intent intent = new Intent(mContext, GroupDetailView.class);
-                intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());
-                intent.putExtra("group_name", groupName);
-                intent.putExtra("isGoogle", isGoogle);
-                //intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
-                //intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
-                //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());
-                mContext.startActivity(intent);
             }
+
+            Intent intent = new Intent(mContext, GroupDetailView.class);
+            intent.putExtra("geofence_name",mData.get(vHolder.getAdapterPosition()).getName());
+            intent.putExtra("group_name", groupName);
+            intent.putExtra("isGoogle", isGoogle);
+            mContext.startActivity(intent);
         });
 
         return vHolder;

@@ -11,8 +11,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-
-import com.example.pema_projekt.Groups.GroupDetailView;
+import com.example.pema_projekt.MainActivity.MainActivity;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -38,11 +37,17 @@ public class NotificationReceiver extends BroadcastReceiver {
         notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         notificationManager.createNotificationChannel(notificationChannel);
 
-        Intent repeating_intent = new Intent(context, GroupDetailView.class);
-        repeating_intent.putExtra("group_name", group_name);
-        repeating_intent.putExtra("isGoogle", isGoogle);
-        repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+        // Intent to GroupDetailView to open the group referenced in the notification
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //Intent repeating_intent;
+        //if (user != null){
+        Intent repeating_intent = new Intent(context, MainActivity.class);
+            repeating_intent.putExtra("isGoogle", isGoogle);
+            repeating_intent.putExtra("group_name", group_name);
+            repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //} else {
+            //repeating_intent = new Intent(context, LogInScreen.class);
+       // }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, repeating_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

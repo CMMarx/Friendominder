@@ -40,7 +40,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:clickable="true"
-        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+        app:srcCompat="@android:drawable/ic_lock_idle_alarm"
+        android:focusable="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -59,12 +60,11 @@
                 android:layout_margin="30dp"
                 android:text="@string/groupname"
                 android:textSize="34sp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintBottom_toTopOf="@+id/group_detail_members"
+                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintHorizontal_bias="0.491"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewGeofenceGDV"
@@ -73,28 +73,29 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
-                android:text="Geofences:"
+                android:text="@string/geofences"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/group_detail_recycler" />
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="92dp"
+                android:layout_width="154dp"
+                android:layout_height="146dp"
+                android:layout_marginTop="28dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintHorizontal_bias="0.937"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_group" />
+                app:srcCompat="@drawable/group_icon" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_detail_recycler"
                 android:layout_width="389dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="66dp"
+                android:layout_marginTop="56dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.272"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -103,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Members:"
+                android:text="@string/members2"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/group_detail_recycler"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +139,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
-                android:text="Reminders:"
+                android:text="@string/reminders"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/geoRec" />

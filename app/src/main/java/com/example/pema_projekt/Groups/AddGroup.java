@@ -64,7 +64,6 @@ public class AddGroup extends AppCompatActivity {
 
                     }
                 }
-
             }
 
             @Override
@@ -83,7 +82,6 @@ public class AddGroup extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void addMembers() {

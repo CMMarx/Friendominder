@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -22,17 +21,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LogInScreen extends AppCompatActivity {
 
-    private Button loginWithoutGoogle;
     private LinearLayout loginButton;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -62,7 +58,7 @@ public class LogInScreen extends AppCompatActivity {
 
         createRequest();
 
-        loginWithoutGoogle = (Button) findViewById(R.id.btnAnonymously);
+        Button loginWithoutGoogle = (Button) findViewById(R.id.btnAnonymously);
         loginWithoutGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,20 +116,17 @@ public class LogInScreen extends AppCompatActivity {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("isGoogle", isGoogle);
-                            startActivity(intent);
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("isGoogle", isGoogle);
+                        startActivity(intent);
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LogInScreen.this, "Auth failed", Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(LogInScreen.this, "Auth failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -143,23 +136,20 @@ public class LogInScreen extends AppCompatActivity {
      */
     private void signInAnonymously() {
         mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LogInScreen.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(LogInScreen.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        updateUI();
                     }
                 });
     }
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI() {
         Intent intent = new Intent(LogInScreen.this, MainActivity.class);
         intent.putExtra("isGoogle", isGoogle);
         startActivity(intent);

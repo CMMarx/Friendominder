@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
+    android:padding="7dp"
     android:id="@+id/linear_layout">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:text="Contact Name"
+        android:text="@string/contact_name1"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/img_contact"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
-        android:text="Telefonnnummer"
+        android:text="@string/telefonnnummer"
         app:layout_constraintStart_toEndOf="@+id/img_contact"
         app:layout_constraintTop_toBottomOf="@+id/name_contact" />
 
@@ -48,7 +48,7 @@
         app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_message_24"
+        app:srcCompat="@drawable/whatsapp_icon2"
         tools:ignore="VectorDrawableCompat" />
 
 

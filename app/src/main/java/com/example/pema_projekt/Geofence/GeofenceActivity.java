@@ -71,14 +71,11 @@ public class GeofenceActivity extends AppCompatActivity {
                     }
                 }
 
-                addGeo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(GeofenceActivity.this, AddGeofence.class);
-                        intent.putExtra("group_name", group_name);
-                        intent.putExtra("isGoogle", isGoogle);
-                        startActivity(intent);
-                    }
+                addGeo.setOnClickListener(v -> {
+                    Intent intent = new Intent(GeofenceActivity.this, AddGeofence.class);
+                    intent.putExtra("group_name", group_name);
+                    intent.putExtra("isGoogle", isGoogle);
+                    startActivity(intent);
                 });
 
             }

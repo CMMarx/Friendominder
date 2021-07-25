@@ -63,26 +63,18 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private final TextView tv1;
         private final TextView tv2;
-        private final TextView tv3;
         private final TextView tv4;
-        private final ImageView img1;
-        private final LinearLayout mainLayout;
-
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            tv1 = itemView.findViewById(R.id.AlarmTv1);
+            TextView tv1 = itemView.findViewById(R.id.AlarmTv1);
             tv2 = itemView.findViewById(R.id.AlarmTv2);
-            tv3 = itemView.findViewById(R.id.AlarmTv3);
+            TextView tv3 = itemView.findViewById(R.id.AlarmTv3);
             tv4 = itemView.findViewById(R.id.AlarmTv4);
-            img1 = itemView.findViewById(R.id.imageViewAlarm);
-
-
-            mainLayout = itemView.findViewById(R.id.linear_layout4);
-
+            ImageView img1 = itemView.findViewById(R.id.imageViewAlarm);
+            LinearLayout mainLayout = itemView.findViewById(R.id.linear_layout4);
 
         }
     }

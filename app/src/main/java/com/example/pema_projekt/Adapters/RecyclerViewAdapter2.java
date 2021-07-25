@@ -6,12 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.pema_projekt.Groups.Group;
 import com.example.pema_projekt.Groups.GroupDetailView;
 import com.example.pema_projekt.R;
@@ -19,9 +17,7 @@ import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapter2.MyViewHolder> {
@@ -48,14 +44,11 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_group, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
 
-        vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, GroupDetailView.class);
-                intent.putExtra("group_name", mData.get(vHolder.getAdapterPosition()).getName());
-                intent.putExtra("isGoogle", isGoogle);
-                mContext.startActivity(intent);
-            }
+        vHolder.mainLayout.setOnClickListener(v1 -> {
+            Intent intent = new Intent(mContext, GroupDetailView.class);
+            intent.putExtra("group_name", mData.get(vHolder.getAdapterPosition()).getName());
+            intent.putExtra("isGoogle", isGoogle);
+            mContext.startActivity(intent);
         });
 
 
@@ -83,7 +76,7 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
 
         private TextView tv_name;
         private ImageView img;
-        private final LinearLayout mainLayout;
+        private final ConstraintLayout mainLayout;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);

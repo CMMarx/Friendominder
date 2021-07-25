@@ -43,10 +43,8 @@ public class RecyclerViewAdapterGeofencesGroups extends RecyclerView.Adapter<Rec
     public RecyclerViewAdapterGeofencesGroups.MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_geofence_group, parent, false);
-        RecyclerViewAdapterGeofencesGroups.MyViewHolder vHolder = new RecyclerViewAdapterGeofencesGroups.MyViewHolder(v);
 
-
-        return vHolder;
+        return new MyViewHolder(v);
     }
 
     @Override
@@ -64,18 +62,13 @@ public class RecyclerViewAdapterGeofencesGroups extends RecyclerView.Adapter<Rec
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         private final TextView citynameGeo;
-        private final ImageView img1;
-        private final LinearLayout mainLayout;
 
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             citynameGeo = itemView.findViewById(R.id.thisTvGeo);
-            img1 = itemView.findViewById(R.id.imageViewGeofence);
-
-
-            mainLayout = itemView.findViewById(R.id.linear_layout5);
-
+            ImageView img1 = itemView.findViewById(R.id.imageViewGeofence);
+            LinearLayout mainLayout = itemView.findViewById(R.id.linear_layout5);
 
         }
     }

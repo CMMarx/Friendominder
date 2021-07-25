@@ -1,12 +1,10 @@
 package com.example.pema_projekt.GoogleAndFirebase;
 
-import android.provider.ContactsContract;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseReference {
-    //private String user_id;
+
     private DatabaseReference mReference;
 
     public FirebaseReference(){

@@ -39,8 +39,6 @@ public class GroupFragment extends Fragment {
     private DatabaseReference groupReference;
     private FirebaseReference firebaseReference;
 
-    private FrameLayout frameLayout;
-    private View v;
     private RecyclerView myRecylerView;
     private List<Group> groupList;
 
@@ -49,12 +47,10 @@ public class GroupFragment extends Fragment {
     private boolean isGoogle;
     private FirebaseAuth mAuth;
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -106,9 +102,9 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.group_fragment, container, false);
+        View v = inflater.inflate(R.layout.group_fragment, container, false);
 
-        frameLayout = v.findViewById(R.id.frame_layout);
+        FrameLayout frameLayout = v.findViewById(R.id.frame_layout);
 
 
         myRecylerView = v.findViewById(R.id.groupRecycler);
@@ -137,13 +133,10 @@ public class GroupFragment extends Fragment {
             }
         });
         FloatingActionButton addGroup = v.findViewById(R.id.addGroup);
-        addGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddGroup.class);
-                startActivity(intent);
+        addGroup.setOnClickListener(v1 -> {
+            Intent intent = new Intent(getActivity(), AddGroup.class);
+            startActivity(intent);
 
-            }
         });
 
         return v;

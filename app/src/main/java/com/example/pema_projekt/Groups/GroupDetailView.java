@@ -40,10 +40,6 @@ import java.util.ArrayList;
 
 public class GroupDetailView extends AppCompatActivity {
 
-    private ImageView groupPicture;
-    private TextView groupName, members, geofenceText, geofenceName, reminderTv;
-    private Button addMember, back_to_groups, addGeofence;
-    private FloatingActionButton addAlarm;
     private DatabaseReference groupMembersReference, alarmReference, groupGeofenceReference;
     private FirebaseReference firebaseReference;
     private ActionBar actionBar;
@@ -62,17 +58,17 @@ public class GroupDetailView extends AppCompatActivity {
 
         firebaseReference = new FirebaseReference();
         setContentView(R.layout.group_detail);
-        groupPicture = findViewById(R.id.imageView2);
-        groupName = findViewById(R.id.group_name_id);
-        members = findViewById(R.id.group_detail_members);
-        addMember = findViewById(R.id.add_member_button);
-        addGeofence = findViewById(R.id.addGeofence);
-        addAlarm = findViewById(R.id.addAlarmButton);
+        ImageView groupPicture = findViewById(R.id.imageView2);
+        TextView groupName = findViewById(R.id.group_name_id);
+        TextView members = findViewById(R.id.group_detail_members);
+        Button addMember = findViewById(R.id.add_member_button);
+        Button addGeofence = findViewById(R.id.addGeofence);
+        FloatingActionButton addAlarm = findViewById(R.id.addAlarmButton);
         recyclerView = findViewById(R.id.group_detail_recycler);
         recyclerViewAlarms = findViewById(R.id.reminderRecycler);
         recyclerViewGeofences = findViewById(R.id.geoRec);
-        reminderTv = findViewById(R.id.AlarmTv);
-        geofenceText = findViewById(R.id.textViewGeofenceGDV);
+        TextView reminderTv = findViewById(R.id.AlarmTv);
+        TextView geofenceText = findViewById(R.id.textViewGeofenceGDV);
 
         contacts = new ArrayList<>();
         alarms = new ArrayList<>();
@@ -169,36 +165,27 @@ public class GroupDetailView extends AppCompatActivity {
             }
         });
 
-        addMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupDetailView.this, AddMembers.class);
-                intent.putExtra("group_name", group_name);
-                intent.putExtra("isGoogle", isGoogle);
-                startActivity(intent);
-            }
+        addMember.setOnClickListener(v -> {
+            Intent intent = new Intent(GroupDetailView.this, AddMembers.class);
+            intent.putExtra("group_name", group_name);
+            intent.putExtra("isGoogle", isGoogle);
+            startActivity(intent);
         });
 
-        addGeofence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupDetailView.this, GeofenceActivity.class);
-                intent.putExtra("group_name", group_name);
-                intent.putExtra("isGoogle", isGoogle);
-                startActivity(intent);
+        addGeofence.setOnClickListener(v -> {
+            Intent intent = new Intent(GroupDetailView.this, GeofenceActivity.class);
+            intent.putExtra("group_name", group_name);
+            intent.putExtra("isGoogle", isGoogle);
+            startActivity(intent);
 
-            }
         });
 
-        addAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SetAlarmPageNew.class);
-                intent.putExtra("group_name", group_name);
-                intent.putExtra("isGoogle", isGoogle);
-                startActivity(intent);
+        addAlarm.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), SetAlarmPageNew.class);
+            intent.putExtra("group_name", group_name);
+            intent.putExtra("isGoogle", isGoogle);
+            startActivity(intent);
 
-            }
         });
 
         groupName.setText(group_name);

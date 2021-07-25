@@ -63,41 +63,38 @@ public class AddGeofence extends AppCompatActivity {
         user_id = signInParameters.getUser_id();
         firebaseReference = new FirebaseReference();
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = AddGeofence.this;
-                if (longitude.length() == 0 && latitude.length() == 0 ) {
-                    Toast toast = Toast.makeText(context, getToastText(3), duration);
-                    toast.show();
-                }else if (latitude.length() == 0){
-                    Toast toast = Toast.makeText(context, getToastText(1), duration);
-                    toast.show();
-                } else if (longitude.length() == 0){
-                    Toast toast = Toast.makeText(context, getToastText(2), duration);
-                    toast.show();
-                } else if(checkLatitude(latitude.getText().toString())){
-                    Toast toast = Toast.makeText(context, getToastText(4), duration);
-                    toast.show();
-                } else if(checkLongitude(longitude.getText().toString())){
-                    Toast toast = Toast.makeText(context, getToastText(5), duration);
-                    toast.show();
-                } else if(Integer.parseInt(radius.getText().toString()) <= 0){
-                    Toast toast = Toast.makeText(context, getToastText(6), duration);
-                    toast.show();
-                }
-                else {
-                    geofenceReference = firebaseReference.getGeofenceReference(user_id);
-                    geofenceReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
+        done.setOnClickListener(v -> {
+            Context context = AddGeofence.this;
+            if (longitude.length() == 0 && latitude.length() == 0 ) {
+                Toast toast = Toast.makeText(context, getToastText(3), duration);
+                toast.show();
+            }else if (latitude.length() == 0){
+                Toast toast = Toast.makeText(context, getToastText(1), duration);
+                toast.show();
+            } else if (longitude.length() == 0){
+                Toast toast = Toast.makeText(context, getToastText(2), duration);
+                toast.show();
+            } else if(checkLatitude(latitude.getText().toString())){
+                Toast toast = Toast.makeText(context, getToastText(4), duration);
+                toast.show();
+            } else if(checkLongitude(longitude.getText().toString())){
+                Toast toast = Toast.makeText(context, getToastText(5), duration);
+                toast.show();
+            } else if(Integer.parseInt(radius.getText().toString()) <= 0){
+                Toast toast = Toast.makeText(context, getToastText(6), duration);
+                toast.show();
+            }
+            else {
+                geofenceReference = firebaseReference.getGeofenceReference(user_id);
+                geofenceReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
 
-                    Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
-                    intent.putExtra("group_name", groupName);
-                    intent.putExtra("isGoogle", isGoogle);
-                    AddGeofence.this.startActivity(intent);
-
-                }
+                Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
+                intent.putExtra("group_name", groupName);
+                intent.putExtra("isGoogle", isGoogle);
+                AddGeofence.this.startActivity(intent);
 
             }
+
         });
 
     }

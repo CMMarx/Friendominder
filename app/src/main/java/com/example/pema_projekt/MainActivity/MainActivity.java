@@ -24,12 +24,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    TabLayout tabLayout;
-    ViewPager2 pager2;
-    FragmentAdapter adapter;
-    TextView userName;
-    TextView logoutButton;
-    Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager2 pager2;
+    private FragmentAdapter adapter;
+    private Toolbar toolbar;
     private FirebaseAuth mAuth;
     private boolean isGoogle;
 
@@ -53,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FragmentAdapter(fm, getLifecycle(), isGoogle);
         pager2.setAdapter(adapter);
 
+        TextView userName;
+        TextView logoutButton;
         if(isGoogle) {
             // Account name gets displayed in toolbar
             GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
@@ -69,30 +69,24 @@ public class MainActivity extends AppCompatActivity {
 
 
             logoutButton = findViewById(R.id.toolbar_logout);
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Sign user out of Firebase AND Google, so that a different account can be chosen/created
-                    FirebaseAuth.getInstance().signOut();
-                    googleSignInClient.signOut();
-                    Intent intent = new Intent(MainActivity.this, LogInScreen.class);
-                    startActivity(intent);
-                }
+            logoutButton.setOnClickListener(v -> {
+                // Sign user out of Firebase AND Google, so that a different account can be chosen/created
+                FirebaseAuth.getInstance().signOut();
+                googleSignInClient.signOut();
+                Intent intent = new Intent(MainActivity.this, LogInScreen.class);
+                startActivity(intent);
             });
         } else {
             userName = findViewById(R.id.toolbar_username);
             userName.setText(R.string.Anonymous);
 
             logoutButton = findViewById(R.id.toolbar_logout);
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Sign user out of Firebase AND Google, so that a different Google account can be chosen/created
-                    FirebaseAuth.getInstance().signOut();
+            logoutButton.setOnClickListener(v -> {
+                // Sign user out of Firebase AND Google, so that a different Google account can be chosen/created
+                FirebaseAuth.getInstance().signOut();
 
-                    Intent intent = new Intent(MainActivity.this, LogInScreen.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(MainActivity.this, LogInScreen.class);
+                startActivity(intent);
             });
 
         }

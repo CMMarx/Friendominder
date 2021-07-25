@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="15dp"
-        android:text="Add new reminder"
+        android:text="@string/add_new_reminder"
         android:textSize="20sp" />
 
     <Button
@@ -39,7 +39,7 @@
             android:layout_marginTop="18dp"
             android:autofillHints="add interval"
             android:ems="10"
-            android:hint="add intervall here"
+            android:hint="@string/add_interval_here"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.047"

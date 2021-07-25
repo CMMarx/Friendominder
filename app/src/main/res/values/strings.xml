@@ -12,5 +12,19 @@
     <string name="add_member">ADD MEMBER</string>
     <string name="done">DONE</string>
     <string name="Anonymous">Anonymous</string>
+    <string name="addMembers">Add members to group</string>
+    <string name="update">update</string>
+    <string name="members2">Members:</string>
+    <string name="reminders">Reminders:</string>
+    <string name="geofences">Geofences:</string>
+    <string name="group_name">Group Name</string>
+    <string name="loginScreen1">Stay in touch with friends and family</string>
+    <string name="friendominder">Friendominder</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_without_google">Sign in without Google</string>
+    <string name="contact_name1">Contact Name</string>
+    <string name="telefonnnummer">Telefonnnummer</string>
+    <string name="add_new_reminder">Add new reminder</string>
+    <string name="add_interval_here">add interval here</string>
 
 </resources>

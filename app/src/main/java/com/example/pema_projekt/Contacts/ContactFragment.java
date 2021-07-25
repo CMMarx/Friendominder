@@ -43,14 +43,10 @@ public class ContactFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private ArrayList<Contact> lstContact;
 
-    private Button fabutton;
     private DatabaseReference contactReference, rootReference;
-    private FirebaseReference firebaseReference;
     private String user_id;
     private String user_name;
     private boolean isGoogle;
-    private FirebaseAuth mAuth;
-
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -101,7 +97,7 @@ public class ContactFragment extends Fragment {
             user_id = signInAccount.getId();
             user_name = signInAccount.getDisplayName();
         } else {
-            mAuth = FirebaseAuth.getInstance();
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
             user_id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
             user_name = "Anonymous";
         }
@@ -121,7 +117,7 @@ public class ContactFragment extends Fragment {
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter);
 
-        firebaseReference = new FirebaseReference();
+        FirebaseReference firebaseReference = new FirebaseReference();
 
         contactReference = firebaseReference.getContactReference(user_id);
         rootReference = firebaseReference.getRootReference(user_id);
@@ -145,7 +141,7 @@ public class ContactFragment extends Fragment {
         });
 
 
-        fabutton = v.findViewById(R.id.fab_btn);
+        Button fabutton = v.findViewById(R.id.fab_btn);
         fabutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

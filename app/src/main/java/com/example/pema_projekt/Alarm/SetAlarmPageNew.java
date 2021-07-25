@@ -37,11 +37,6 @@ public class SetAlarmPageNew extends AppCompatActivity {
     private int interval1;
     private boolean isGoogle;
 
-    /**
-     * onCreate method for this class
-     *
-     * @param savedInstanceState
-     */
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_alarm_page_2);
@@ -104,12 +99,6 @@ public class SetAlarmPageNew extends AppCompatActivity {
                         calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
 
 
-                        //Testing if notifications work
-                        //calendar.setTimeInMillis(System.currentTimeMillis());
-                        //calendar.set(Calendar.HOUR_OF_DAY, 7);
-                        //calendar.set(Calendar.MINUTE, 5);
-                        //calendar.set(Calendar.SECOND, 10);
-
                         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
                         intent.putExtra("group_name", group_name);
                         intent.putExtra("isGoogle", isGoogle);
@@ -118,9 +107,6 @@ public class SetAlarmPageNew extends AppCompatActivity {
 
                         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * interval1, pendingIntent);
-                        //Testing if notifications work
-                        //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
-                        //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
                         SignInParameters signInParameters = new SignInParameters(isGoogle, v.getContext() );
                         user_id = signInParameters.getUser_id();

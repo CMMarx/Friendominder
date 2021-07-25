@@ -21,10 +21,9 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerViewAdapterMembers.MyViewHolder> {
 
-    Context mContext;
-    ArrayList<Contact> mData;
-    ArrayList<Contact> groupMember;
-    private DatabaseReference mReference;
+    private Context mContext;
+    private ArrayList<Contact> mData;
+    private ArrayList<Contact> groupMember;
 
     public RecyclerViewAdapterMembers(Context mContext, ArrayList<Contact> mData) {
         this.mContext = mContext;
@@ -46,21 +45,15 @@ public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerVie
         holder.tv_phone.setText(mData.get(position).getPhone());
         holder.img.setImageResource(R.drawable.account_image);
         groupMember = new ArrayList<>();
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.checkBox.isChecked()){
-                    groupMember.add(mData.get(position));
-                } else {
-                    groupMember.remove(mData.get(position));
-
-                }
+        holder.checkBox.setOnClickListener(v -> {
+            if (holder.checkBox.isChecked()){
+                groupMember.add(mData.get(position));
+            } else {
+                groupMember.remove(mData.get(position));
 
             }
         });
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -82,7 +75,6 @@ public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerVie
             tv_phone = itemView.findViewById(R.id.phone_contact);
             img = itemView.findViewById(R.id.img_contact);
             checkBox = itemView.findViewById(R.id.check_box);
-            //mainLayout = itemView.findViewById(R.id.linear_layout);
 
         }
     }

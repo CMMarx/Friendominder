@@ -16,13 +16,12 @@ import com.example.pema_projekt.R;
 
 public class ContactDetailView extends AppCompatActivity {
 
-    ImageView mImageView, msgButton;
-    TextView number, name;
-
+    private ImageView mImageView, msgButton;
+    private TextView number, name;
     private ActionBar actionBar;
 
-    String data1, data2;
-    int mImage;
+    private String data1, data2;
+    private int mImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +38,14 @@ public class ContactDetailView extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        msgButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+data2));
-                    startActivity(intent);
-                }
-                catch(Exception e){
-                    Toast.makeText(ContactDetailView.this, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
-                }
+        msgButton.setOnClickListener(v -> {
+            try{
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+data2));
+                startActivity(intent);
+            }
+            catch(Exception e){
+                Toast.makeText(ContactDetailView.this, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -59,7 +55,6 @@ public class ContactDetailView extends AppCompatActivity {
 
             data1 = getIntent().getStringExtra("name");
             data2 = getIntent().getStringExtra("number");
-            //mImage = getIntent().getIntExtra("img", 1);
 
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
@@ -73,19 +68,5 @@ public class ContactDetailView extends AppCompatActivity {
         mImageView.setImageResource(R.drawable.account_image);
     }
 
-    private boolean isAppInstalled(String s){
-        PackageManager packageManager = getPackageManager();
-        boolean is_installed;
-
-        try{
-            packageManager.getPackageInfo(s, PackageManager.GET_ACTIVITIES);
-            is_installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            is_installed = false;
-            e.printStackTrace();
-        }
-        return is_installed;
-    }
-    
 
 }

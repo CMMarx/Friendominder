@@ -40,28 +40,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View v = LayoutInflater.from(mContext).inflate(R.layout.member_in_group, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
 
-        vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ContactDetailView.class);
-                intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
-                intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
-                //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());
-                mContext.startActivity(intent);
-            }
+        vHolder.mainLayout.setOnClickListener(v1 -> {
+            Intent intent = new Intent(mContext, ContactDetailView.class);
+            intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
+            intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
+            mContext.startActivity(intent);
         });
 
-        vHolder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+mData.get(vHolder.getAdapterPosition()).getPhone()));
-                    mContext.startActivity(intent);
-                }
-                catch(Exception e){
-                    Toast.makeText(mContext, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
-                }
+        vHolder.button.setOnClickListener(v12 -> {
+            try{
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+mData.get(vHolder.getAdapterPosition()).getPhone()));
+                mContext.startActivity(intent);
+            }
+            catch(Exception e){
+                Toast.makeText(mContext, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
             }
         });
         return vHolder;
@@ -99,18 +92,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
 
-    }
-    private boolean isAppInstalled(String s){
-        PackageManager packageManager = mContext.getPackageManager();
-        boolean is_installed;
-
-        try{
-            packageManager.getPackageInfo(s, PackageManager.GET_ACTIVITIES);
-            is_installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            is_installed = false;
-            e.printStackTrace();
-        }
-        return is_installed;
     }
 }
