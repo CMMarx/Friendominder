@@ -45,11 +45,11 @@ public class SetAlarmPageNew extends AppCompatActivity {
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
-        Button addTimer = (Button) findViewById(R.id.addIntervallButton);
-        TextView reminderTitle = (TextView) findViewById(R.id.TVsetAlarmTitle);
-        EditText editInterval = (EditText) findViewById(R.id.eTinteravall);
-        EditText editName = (EditText) findViewById(R.id.eTreminderName);
-        TimePicker alarm_timepicker = (TimePicker) findViewById(R.id.timePicker);
+        Button addTimer = findViewById(R.id.addIntervallButton);
+        TextView reminderTitle = findViewById(R.id.TVsetAlarmTitle);
+        EditText editInterval = findViewById(R.id.eTinteravall);
+        EditText editName = findViewById(R.id.eTreminderName);
+        TimePicker alarm_timepicker = findViewById(R.id.timePicker);
 
         addTimer.setOnClickListener(new View.OnClickListener() {
             /**

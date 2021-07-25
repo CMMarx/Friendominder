@@ -69,7 +69,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // creating channel id for our notification
-        String channelId = "RANDOMINDER";
+        String channelId = "Friendominder";
         CharSequence channelName = "Some Channel";
         int importance = NotificationManager.IMPORTANCE_LOW;
         if (Build.VERSION.SDK_INT >= 26) {
@@ -87,7 +87,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, repeating_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"RANDOMINDER")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"Friendominder")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(android.R.drawable.arrow_up_float)
                 .setContentTitle("Don't forget your friends")

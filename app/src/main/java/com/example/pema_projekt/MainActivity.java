@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
@@ -20,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // Sign user out of Firebase AND Google, so that a different account can be chosen/created
                     FirebaseAuth.getInstance().signOut();
-
                     googleSignInClient.signOut();
                     Intent intent = new Intent(MainActivity.this, LogInScreen.class);
                     startActivity(intent);
