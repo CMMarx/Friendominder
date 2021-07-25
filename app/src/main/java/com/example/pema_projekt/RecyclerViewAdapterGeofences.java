@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.Geofence;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,8 +44,8 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
         vHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SignInDecision signInDecision = new SignInDecision(isGoogle, v.getContext() );
-                user_id = signInDecision.getUser_id();
+                SignInParameters signInParameters = new SignInParameters(isGoogle, v.getContext() );
+                user_id = signInParameters.getUser_id();
                 int positionGeo = vHolder.getAdapterPosition();
                 try {
                     mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");

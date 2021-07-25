@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -80,8 +78,8 @@ public class RecyclerViewAdapterGeofencesGroups extends RecyclerView.Adapter<Rec
     }
 
     public void deleteItem(int position){
-        SignInDecision signInDecision = new SignInDecision(isGoogle, getmContext() );
-        user_id = signInDecision.getUser_id();
+        SignInParameters signInParameters = new SignInParameters(isGoogle, getmContext() );
+        user_id = signInParameters.getUser_id();
 
 
         if(position <= mData.size()) {

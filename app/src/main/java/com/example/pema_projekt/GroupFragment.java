@@ -5,34 +5,25 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +32,8 @@ import java.util.Objects;
  */
 public class GroupFragment extends Fragment {
 
-    private DatabaseReference mReference;
+    private DatabaseReference groupReference;
+    private FirebaseReference firebaseReference;
 
     private FrameLayout frameLayout;
     private View v;
@@ -101,10 +93,11 @@ public class GroupFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
-        groups = new ArrayList<>();
+        SignInParameters signInParameters = new SignInParameters(isGoogle, getActivity());
+        user_id = signInParameters.getUser_id();
 
-        SignInDecision signInDecision = new SignInDecision(isGoogle, getActivity());
-        user_id = signInDecision.getUser_id();
+        firebaseReference = new FirebaseReference();
+        groups = new ArrayList<>();
 
         }
 
@@ -122,12 +115,9 @@ public class GroupFragment extends Fragment {
         myRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecylerView.setAdapter(recyclerViewAdapter);
 
-        mReference = FirebaseDatabase
-                .getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference(user_id)
-                .child("groups");
+        groupReference = firebaseReference.getGroupReference(user_id);
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        groupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 groups.clear();

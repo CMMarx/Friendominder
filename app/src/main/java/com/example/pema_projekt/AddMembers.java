@@ -9,24 +9,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddMembers extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private DatabaseReference mReference, mReference2;
+    private DatabaseReference contactReference, groupReference;
     private ArrayList<Contact> lstMember, membersFinal;
     private String group_name, user_id;
     private Button uploadMembers;
@@ -46,12 +41,15 @@ public class AddMembers extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
         recyclerView.setAdapter(rv_members);
 
-        SignInDecision signInDecision = new SignInDecision(isGoogle, this );
-        user_id = signInDecision.getUser_id();
+        SignInParameters signInParameters = new SignInParameters(isGoogle, this );
+        user_id = signInParameters.getUser_id();
 
-        mReference2 = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("contacts");
-        mReference.addValueEventListener(new ValueEventListener() {
+        FirebaseReference firebaseReference = new FirebaseReference();
+
+        groupReference = firebaseReference.getGroupReference(user_id);
+        contactReference = firebaseReference.getContactReference(user_id);
+
+        contactReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 lstMember.clear();
@@ -84,8 +82,8 @@ public class AddMembers extends AppCompatActivity {
     public void getMembers(View v){
         membersFinal = rv_members.listOfSelectedItems();
         for (Contact contact : membersFinal){
-            mReference2.child(group_name).child("members").child(contact.getName()).setValue(contact);
-            mReference2.child(group_name).child("name").setValue(group_name);
+            groupReference.child(group_name).child("members").child(contact.getName()).setValue(contact);
+            groupReference.child(group_name).child("name").setValue(group_name);
         }
     }
 

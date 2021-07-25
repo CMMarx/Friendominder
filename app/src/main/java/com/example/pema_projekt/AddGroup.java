@@ -6,20 +6,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,8 +30,8 @@ public class AddGroup extends AppCompatActivity {
     private int count;
     private FrameLayout frameLayout;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private FirebaseReference firebaseReference;
+    private DatabaseReference groupReference;
     private boolean isGoogle;
     private String user_id;
 
@@ -52,13 +47,13 @@ public class AddGroup extends AppCompatActivity {
 
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
-        SignInDecision signInDecision = new SignInDecision(isGoogle, AddGroup.this );
-        user_id = signInDecision.getUser_id();
+        SignInParameters signInParameters = new SignInParameters(isGoogle, AddGroup.this );
+        user_id = signInParameters.getUser_id();
 
-        mDatabase = FirebaseDatabase.getInstance();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups");
+        firebaseReference = new FirebaseReference();
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        groupReference = firebaseReference.getGroupReference(user_id);
+        groupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

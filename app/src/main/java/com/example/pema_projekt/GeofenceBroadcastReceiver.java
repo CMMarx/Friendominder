@@ -22,14 +22,14 @@ import java.util.List;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
-    private String groupName;
+    private String group_name;
     private boolean isGoogle;
 
     private static final String TAG = "Geofence receiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        groupName = intent.getStringExtra("groupName");
+        group_name = intent.getStringExtra("groupName");
         isGoogle = intent.getBooleanExtra("isGoogle", false);
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
@@ -80,9 +80,11 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             notificationManager.createNotificationChannel(notificationChannel);
         }
-        Intent repeating_intent = new Intent(context, MainActivity.class);
+        Intent repeating_intent = new Intent(context, GroupDetailView.class);
+        repeating_intent.putExtra("group_name", group_name);
         repeating_intent.putExtra("isGoogle", isGoogle);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, repeating_intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -91,7 +93,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(android.R.drawable.arrow_up_float)
                 .setContentTitle("Don't forget your friends")
-                .setContentText("Have you texted your friends from " + groupName)
+                .setContentText("Have you texted your friends from " + group_name)
                 .setAutoCancel(true);
 
         notificationManager.notify(100, builder.build());

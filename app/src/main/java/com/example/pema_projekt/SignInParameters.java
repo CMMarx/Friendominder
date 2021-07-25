@@ -6,13 +6,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignInDecision {
+public class SignInParameters {
     private String user_id;
 
-    public SignInDecision(boolean isGoogle, Context context){
+    public SignInParameters(boolean isGoogle, Context context){
         if(isGoogle){
-            GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(context);
-            user_id = signInAccount.getId();
+            GoogleParameters googleParameters = new GoogleParameters(context);
+            user_id = googleParameters.getUserId();
+
         } else {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             user_id = mAuth.getCurrentUser().getUid();

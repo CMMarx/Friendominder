@@ -17,8 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -121,8 +119,8 @@ public class SetAlarmPageNew extends AppCompatActivity {
                         //long thirtySecs = System.currentTimeMillis() + 30 * 1000;
                         //alarmManager.set(AlarmManager.RTC_WAKEUP, thirtySecs , pendingIntent);
 
-                        SignInDecision signInDecision = new SignInDecision(isGoogle, v.getContext() );
-                        user_id = signInDecision.getUser_id();
+                        SignInParameters signInParameters = new SignInParameters(isGoogle, v.getContext() );
+                        user_id = signInParameters.getUser_id();
 
                         mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(group_name).child("alarms");
                         mReference.child(name).setValue(new Alarm(checkIfBelow10(alarm_timepicker.getHour()) + ":" + checkIfBelow10(alarm_timepicker.getMinute()), editInterval.getText().toString(), name));

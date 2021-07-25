@@ -11,28 +11,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class GeofenceActivity extends AppCompatActivity {
 
     private FrameLayout frameLayout;
-    private RecyclerView myRecylerView;
+    private RecyclerView myRecyclerView;
     public View v;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference geofenceReference;
 
     private FloatingActionButton addGeo;
     private TextView addTv;
@@ -51,19 +46,20 @@ public class GeofenceActivity extends AppCompatActivity {
         setContentView(R.layout.geofence_fragment);
 
         addGeo = (FloatingActionButton) findViewById(R.id.floatingAddGeofenceButton);
-        myRecylerView = (RecyclerView) findViewById(R.id.geofenceRecyler1);
+        myRecyclerView = (RecyclerView) findViewById(R.id.geofenceRecyler1);
         addTv = (TextView) findViewById(R.id.addGeofenceText_recyclerPaige);
         group_name = getIntent().getStringExtra("group_name");
 
 
 
         //Todo: Change to geobase firebase
-        SignInDecision signInDecision = new SignInDecision(isGoogle, this );
-        user_id = signInDecision.getUser_id();
-        mDatabase = FirebaseDatabase.getInstance();
-        mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
+        SignInParameters signInParameters = new SignInParameters(isGoogle, this );
+        user_id = signInParameters.getUser_id();
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        FirebaseReference firebaseReference = new FirebaseReference();
+        geofenceReference = firebaseReference.getGeofenceReference(user_id);
+
+        geofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
@@ -78,8 +74,8 @@ public class GeofenceActivity extends AppCompatActivity {
 
                         RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
 
-                        myRecylerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
-                        myRecylerView.setAdapter(recyclerViewAdapter);
+                        myRecyclerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
+                        myRecyclerView.setAdapter(recyclerViewAdapter);
 
                     }
                 }

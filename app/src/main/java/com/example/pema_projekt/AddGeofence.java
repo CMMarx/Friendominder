@@ -12,10 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class AddGeofence extends AppCompatActivity {
 
@@ -27,8 +24,10 @@ public class AddGeofence extends AppCompatActivity {
 
     int duration = Toast.LENGTH_SHORT;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference geofenceReference;
+    private FirebaseReference firebaseReference;
+
+
     private PendingIntent geofencePendingIntent;
 
     private PendingIntent getGeofencePendingIntent() {
@@ -46,7 +45,6 @@ public class AddGeofence extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.add_new_geofence);
 
         name = (EditText) findViewById(R.id.editTextCityName);
@@ -60,6 +58,10 @@ public class AddGeofence extends AppCompatActivity {
         radiusTv = (TextView) findViewById(R.id.tvRadius);
         groupName = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
+
+        SignInParameters signInParameters = new SignInParameters(isGoogle, getApplicationContext() );
+        user_id = signInParameters.getUser_id();
+        firebaseReference = new FirebaseReference();
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,11 +93,9 @@ public class AddGeofence extends AppCompatActivity {
                     toast.show();
                 }
                 else {
-                    SignInDecision signInDecision = new SignInDecision(isGoogle, getApplicationContext() );
-                    user_id = signInDecision.getUser_id();
+                    geofenceReference = firebaseReference.getGeofenceReference(user_id);
+                    geofenceReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
 
-                    mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("geofences");
-                    mReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
                     Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
                     intent.putExtra("group_name", groupName);
                     intent.putExtra("isGoogle", isGoogle);

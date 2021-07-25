@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -87,8 +85,8 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
     }
 
     public void deleteItem(int position){
-        SignInDecision signInDecision = new SignInDecision(isGoogle, getmContext() );
-        user_id = signInDecision.getUser_id();
+        SignInParameters signInParameters = new SignInParameters(isGoogle, getmContext() );
+        user_id = signInParameters.getUser_id();
 
         if(position <= mData.size()) {
             mReference = FirebaseDatabase.getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/").getReference(user_id).child("groups").child(groupName).child("alarms").child(mData.get(position).getName());
