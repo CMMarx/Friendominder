@@ -31,7 +31,7 @@ import java.util.Calendar;
  * Class for the SetAlarm layout page. On this page you can set the time and intervall for your alarms
  * and add them to the alarm list.
  */
-public class SetAlarmPageNew extends AppCompatActivity {
+public class SetAlarm extends AppCompatActivity {
 
     private String group_name, user_id;
     private DatabaseReference mReference;

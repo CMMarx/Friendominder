@@ -12,18 +12,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pema_projekt.Adapters.RecyclerViewAdapter2;
+import com.example.pema_projekt.Adapters.RecyclerAdapterGroups;
 import com.example.pema_projekt.R;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
-    private RecyclerViewAdapter2 mAdapter;
+    private RecyclerAdapterGroups mAdapter;
     private Drawable icon;
     private final ColorDrawable background;
 
-    public SwipeToDeleteCallback(RecyclerViewAdapter2 adapter) {
+    public SwipeToDeleteCallback(RecyclerAdapterGroups adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         icon = ContextCompat.getDrawable(mAdapter.getmContext(),

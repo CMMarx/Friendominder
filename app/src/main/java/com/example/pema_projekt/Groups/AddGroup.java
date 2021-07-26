@@ -2,16 +2,11 @@ package com.example.pema_projekt.Groups;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.pema_projekt.GoogleAndFirebase.FirebaseReference;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
 import com.example.pema_projekt.R;
@@ -28,10 +23,7 @@ import java.util.List;
 public class AddGroup extends AppCompatActivity {
 
     private EditText name;
-    private FirebaseReference firebaseReference;
-    private DatabaseReference groupReference;
     private boolean isGoogle;
-    private String user_id;
     private int count;
 
     @Override
@@ -39,19 +31,17 @@ public class AddGroup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_group);
 
-        ImageView addImg = findViewById(R.id.addImageForGroup);
         Button done = findViewById(R.id.gruppeFertig);
         name = findViewById(R.id.addNameGroup);
-        FrameLayout frameLayout = findViewById(R.id.frame_layout1);
 
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 
         SignInParameters signInParameters = new SignInParameters(isGoogle, AddGroup.this );
-        user_id = signInParameters.getUser_id();
+        String user_id = signInParameters.getUser_id();
 
-        firebaseReference = new FirebaseReference();
+        FirebaseReference firebaseReference = new FirebaseReference();
 
-        groupReference = firebaseReference.getGroupReference(user_id);
+        DatabaseReference groupReference = firebaseReference.getGroupReference(user_id);
         groupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -72,14 +62,11 @@ public class AddGroup extends AppCompatActivity {
             }
         });
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (name.getText().toString().equals("")){
-                    Toast.makeText(AddGroup.this, "No group name", Toast.LENGTH_SHORT).show();
-                } else{
-                    addMembers();
-                }
+        done.setOnClickListener(v -> {
+            if (name.getText().toString().equals("")){
+                Toast.makeText(AddGroup.this, "No group name", Toast.LENGTH_SHORT).show();
+            } else{
+                addMembers();
             }
         });
     }

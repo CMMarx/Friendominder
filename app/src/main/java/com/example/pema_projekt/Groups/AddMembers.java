@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.pema_projekt.Adapters.RecyclerViewAdapterMembers;
+import com.example.pema_projekt.Adapters.RecyclerAdapterAddMembers;
 import com.example.pema_projekt.Contacts.Contact;
 import com.example.pema_projekt.GoogleAndFirebase.FirebaseReference;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
@@ -29,10 +29,10 @@ import java.util.ArrayList;
 public class AddMembers extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private DatabaseReference contactReference, groupReference;
-    private ArrayList<Contact> lstMember, membersFinal;
+    private DatabaseReference groupReference;
+    private ArrayList<Contact> lstMember;
     private String group_name;
-    private RecyclerViewAdapterMembers rv_members;
+    private RecyclerAdapterAddMembers rv_members;
     private boolean isGoogle;
 
     @Override
@@ -40,11 +40,10 @@ public class AddMembers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_members);
         recyclerView = findViewById(R.id.rv_members);
-        Button uploadMembers = findViewById(R.id.button);
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
         lstMember = new ArrayList<>();
-        rv_members = new RecyclerViewAdapterMembers(AddMembers.this, lstMember);
+        rv_members = new RecyclerAdapterAddMembers(AddMembers.this, lstMember);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
         recyclerView.setAdapter(rv_members);
 
@@ -61,7 +60,7 @@ public class AddMembers extends AppCompatActivity {
         FirebaseReference firebaseReference = new FirebaseReference();
 
         groupReference = firebaseReference.getGroupReference(user_id);
-        contactReference = firebaseReference.getContactReference(user_id);
+        DatabaseReference contactReference = firebaseReference.getContactReference(user_id);
 
         contactReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,20 +80,19 @@ public class AddMembers extends AppCompatActivity {
             }
         });
 
-        uploadMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMembers(v);
-                Intent intent = new Intent(AddMembers.this, GroupDetailView.class);
-                intent.putExtra("group_name", group_name);
-                intent.putExtra("isGoogle", isGoogle);
-                startActivity(intent);
-            }
+        // Upload selected members to group and open GroupDetailView of the one just created
+        Button uploadMembers = findViewById(R.id.button);
+        uploadMembers.setOnClickListener(v -> {
+            getMembers(v);
+            Intent intent = new Intent(AddMembers.this, GroupDetailView.class);
+            intent.putExtra("group_name", group_name);
+            intent.putExtra("isGoogle", isGoogle);
+            startActivity(intent);
         });
     }
 
     public void getMembers(View v){
-        membersFinal = rv_members.listOfSelectedItems();
+        ArrayList<Contact> membersFinal = rv_members.listOfSelectedItems();
         for (Contact contact : membersFinal){
             groupReference.child(group_name).child("members").child(contact.getName()).setValue(contact);
             groupReference.child(group_name).child("name").setValue(group_name);

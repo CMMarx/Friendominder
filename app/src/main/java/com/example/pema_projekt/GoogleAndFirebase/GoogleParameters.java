@@ -17,13 +17,17 @@ public class GoogleParameters {
 
     public String getUserId(){
         signInAccount = GoogleSignIn.getLastSignedInAccount(context);
-        user_id = signInAccount.getId();
+        if (signInAccount != null){
+            user_id = signInAccount.getId();
+        }
         return user_id;
     }
 
     public String getUserName(){
         signInAccount = GoogleSignIn.getLastSignedInAccount(context);
-        user_name = signInAccount.getDisplayName();
+        if (signInAccount != null){
+            user_name = signInAccount.getDisplayName();
+        }
         return user_name;
     }
 

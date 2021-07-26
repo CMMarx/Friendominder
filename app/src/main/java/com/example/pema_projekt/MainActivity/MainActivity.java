@@ -5,19 +5,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-
 import com.example.pema_projekt.GoogleAndFirebase.GoogleParameters;
 import com.example.pema_projekt.Login.LogInScreen;
 import com.example.pema_projekt.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.tabs.TabLayout;
@@ -27,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager2 pager2;
-    private FragmentAdapter adapter;
-    private Toolbar toolbar;
-    private FirebaseAuth mAuth;
     private boolean isGoogle;
 
     @Override
@@ -37,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
-        mAuth = FirebaseAuth.getInstance();
 
-        toolbar = findViewById(R.id.toolbar1);
+        // Toolbar for displaying data and functionality
+        Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CONTACTS,
@@ -49,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         pager2 = findViewById(R.id.view_pager2);
 
         FragmentManager fm = getSupportFragmentManager();
-        adapter = new FragmentAdapter(fm, getLifecycle(), isGoogle);
+        FragmentAdapter adapter = new FragmentAdapter(fm, getLifecycle(), isGoogle);
         pager2.setAdapter(adapter);
 
         TextView userName;

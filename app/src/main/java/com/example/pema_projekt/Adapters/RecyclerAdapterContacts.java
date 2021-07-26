@@ -6,11 +6,9 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,15 +19,14 @@ import com.example.pema_projekt.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerViewAdapterGroups.MyViewHolder> {
+public class RecyclerAdapterContacts extends RecyclerView.Adapter<RecyclerAdapterContacts.MyViewHolder> {
 
-    private Context mContext;
-    private ArrayList<Contact> mData;
-    private ArrayList<Contact> groupMember;
+    Context mContext;
+    List<Contact> mData;
 
-    public RecyclerViewAdapterGroups(Context mContext, ArrayList<Contact> mData) {
+    public RecyclerAdapterContacts(Context mContext, List<Contact> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -40,14 +37,16 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
-        vHolder.mainLayout.setOnClickListener(v12 -> {
+
+        vHolder.mainLayout.setOnClickListener(v1 -> {
             Intent intent = new Intent(mContext, ContactDetailView.class);
             intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
             intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
+            //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());
             mContext.startActivity(intent);
         });
 
-        vHolder.button.setOnClickListener(v1 -> {
+        vHolder.button.setOnClickListener(v2 -> {
             try{
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+mData.get(vHolder.getAdapterPosition()).getPhone()));
@@ -61,13 +60,11 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapterGroups.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull RecyclerAdapterContacts.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
         holder.tv_phone.setText(mData.get(position).getPhone());
         holder.img.setImageResource(R.drawable.account_image);
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -82,23 +79,17 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
         private final ConstraintLayout mainLayout;
         private final ImageView button;
 
-        CheckBox checkBox;
-
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
             tv_name = itemView.findViewById(R.id.name_contact);
             tv_phone = itemView.findViewById(R.id.phone_contact);
             img = itemView.findViewById(R.id.img_contact);
-            checkBox = itemView.findViewById(R.id.check_box);
             mainLayout = itemView.findViewById(R.id.linear_layout);
             button = itemView.findViewById(R.id.msg_Button);
 
         }
-    }
 
-    public ArrayList<Contact> listOfSelectedItems(){
-        return groupMember;
-    }
 
+    }
 }

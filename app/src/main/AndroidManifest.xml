@@ -31,7 +31,7 @@
             android:launchMode="singleTop"/>
 
         <activity android:name=".Groups.AddMembers" />
-        <activity android:name=".Alarm.SetAlarmPageNew" />
+        <activity android:name=".Alarm.SetAlarm" />
         <activity android:name=".Geofence.GeofenceActivity" />
         <activity
             android:name=".Contacts.ContactDetailView"
