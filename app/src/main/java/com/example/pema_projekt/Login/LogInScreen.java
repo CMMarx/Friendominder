@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -52,7 +53,8 @@ public class LogInScreen extends AppCompatActivity {
 
         createRequest();
 
-        LinearLayout loginButton = findViewById(R.id.signInButton);
+        //LinearLayout loginButton = findViewById(R.id.signInButton);
+        Button loginButton = findViewById(R.id.signin_button);
         loginButton.setOnClickListener(v -> {
             Intent intent = new Intent(mGoogleSignInClient.getSignInIntent());
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -99,6 +101,7 @@ public class LogInScreen extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         //FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        loadingDialog.startLoadingDialog();
                         startActivity(intent);
 
                     } else {

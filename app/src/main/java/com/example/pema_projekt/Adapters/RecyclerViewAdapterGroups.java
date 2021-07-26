@@ -36,7 +36,7 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.member_in_group, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.group_member, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
         vHolder.mainLayout.setOnClickListener(v1 -> {
             Intent intent = new Intent(mContext, ContactDetailView.class);
@@ -62,7 +62,7 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapterGroups.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
         holder.tv_phone.setText(mData.get(position).getPhone());
-        holder.img.setImageResource(R.drawable.account_image);
+        holder.img.setImageResource(R.drawable.contact_icon);
 
     }
 

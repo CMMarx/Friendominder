@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -37,7 +36,7 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_group, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.single_item_group, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
 
         vHolder.mainLayout.setOnClickListener(v1 -> {
@@ -54,7 +53,7 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapter2.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
         //TODO: Change image
-        //holder.img.setImageResource(R.drawable.account_image);
+        holder.img.setImageResource(R.drawable.group_icon);
     }
 
     @Override

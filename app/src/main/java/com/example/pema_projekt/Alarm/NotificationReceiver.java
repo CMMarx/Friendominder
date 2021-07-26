@@ -3,6 +3,7 @@ package com.example.pema_projekt.Alarm;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,9 +38,10 @@ public class NotificationReceiver extends BroadcastReceiver {
         notificationManager.createNotificationChannel(notificationChannel);
 
 
-        // Intent to GroupDetailView to open the group referenced in the notification
+        // if logged out -> open LoginScreen
+        // if logged in  -> open GroupDetailView of group from notification
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Intent repeating_intent = null;
+        Intent repeating_intent;
         if (user != null){
             repeating_intent = new Intent(context, GroupDetailView.class);
             repeating_intent.putExtra("group_name", group_name);
@@ -47,7 +49,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         } else {
             repeating_intent = new Intent(context, LogInScreen.class);
         }
-
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntentWithParentStack(repeating_intent);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, repeating_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

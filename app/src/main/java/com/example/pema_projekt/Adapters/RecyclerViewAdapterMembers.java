@@ -30,7 +30,7 @@ public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerVie
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.member, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.single_item_addmember, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
         return vHolder;
     }
@@ -39,7 +39,7 @@ public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapterMembers.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
         holder.tv_phone.setText(mData.get(position).getPhone());
-        holder.img.setImageResource(R.drawable.account_image);
+        holder.img.setImageResource(R.drawable.contact_icon);
         groupMember = new ArrayList<>();
         holder.checkBox.setOnClickListener(v -> {
             if (holder.checkBox.isChecked()){

@@ -41,7 +41,7 @@ public class RecyclerViewAdapterGeofencesGroups extends RecyclerView.Adapter<Rec
     @Override
     public RecyclerViewAdapterGeofencesGroups.MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_geofence_group, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.single_item_geofence_group, parent, false);
         RecyclerViewAdapterGeofencesGroups.MyViewHolder vHolder = new RecyclerViewAdapterGeofencesGroups.MyViewHolder(v);
 
 

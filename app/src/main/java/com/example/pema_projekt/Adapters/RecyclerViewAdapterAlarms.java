@@ -41,7 +41,7 @@ public class RecyclerViewAdapterAlarms extends RecyclerView.Adapter<RecyclerView
     @Override
     public RecyclerViewAdapterAlarms.MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_alarm, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.single_item_alarm, parent, false);
         RecyclerViewAdapterAlarms.MyViewHolder vHolder = new RecyclerViewAdapterAlarms.MyViewHolder(v);
 
 

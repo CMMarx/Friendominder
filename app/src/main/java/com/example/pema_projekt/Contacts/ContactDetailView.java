@@ -23,7 +23,7 @@ public class ContactDetailView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_detail_view);
+        setContentView(R.layout.contact_detail_view);
         mImageView = findViewById(R.id.detail_img);
         msgButton = findViewById(R.id.msg_Button);
         number = findViewById(R.id.detail_number);
@@ -67,7 +67,7 @@ public class ContactDetailView extends AppCompatActivity {
     private void setData() {
         name.setText(data1);
         number.setText(data2);
-        mImageView.setImageResource(R.drawable.account_image);
+        mImageView.setImageResource(R.drawable.contact_icon);
     }
 
 

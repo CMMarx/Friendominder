@@ -22,7 +22,7 @@
         android:text="update"
         android:textColor="@color/white"
         android:backgroundTint="@color/blue"
-        android:src="@drawable/ic_baseline_add_24"
+        android:src="@drawable/add_img"
         android:focusable="true" />
 
 

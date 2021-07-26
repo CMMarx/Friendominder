@@ -19,32 +19,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PEMA_Projekt">
 
-
         <receiver
-            android:name="com.example.pema_projekt.Alarm.NotificationReceiver"
+            android:name=".Alarm.NotificationReceiver"
             android:enabled="true"
             android:exported="false" />
-        <receiver android:name="com.example.pema_projekt.Geofence.GeofenceBroadcastReceiver"/>
+        <receiver android:name=".Geofence.GeofenceBroadcastReceiver"/>
 
-        <activity android:name="com.example.pema_projekt.MainActivity.MainActivity"
+        <activity android:name=".MainActivity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTop"/>
 
-        <activity android:name="com.example.pema_projekt.Groups.AddMembers" />
-        <activity android:name="com.example.pema_projekt.Alarm.SetAlarmPageNew" />
-        <activity android:name="com.example.pema_projekt.Geofence.GeofenceActivity" />
+        <activity android:name=".Groups.AddMembers" />
+        <activity android:name=".Alarm.SetAlarmPageNew" />
+        <activity android:name=".Geofence.GeofenceActivity" />
         <activity
-            android:name="com.example.pema_projekt.Contacts.ContactDetailView"
-            android:parentActivityName="com.example.pema_projekt.MainActivity.MainActivity"/>
-        <activity android:name="com.example.pema_projekt.Groups.AddGroup" />
+            android:name=".Contacts.ContactDetailView"
+            android:parentActivityName=".MainActivity.MainActivity"/>
+        <activity android:name=".Groups.AddGroup" />
         <activity
-            android:name="com.example.pema_projekt.Geofence.AddGeofence"
-            android:parentActivityName="com.example.pema_projekt.Geofence.GeofenceActivity" />
+            android:name=".Geofence.AddGeofence"
+            android:parentActivityName=".Geofence.GeofenceActivity" />
         <activity
-            android:name="com.example.pema_projekt.Groups.GroupDetailView"
-            android:parentActivityName="com.example.pema_projekt.MainActivity.MainActivity" />
+            android:name=".Groups.GroupDetailView"
+            android:parentActivityName=".MainActivity.MainActivity" />
         <activity
-            android:name="com.example.pema_projekt.Login.LogInScreen"
+            android:name=".Login.LogInScreen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
