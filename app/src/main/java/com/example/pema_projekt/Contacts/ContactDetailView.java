@@ -21,7 +21,6 @@ public class ContactDetailView extends AppCompatActivity {
     private ActionBar actionBar;
 
     private String data1, data2;
-    private int mImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

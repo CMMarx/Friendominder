@@ -2,7 +2,6 @@ package com.example.pema_projekt.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pema_projekt.Contacts.Contact;
 import com.example.pema_projekt.Contacts.ContactDetailView;
 import com.example.pema_projekt.R;
-import com.google.firebase.database.DatabaseReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +38,7 @@ public class RecyclerViewAdapterGroups extends RecyclerView.Adapter<RecyclerView
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.member_in_group, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
         vHolder.mainLayout.setOnClickListener(v12 -> {
             Intent intent = new Intent(mContext, ContactDetailView.class);

@@ -59,7 +59,7 @@ public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapt
     public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapter2.MyViewHolder holder, int position) {
         holder.tv_name.setText(mData.get(position).getName());
         //TODO: Change image
-        holder.img.setImageResource(R.drawable.account_image);
+        //holder.img.setImageResource(R.drawable.account_image);
     }
 
     @Override

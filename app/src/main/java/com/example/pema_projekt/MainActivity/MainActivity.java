@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.pema_projekt.GoogleAndFirebase.GoogleParameters;
 import com.example.pema_projekt.Login.LogInScreen;
 import com.example.pema_projekt.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -55,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         TextView logoutButton;
         if(isGoogle) {
             // Account name gets displayed in toolbar
-            GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-            String user_name = signInAccount.getDisplayName();
+            GoogleParameters googleParameters = new GoogleParameters(this);
+            String user_name = googleParameters.getUserName();
             userName = findViewById(R.id.toolbar_username);
             userName.setText(user_name);
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
             logoutButton = findViewById(R.id.toolbar_logout);
             logoutButton.setOnClickListener(v -> {
-                // Sign user out of Firebase AND Google, so that a different Google account can be chosen/created
+                // Sign user out of Firebase
                 FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(MainActivity.this, LogInScreen.class);
