@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pema_projekt.Groups.GroupDetailView;
 import com.example.pema_projekt.R;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,6 +44,13 @@ public class SetAlarmPageNew extends AppCompatActivity {
         setContentView(R.layout.set_alarm_page_2);
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
+
+        GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(this);
+        if (googleUser != null){
+            isGoogle = true;
+        } else{
+            isGoogle = false;
+        }
 
         Button addTimer = findViewById(R.id.addIntervallButton);
         TextView reminderTitle = findViewById(R.id.TVsetAlarmTitle);

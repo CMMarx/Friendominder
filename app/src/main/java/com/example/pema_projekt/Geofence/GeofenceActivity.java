@@ -52,20 +52,21 @@ public class GeofenceActivity extends AppCompatActivity {
         user_id = signInParameters.getUser_id();
 
         FirebaseReference firebaseReference = new FirebaseReference();
-        geofenceReference = firebaseReference.getGeofenceReference(user_id);
+        geofenceReference = firebaseReference.getGeofenceReference();
+        ArrayList<CityGeofence> geofences = new ArrayList<>();
+        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
+        myRecyclerView.setAdapter(recyclerViewAdapter);
 
         geofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    ArrayList<CityGeofence> geofences = new ArrayList<>();
+                    geofences.clear();
                     for (DataSnapshot ds : snapshot.getChildren()) {
 
                         geofences.add(ds.getValue(CityGeofence.class));
 
-                        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
-
-                        myRecyclerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
                         myRecyclerView.setAdapter(recyclerViewAdapter);
 
                     }

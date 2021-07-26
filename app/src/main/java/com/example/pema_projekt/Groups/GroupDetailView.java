@@ -28,6 +28,8 @@ import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
 import com.example.pema_projekt.R;
 import com.example.pema_projekt.SwipeDelete.SwipeToDeleteCallback2;
 import com.example.pema_projekt.SwipeDelete.SwipeToDeleteCallback3;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +47,7 @@ public class GroupDetailView extends AppCompatActivity {
     private ActionBar actionBar;
     private ArrayList<Alarm> alarms;
     private ArrayList<Contact> contacts;
-    private ArrayList<Contact> compare;
+    private ArrayList<CityGeofence> geofences;
     private RecyclerView recyclerView, recyclerViewAlarms, recyclerViewGeofences;
     private String group_name, user_id;
     private boolean isGoogle;
@@ -72,10 +74,17 @@ public class GroupDetailView extends AppCompatActivity {
 
         contacts = new ArrayList<>();
         alarms = new ArrayList<>();
-        compare = new ArrayList<>();
+        geofences = new ArrayList<>();
 
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
+
+        GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(this);
+        if (googleUser != null){
+            isGoogle = true;
+        } else{
+            isGoogle = false;
+        }
 
         // Back button in the top left corner
         actionBar = getSupportActionBar();
@@ -116,8 +125,8 @@ public class GroupDetailView extends AppCompatActivity {
         alarmReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<Alarm> alarms = new ArrayList<>();
-
+                //ArrayList<Alarm> alarms = new ArrayList<>();
+                alarms.clear();
                 for (DataSnapshot alarmSnapshot : snapshot.getChildren()){
                     Alarm alarm = alarmSnapshot.getValue(Alarm.class);
                     alarms.add(alarm);
@@ -147,7 +156,7 @@ public class GroupDetailView extends AppCompatActivity {
         groupGeofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-
+                geofences.clear();
                 for (DataSnapshot geofenceSnapshot : snapshot.getChildren()){
                     CityGeofence geo = geofenceSnapshot.getValue(CityGeofence.class);
                     geofences.add(geo);

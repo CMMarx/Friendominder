@@ -48,11 +48,11 @@ public class FirebaseReference {
         return mReference;
     }
 
-    public DatabaseReference getGeofenceReference(String user_id){
+    public DatabaseReference getGeofenceReference(){
         mReference = FirebaseDatabase
                 .getInstance("https://randominder2-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference(user_id)
-                .child("geofences");
+                .getReference("geofences");
+                //.child("geofences");
 
         return mReference;
     }
