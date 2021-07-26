@@ -23,8 +23,9 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_in_without_google">Sign in without Google</string>
     <string name="contact_name1">Contact Name</string>
-    <string name="telefonnnummer">Telefonnnummer</string>
+    <string name="telefonnnummer">Telefonnummer</string>
     <string name="add_new_reminder">Add new reminder</string>
-    <string name="add_interval_here">add interval here</string>
+    <string name="add_interval_here">  Add interval here…</string>
+    <string name="add_name_here">  Add name here…</string>
 
 </resources>
