@@ -29,49 +29,54 @@
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="@string/done"
         app:backgroundTint="#2196F3" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp">
 
-        <EditText
-            android:id="@+id/eTinteravall"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_marginTop="16dp"
-            android:autofillHints="add interval"
-            android:background="@drawable/custom_input"
-            android:ems="10"
-            android:gravity="center_horizontal|center_vertical"
-            android:hint="@string/add_interval_here"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eTreminderName" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/eTreminderName"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/custom_input"
-            android:ems="10"
-            android:gravity="center_horizontal|center_vertical"
-            android:hint="@string/add_name_here"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+            <EditText
+                android:id="@+id/eTinteravall"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginTop="16dp"
+                android:autofillHints="add interval"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="@string/add_interval_here"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eTreminderName" />
 
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/eTreminderName"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="@string/add_name_here"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timePicker" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="52dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </FrameLayout>
