@@ -12,6 +12,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.example.pema_projekt.Groups.GroupDetailView;
 import com.example.pema_projekt.Login.LogInScreen;
 import com.example.pema_projekt.MainActivity.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +49,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Intent repeating_intent;
         if (user != null){
-            repeating_intent = new Intent(context, MainActivity.class);
+            repeating_intent = new Intent(context, GroupDetailView.class);
             repeating_intent.putExtra("isGoogle", isGoogle);
             repeating_intent.putExtra("group_name", group_name);
             repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

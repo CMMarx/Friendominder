@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,12 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pema_projekt.GoogleAndFirebase.FirebaseReference;
 import com.example.pema_projekt.R;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 
 public class AddGeofence extends AppCompatActivity {
 
     private EditText name, longitude, latitude, radius;
-    private String groupName, user_id;
+    private String group_name, user_id;
     private boolean isGoogle;
     private int duration = Toast.LENGTH_SHORT;
 
@@ -34,10 +35,10 @@ public class AddGeofence extends AppCompatActivity {
             return getGeofencePendingIntent();
         }
 
-        groupName = getIntent().getStringExtra("group_name");
+        group_name = getIntent().getStringExtra("group_name");
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         intent.putExtra("isGoogle", isGoogle);
-        intent.putExtra("groupName", groupName);
+        intent.putExtra("groupName", group_name);
         geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
     }
@@ -56,8 +57,15 @@ public class AddGeofence extends AppCompatActivity {
         TextView longitudeTv = findViewById(R.id.tvLongitude);
         TextView latitudeTv = findViewById(R.id.tvLatitude);
         TextView radiusTv = findViewById(R.id.tvRadius);
-        groupName = getIntent().getStringExtra("group_name");
+        group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
+
+        GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(this);
+        if (googleUser != null){
+            isGoogle = true;
+        } else{
+            isGoogle = false;
+        }
 
         SignInParameters signInParameters = new SignInParameters(isGoogle, getApplicationContext() );
         user_id = signInParameters.getUser_id();
@@ -85,11 +93,11 @@ public class AddGeofence extends AppCompatActivity {
                 toast.show();
             }
             else {
-                geofenceReference = firebaseReference.getGeofenceReference(user_id);
+                geofenceReference = firebaseReference.getGeofenceReference();
                 geofenceReference.child(name.getText().toString()).setValue(new CityGeofence(Float.parseFloat(longitude.getText().toString()),Float.parseFloat(latitude.getText().toString()),Integer.parseInt(radius.getText().toString()), name.getText().toString()));
 
                 Intent intent = new Intent(AddGeofence.this, GeofenceActivity.class);
-                intent.putExtra("group_name", groupName);
+                intent.putExtra("group_name", group_name);
                 intent.putExtra("isGoogle", isGoogle);
                 AddGeofence.this.startActivity(intent);
 

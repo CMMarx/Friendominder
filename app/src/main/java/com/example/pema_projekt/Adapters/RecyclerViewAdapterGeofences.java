@@ -15,6 +15,8 @@ import com.example.pema_projekt.Geofence.CityGeofence;
 import com.example.pema_projekt.Groups.GroupDetailView;
 import com.example.pema_projekt.R;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.Geofence;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,6 +48,12 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
 
 
         vHolder.mainLayout.setOnClickListener(v1 -> {
+            GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(mContext);
+            if (googleUser != null){
+                isGoogle = true;
+            } else{
+                isGoogle = false;
+            }
             SignInParameters signInParameters = new SignInParameters(isGoogle, v1.getContext() );
             user_id = signInParameters.getUser_id();
             int positionGeo = vHolder.getAdapterPosition();
