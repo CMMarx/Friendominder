@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.pema_projekt.Adapters.RecyclerAdapterGroups;
 import com.example.pema_projekt.GoogleAndFirebase.FirebaseReference;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
 import com.example.pema_projekt.R;
+import com.example.pema_projekt.SwipeDelete.SwipeToDeleteCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,6 +85,15 @@ public class GroupFragment extends Fragment {
                     groups.add(group);
                 }
                 myRecylerView.setAdapter(recyclerViewAdapter);
+
+                ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
+                itemTouchHelper.attachToRecyclerView(myRecylerView);
+
+
+
+
+
             }
 
             @Override
