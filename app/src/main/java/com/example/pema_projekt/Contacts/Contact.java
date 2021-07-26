@@ -15,6 +15,9 @@ public class Contact{
     }
 
     public String getName() {
+        if (Name == null){
+            return "Vorname Nachname";
+        }
         return Name;
     }
 
@@ -23,6 +26,9 @@ public class Contact{
     }
 
     public String getPhone() {
+        if (Phone == null){
+            return "123456789";
+        }
         return Phone;
     }
 
