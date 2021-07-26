@@ -2,7 +2,6 @@ package com.example.pema_projekt.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,17 +35,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.member_in_group, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
 
         vHolder.mainLayout.setOnClickListener(v1 -> {
             Intent intent = new Intent(mContext, ContactDetailView.class);
             intent.putExtra("name", mData.get(vHolder.getAdapterPosition()).getName());
             intent.putExtra("number", mData.get(vHolder.getAdapterPosition()).getPhone());
+            //intent.putExtra("img", mData.get(vHolder.getAdapterPosition()).getPhoto());
             mContext.startActivity(intent);
         });
 
-        vHolder.button.setOnClickListener(v12 -> {
+        vHolder.button.setOnClickListener(v2 -> {
             try{
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+mData.get(vHolder.getAdapterPosition()).getPhone()));
@@ -65,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.tv_name.setText(mData.get(position).getName());
         holder.tv_phone.setText(mData.get(position).getPhone());
         holder.img.setImageResource(R.drawable.account_image);
-        }
+    }
 
     @Override
     public int getItemCount() {

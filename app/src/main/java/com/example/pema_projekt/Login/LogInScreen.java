@@ -29,21 +29,29 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LogInScreen extends AppCompatActivity {
 
-    private LinearLayout loginButton;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private LoadingDialog loadingDialog;
-    private boolean isGoogle;
+    private boolean isGoogle = false;
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(this);
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null){
-            loadingDialog.startLoadingDialog();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            if (googleUser != null){
+                isGoogle = true;
+                loadingDialog.startLoadingDialog();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("isGoogle", isGoogle);
+                startActivity(intent);
+            } else {
+                loadingDialog.startLoadingDialog();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
@@ -63,12 +71,12 @@ public class LogInScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isGoogle = false;
-                    signInAnonymously();
+                signInAnonymously();
 
             }
         });
 
-        loginButton = findViewById(R.id.signInButton);
+        Button loginButton = findViewById(R.id.signInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

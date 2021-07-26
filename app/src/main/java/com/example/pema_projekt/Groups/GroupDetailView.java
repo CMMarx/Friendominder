@@ -122,7 +122,7 @@ public class GroupDetailView extends AppCompatActivity {
                     Alarm alarm = alarmSnapshot.getValue(Alarm.class);
                     alarms.add(alarm);
 
-                    RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
+                    //RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
                     recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
 
                     ItemTouchHelper itemTouchHelper = new
@@ -141,16 +141,18 @@ public class GroupDetailView extends AppCompatActivity {
         groupGeofenceReference = firebaseReference.getGeofencesInGroups(user_id, group_name);
         recyclerViewGeofences.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
 
+        ArrayList<CityGeofence> geofences = new ArrayList<>();
+        RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name, isGoogle);
+        recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
         groupGeofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<CityGeofence> geofences = new ArrayList<>();
 
                 for (DataSnapshot geofenceSnapshot : snapshot.getChildren()){
                     CityGeofence geo = geofenceSnapshot.getValue(CityGeofence.class);
                     geofences.add(geo);
 
-                    RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name, isGoogle);
+                    //RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name, isGoogle);
                     recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
 
                     ItemTouchHelper itemTouchHelper = new
@@ -190,7 +192,7 @@ public class GroupDetailView extends AppCompatActivity {
 
         groupName.setText(group_name);
         members.setText("Members:");
-        groupPicture.setImageResource(R.drawable.account_image);
+        //groupPicture.setImageResource(R.drawable.account_image);
 
     }
 }

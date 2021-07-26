@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pema_projekt.Contacts.Contact;
 import com.example.pema_projekt.R;
-import com.google.firebase.database.DatabaseReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +33,7 @@ public class RecyclerViewAdapterMembers extends RecyclerView.Adapter<RecyclerVie
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.member, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.contact_checkbox, parent, false);
         MyViewHolder vHolder = new MyViewHolder(v);
         return vHolder;
     }

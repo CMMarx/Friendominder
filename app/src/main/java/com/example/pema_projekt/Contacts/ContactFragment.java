@@ -110,8 +110,6 @@ public class ContactFragment extends Fragment {
         v = inflater.inflate(R.layout.contact_fragment, container, false);
 
 
-
-
         myrecyclerview = v.findViewById(R.id.contact_recycler);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), lstContact);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -142,12 +140,9 @@ public class ContactFragment extends Fragment {
 
 
         Button fabutton = v.findViewById(R.id.fab_btn);
-        fabutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContacts();
-                Toast.makeText(getActivity(), "Contacts updated", Toast.LENGTH_SHORT).show();
-            }
+        fabutton.setOnClickListener(v -> {
+            getContacts();
+            Toast.makeText(getActivity(), "Contacts updated", Toast.LENGTH_SHORT).show();
         });
         return v;
     }
