@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
+    /**
+     * Notification receiver class for the alarm Notifications
+     */
     private String group_name;
     private boolean isGoogle;
 
