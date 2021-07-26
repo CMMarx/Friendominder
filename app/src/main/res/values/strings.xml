@@ -27,5 +27,8 @@
     <string name="add_new_reminder">Add new reminder</string>
     <string name="add_interval_here">  Add interval here…</string>
     <string name="add_name_here">  Add name here…</string>
+    <string name="add_latitude_here">Add latitude here...</string>
+    <string name="add_longitude_here">Add longitude here...</string>
+    <string name="add_radius_here">Add radius here...</string>
 
 </resources>

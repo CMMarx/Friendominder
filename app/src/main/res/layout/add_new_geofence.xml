@@ -40,7 +40,7 @@
             android:background="@drawable/custom_input"
             android:ems="10"
             android:gravity="center_horizontal|center_vertical"
-            android:hint="Add latitude here..."
+            android:hint="@string/add_latitude_here"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityName"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityName" />
@@ -53,7 +53,7 @@
             android:background="@drawable/custom_input"
             android:ems="10"
             android:gravity="center|center_horizontal|center_vertical"
-            android:hint="Add longitude here..."
+            android:hint="@string/add_longitude_here"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityLatitude"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityLatitude" />
@@ -66,7 +66,7 @@
             android:background="@drawable/custom_input"
             android:ems="10"
             android:gravity="center|center_horizontal|center_vertical"
-            android:hint="Add radius here..."
+            android:hint="@string/add_radius_here"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityLongitude"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityLongitude" />
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
-            android:text="Done"
+            android:text="@string/done"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityRadius" />
