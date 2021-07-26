@@ -24,18 +24,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_margin="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="@string/done" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/eTinteravall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="146dp"
+            android:layout_height="42dp"
             android:layout_marginTop="18dp"
             android:autofillHints="add interval"
             android:ems="10"
@@ -48,8 +49,8 @@
 
         <EditText
             android:id="@+id/eTreminderName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="146dp"
+            android:layout_height="42dp"
             android:layout_marginTop="19dp"
             android:ems="10"
             android:hint="add name here"
