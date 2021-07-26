@@ -15,6 +15,8 @@ import com.example.pema_projekt.Contacts.Contact;
 import com.example.pema_projekt.GoogleAndFirebase.FirebaseReference;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
 import com.example.pema_projekt.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +31,7 @@ public class AddMembers extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DatabaseReference contactReference, groupReference;
     private ArrayList<Contact> lstMember, membersFinal;
-    private String group_name, user_id;
+    private String group_name;
     private RecyclerViewAdapterMembers rv_members;
     private boolean isGoogle;
 
@@ -46,8 +48,15 @@ public class AddMembers extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(AddMembers.this));
         recyclerView.setAdapter(rv_members);
 
+        GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(this);
+        if (googleUser != null){
+            isGoogle = true;
+        } else{
+            isGoogle = false;
+        }
+
         SignInParameters signInParameters = new SignInParameters(isGoogle, this );
-        user_id = signInParameters.getUser_id();
+        String user_id = signInParameters.getUser_id();
 
         FirebaseReference firebaseReference = new FirebaseReference();
 

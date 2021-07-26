@@ -2,34 +2,28 @@ package com.example.pema_projekt.Contacts;
 
 public class Contact{
 
-    private String Name;
-    private String Phone;
+    private String name;
+    private String phone;
 
     public Contact() {
     }
 
     public Contact(String name, String phone) {
-        Name = name;
-        Phone = phone;
+        this.name = name;
+        this.phone = phone;
 
     }
 
     public String getName() {
-        if (Name == null){
-            return "Vorname Nachname";
-        }
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getPhone() {
-        if (Phone == null){
-            return "123456789";
-        }
-        return Phone;
+        return phone;
     }
 
 }
