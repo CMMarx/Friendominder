@@ -53,10 +53,6 @@ public class AddGeofence extends AppCompatActivity {
         latitude = findViewById(R.id.editTextCityLatitude);
         radius = findViewById(R.id.editTextCityRadius);
         Button done = findViewById(R.id.doneGeofence);
-        TextView nameTv = findViewById(R.id.tvName);
-        TextView longitudeTv = findViewById(R.id.tvLongitude);
-        TextView latitudeTv = findViewById(R.id.tvLatitude);
-        TextView radiusTv = findViewById(R.id.tvRadius);
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
 

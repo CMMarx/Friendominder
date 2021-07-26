@@ -21,20 +21,26 @@
         <EditText
             android:id="@+id/editTextCityName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginTop="136dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="@string/add_name_here"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editTextCityLatitude"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="Add latitude here..."
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityName"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityName" />
@@ -42,8 +48,12 @@
         <EditText
             android:id="@+id/editTextCityLongitude"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:hint="Add longitude here..."
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityLatitude"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityLatitude" />
@@ -51,60 +61,15 @@
         <EditText
             android:id="@+id/editTextCityRadius"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:hint="Add radius here..."
             android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="@+id/tvRadius"
             app:layout_constraintEnd_toEndOf="@+id/editTextCityLongitude"
             app:layout_constraintTop_toBottomOf="@+id/editTextCityLongitude" />
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginBottom="24dp"
-            android:text="Name:"
-            app:layout_constraintBottom_toTopOf="@+id/tvLatitude"
-            app:layout_constraintEnd_toStartOf="@+id/editTextCityName"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tvLatitude" />
-
-        <TextView
-            android:id="@+id/tvLatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="24dp"
-            android:text="Latitude:"
-            app:layout_constraintBottom_toTopOf="@+id/tvLongitude"
-            app:layout_constraintEnd_toStartOf="@+id/editTextCityLatitude"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tvLongitude" />
-
-        <TextView
-            android:id="@+id/tvLongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Longitude:"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextCityLongitude"
-            app:layout_constraintEnd_toStartOf="@+id/editTextCityLongitude" />
-
-        <TextView
-            android:id="@+id/tvRadius"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Radius:"
-            app:layout_constraintEnd_toStartOf="@+id/editTextCityRadius"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tvLongitude"
-            app:layout_constraintTop_toBottomOf="@+id/tvLongitude" />
 
         <Button
             android:id="@+id/doneGeofence"
