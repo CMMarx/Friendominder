@@ -24,11 +24,11 @@ public class FragmentAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
 
-        switch (position){
-            case 1:
-                return new GroupFragment(isGoogle);
+        if (position == 1) {
+            return new GroupFragment(isGoogle);
+        } else {
+            return new ContactFragment(isGoogle);
         }
-        return new ContactFragment(isGoogle);
     }
 
     @Override

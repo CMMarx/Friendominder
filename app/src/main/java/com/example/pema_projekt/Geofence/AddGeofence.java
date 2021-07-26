@@ -96,11 +96,8 @@ public class AddGeofence extends AppCompatActivity {
                 intent.putExtra("group_name", group_name);
                 intent.putExtra("isGoogle", isGoogle);
                 AddGeofence.this.startActivity(intent);
-
             }
-
         });
-
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.example.pema_projekt.Login;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.pema_projekt.MainActivity.MainActivity;
@@ -38,6 +34,7 @@ public class LogInScreen extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // If there is a Firebase user currently logged in, check used sign in method and skip the sign in
         GoogleSignInAccount googleUser = GoogleSignIn.getLastSignedInAccount(this);
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null){
@@ -66,26 +63,22 @@ public class LogInScreen extends AppCompatActivity {
 
         createRequest();
 
-        Button loginWithoutGoogle = (Button) findViewById(R.id.btnAnonymously);
-        loginWithoutGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isGoogle = false;
-                signInAnonymously();
+        // Sign in anonymously
+        Button loginWithoutGoogle = findViewById(R.id.btnAnonymously);
+        loginWithoutGoogle.setOnClickListener(v -> {
+            isGoogle = false;
+            signInAnonymously();
 
-            }
         });
 
+        // Sign in with Google
         Button loginButton = findViewById(R.id.signInButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isGoogle = true;
-                Intent intent = new Intent(mGoogleSignInClient.getSignInIntent());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                resultLauncher.launch(intent);
-                overridePendingTransition(0,0);
-            }
+        loginButton.setOnClickListener(v -> {
+            isGoogle = true;
+            Intent intent = new Intent(mGoogleSignInClient.getSignInIntent());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            resultLauncher.launch(intent);
+            overridePendingTransition(0,0);
         });
 
     }
@@ -100,24 +93,21 @@ public class LogInScreen extends AppCompatActivity {
     }
 
     ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == Activity.RESULT_OK){
-                Intent intent = result.getData();
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK){
+                    Intent intent = result.getData();
 
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
-                try {
-                    // Google Sign In was successful, authenticate with Firebase
-                    GoogleSignInAccount account = task.getResult(ApiException.class);
-                    assert account != null;
-                    firebaseAuthWithGoogle(account.getIdToken());
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
+                    try {
+                        // Google Sign In was successful, authenticate with Firebase
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        assert account != null;
+                        firebaseAuthWithGoogle(account.getIdToken());
 
-                } catch (ApiException e) {
+                    } catch (ApiException e) {
+                    }
                 }
-            }
-        }
-    });
+            });
 
 
     private void firebaseAuthWithGoogle(String idToken) {
@@ -127,7 +117,6 @@ public class LogInScreen extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("isGoogle", isGoogle);
                         startActivity(intent);
@@ -146,7 +135,6 @@ public class LogInScreen extends AppCompatActivity {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
                         updateUI();
                     } else {
                         // If sign in fails, display a message to the user.

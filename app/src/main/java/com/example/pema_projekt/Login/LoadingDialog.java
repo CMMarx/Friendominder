@@ -8,7 +8,7 @@ import com.example.pema_projekt.R;
 
 public class LoadingDialog {
 
-    private Activity activity;
+    private final Activity activity;
     private AlertDialog dialog;
 
     LoadingDialog(Activity myActivity){

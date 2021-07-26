@@ -25,15 +25,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerViewAdapterGeofences.MyViewHolder> {
+public class RecyclerAdapterGeofences extends RecyclerView.Adapter<RecyclerAdapterGeofences.MyViewHolder> {
 
-    private Context mContext;
-    private ArrayList<CityGeofence> mData;
-    private String groupName, user_id;
+    private final Context mContext;
+    private final ArrayList<CityGeofence> mData;
+    private final String groupName;
+    private String user_id;
     private DatabaseReference mReference;
     private boolean isGoogle;
 
-    public RecyclerViewAdapterGeofences(Context mContext, ArrayList<CityGeofence> mData, String groupName, boolean isGoogle) {
+    public RecyclerAdapterGeofences(Context mContext, ArrayList<CityGeofence> mData, String groupName, boolean isGoogle) {
         this.mContext = mContext;
         this.mData = mData;
         this.groupName = groupName;
@@ -91,7 +92,7 @@ public class RecyclerViewAdapterGeofences extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerViewAdapterGeofences.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull RecyclerAdapterGeofences.MyViewHolder holder, int position) {
         holder.citynameGeo.setText(mData.get(position).getName());
 
     }

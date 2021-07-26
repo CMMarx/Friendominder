@@ -3,9 +3,7 @@ package com.example.pema_projekt.Groups;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +13,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pema_projekt.Adapters.RecyclerViewAdapterAlarms;
-import com.example.pema_projekt.Adapters.RecyclerViewAdapterGeofencesGroups;
-import com.example.pema_projekt.Adapters.RecyclerViewAdapterGroups;
+import com.example.pema_projekt.Adapters.RecyclerAdapterAlarms;
+import com.example.pema_projekt.Adapters.RecyclerAdapterGeofencesInGroups;
+import com.example.pema_projekt.Adapters.RecyclerAdapterGroups2;
 import com.example.pema_projekt.Alarm.Alarm;
-import com.example.pema_projekt.Alarm.SetAlarmPageNew;
+import com.example.pema_projekt.Alarm.SetAlarm;
 import com.example.pema_projekt.Contacts.Contact;
 import com.example.pema_projekt.Geofence.CityGeofence;
 import com.example.pema_projekt.Geofence.GeofenceActivity;
@@ -42,14 +40,10 @@ import java.util.ArrayList;
 
 public class GroupDetailView extends AppCompatActivity {
 
-    private DatabaseReference groupMembersReference, alarmReference, groupGeofenceReference;
-    private FirebaseReference firebaseReference;
-    private ActionBar actionBar;
     private ArrayList<Alarm> alarms;
     private ArrayList<Contact> contacts;
-    private ArrayList<CityGeofence> geofences;
     private RecyclerView recyclerView, recyclerViewAlarms, recyclerViewGeofences;
-    private String group_name, user_id;
+    private String group_name;
     private boolean isGoogle;
 
     @SuppressLint("SetTextI18n")
@@ -57,10 +51,8 @@ public class GroupDetailView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        firebaseReference = new FirebaseReference();
+        FirebaseReference firebaseReference = new FirebaseReference();
         setContentView(R.layout.group_detail);
-        ImageView groupPicture = findViewById(R.id.imageView2);
         TextView groupName = findViewById(R.id.group_name_id);
         TextView members = findViewById(R.id.group_detail_members);
         Button addMember = findViewById(R.id.add_member_button);
@@ -69,12 +61,9 @@ public class GroupDetailView extends AppCompatActivity {
         recyclerView = findViewById(R.id.group_detail_recycler);
         recyclerViewAlarms = findViewById(R.id.reminderRecycler);
         recyclerViewGeofences = findViewById(R.id.geoRec);
-        TextView reminderTv = findViewById(R.id.AlarmTv);
-        TextView geofenceText = findViewById(R.id.textViewGeofenceGDV);
 
         contacts = new ArrayList<>();
         alarms = new ArrayList<>();
-        geofences = new ArrayList<>();
 
         group_name = getIntent().getStringExtra("group_name");
         isGoogle = getIntent().getBooleanExtra("isGoogle", false);
@@ -87,19 +76,20 @@ public class GroupDetailView extends AppCompatActivity {
         }
 
         // Back button in the top left corner
-        actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         SignInParameters signInParameters = new SignInParameters(isGoogle, GroupDetailView.this );
-        user_id = signInParameters.getUser_id();
+        String user_id = signInParameters.getUser_id();
 
-        groupMembersReference = firebaseReference.getMembersInGroups(user_id, group_name);
+        DatabaseReference groupMembersReference = firebaseReference.getMembersInGroups(user_id, group_name);
 
-        RecyclerViewAdapterGroups recyclerViewAdapterGroups = new RecyclerViewAdapterGroups(GroupDetailView.this, contacts);
+        // Display group members
+        RecyclerAdapterGroups2 recyclerViewAdapterGroups = new RecyclerAdapterGroups2(GroupDetailView.this, contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
         recyclerView.setAdapter(recyclerViewAdapterGroups);
-
         groupMembersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -113,32 +103,29 @@ public class GroupDetailView extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
             }
         });
 
-        alarmReference = firebaseReference.getAlarmReference(user_id, group_name);
+        // Display alarms set in a group
+        DatabaseReference alarmReference = firebaseReference.getAlarmReference(user_id, group_name);
         recyclerViewAlarms.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
-        RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
+        RecyclerAdapterAlarms recyclerViewAdapterAlarms = new RecyclerAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
         recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
 
         alarmReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                //ArrayList<Alarm> alarms = new ArrayList<>();
                 alarms.clear();
                 for (DataSnapshot alarmSnapshot : snapshot.getChildren()){
                     Alarm alarm = alarmSnapshot.getValue(Alarm.class);
                     alarms.add(alarm);
 
-                    //RecyclerViewAdapterAlarms recyclerViewAdapterAlarms = new RecyclerViewAdapterAlarms(GroupDetailView.this, alarms, group_name, isGoogle);
                     recyclerViewAlarms.setAdapter(recyclerViewAdapterAlarms);
 
                     ItemTouchHelper itemTouchHelper = new
                             ItemTouchHelper(new SwipeToDeleteCallback2(recyclerViewAdapterAlarms));
                     itemTouchHelper.attachToRecyclerView(recyclerViewAlarms);
                 }
-
             }
 
             @Override
@@ -147,11 +134,12 @@ public class GroupDetailView extends AppCompatActivity {
             }
         });
 
-        groupGeofenceReference = firebaseReference.getGeofencesInGroups(user_id, group_name);
+        // Display geofence set in a group
+        DatabaseReference groupGeofenceReference = firebaseReference.getGeofencesInGroups(user_id, group_name);
         recyclerViewGeofences.setLayoutManager(new LinearLayoutManager(GroupDetailView.this));
 
         ArrayList<CityGeofence> geofences = new ArrayList<>();
-        RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name, isGoogle);
+        RecyclerAdapterGeofencesInGroups recyclerViewAdapterGeofencesGroups = new RecyclerAdapterGeofencesInGroups(GroupDetailView.this, geofences, group_name, isGoogle);
         recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
         groupGeofenceReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,7 +149,6 @@ public class GroupDetailView extends AppCompatActivity {
                     CityGeofence geo = geofenceSnapshot.getValue(CityGeofence.class);
                     geofences.add(geo);
 
-                    //RecyclerViewAdapterGeofencesGroups recyclerViewAdapterGeofencesGroups = new RecyclerViewAdapterGeofencesGroups(GroupDetailView.this, geofences, group_name, isGoogle);
                     recyclerViewGeofences.setAdapter(recyclerViewAdapterGeofencesGroups);
 
                     ItemTouchHelper itemTouchHelper = new
@@ -176,6 +163,7 @@ public class GroupDetailView extends AppCompatActivity {
             }
         });
 
+        // Buttons to add more members, alarms or geofences
         addMember.setOnClickListener(v -> {
             Intent intent = new Intent(GroupDetailView.this, AddMembers.class);
             intent.putExtra("group_name", group_name);
@@ -192,7 +180,7 @@ public class GroupDetailView extends AppCompatActivity {
         });
 
         addAlarm.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SetAlarmPageNew.class);
+            Intent intent = new Intent(getApplicationContext(), SetAlarm.class);
             intent.putExtra("group_name", group_name);
             intent.putExtra("isGoogle", isGoogle);
             startActivity(intent);
@@ -201,7 +189,6 @@ public class GroupDetailView extends AppCompatActivity {
 
         groupName.setText(group_name);
         members.setText("Members:");
-        //groupPicture.setImageResource(R.drawable.account_image);
 
     }
 }

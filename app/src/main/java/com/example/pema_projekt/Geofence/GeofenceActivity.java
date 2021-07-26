@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pema_projekt.Adapters.RecyclerViewAdapterGeofences;
+import com.example.pema_projekt.Adapters.RecyclerAdapterGeofences;
 import com.example.pema_projekt.GoogleAndFirebase.FirebaseReference;
 import com.example.pema_projekt.R;
 import com.example.pema_projekt.GoogleAndFirebase.SignInParameters;
@@ -54,7 +54,7 @@ public class GeofenceActivity extends AppCompatActivity {
         FirebaseReference firebaseReference = new FirebaseReference();
         geofenceReference = firebaseReference.getGeofenceReference();
         ArrayList<CityGeofence> geofences = new ArrayList<>();
-        RecyclerViewAdapterGeofences recyclerViewAdapter = new RecyclerViewAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
+        RecyclerAdapterGeofences recyclerViewAdapter = new RecyclerAdapterGeofences(GeofenceActivity.this, geofences, group_name, isGoogle);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
         myRecyclerView.setAdapter(recyclerViewAdapter);
 

@@ -4,10 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,27 +14,26 @@ import com.example.pema_projekt.R;
 
 public class ContactDetailView extends AppCompatActivity {
 
-    private ImageView mImageView, msgButton;
+    private ImageView mImageView;
     private TextView number, name;
-    private ActionBar actionBar;
-
     private String data1, data2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_detail_view);
+        setContentView(R.layout.contact_detail_view);
         mImageView = findViewById(R.id.detail_img);
-        msgButton = findViewById(R.id.msg_Button);
+        ImageView msgButton = findViewById(R.id.msg_Button);
         number = findViewById(R.id.detail_number);
         name = findViewById(R.id.detail_name);
         getData();
         setData();
 
-        actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // Open chat with contact in WhatsApp
         msgButton.setOnClickListener(v -> {
             try{
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -49,17 +46,15 @@ public class ContactDetailView extends AppCompatActivity {
         });
     }
 
+    // Get Contact Info from MainActivity to set it correctly in the detailView
     private void getData() {
         if(getIntent().hasExtra("name") && getIntent().hasExtra("number")){
-
             data1 = getIntent().getStringExtra("name");
             data2 = getIntent().getStringExtra("number");
-
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void setData() {
         name.setText(data1);
