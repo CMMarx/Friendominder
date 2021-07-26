@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +39,7 @@ public class RecyclerAdapterGeofencesInGroups extends RecyclerView.Adapter<Recyc
     @Override
     public RecyclerAdapterGeofencesInGroups.MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_geofence_group, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_geofence_in_group, parent, false);
 
         return new MyViewHolder(v);
     }
