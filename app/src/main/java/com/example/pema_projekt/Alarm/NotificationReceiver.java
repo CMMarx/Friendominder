@@ -11,7 +11,11 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+
+import com.example.pema_projekt.Login.LogInScreen;
 import com.example.pema_projekt.MainActivity.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -38,16 +42,16 @@ public class NotificationReceiver extends BroadcastReceiver {
         notificationManager.createNotificationChannel(notificationChannel);
 
         // Intent to GroupDetailView to open the group referenced in the notification
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //Intent repeating_intent;
-        //if (user != null){
-        Intent repeating_intent = new Intent(context, MainActivity.class);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Intent repeating_intent;
+        if (user != null){
+            repeating_intent = new Intent(context, MainActivity.class);
             repeating_intent.putExtra("isGoogle", isGoogle);
             repeating_intent.putExtra("group_name", group_name);
             repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //} else {
-            //repeating_intent = new Intent(context, LogInScreen.class);
-       // }
+        } else {
+            repeating_intent = new Intent(context, LogInScreen.class);
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, repeating_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
